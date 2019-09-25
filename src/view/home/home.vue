@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container>
-      <el-header>
+      <el-header height="100px">
         <m-header></m-header>
       </el-header>
       <el-main>
@@ -34,7 +34,6 @@ export default {
   background-color: #ffffff
   color: #333
   text-align: center
-  height: 200px
   margin-left: 100px
   margin-right: 100px
 .el-main
