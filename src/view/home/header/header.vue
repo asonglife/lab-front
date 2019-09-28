@@ -1,7 +1,16 @@
 <template>
   <div>
-    <img :src="imgSrc.src" />
-    <el-menu mode="horizontal" :default-active="this.activeIndex" router>
+    <div id="lab-name">
+      <img :src="img" alt="home" id="lab-img" />
+      <span id="lab-font">这是实验室名称</span>
+    </div>
+    <el-menu
+      mode="horizontal"
+      :default-active="this.activeIndex"
+      router
+      @select="handSelect"
+      background-color="#a6e1f1"
+    >
       <el-menu-item v-for="item in leadList" :key="item.length" :index="item.name">{{item.leadItem}}</el-menu-item>
     </el-menu>
   </div>
@@ -13,6 +22,7 @@ export default {
   data() {
     return {
       activeIndex: "/homepage",
+      img: require("assets/img/title.jpg"),
       leadList: [
         {
           name: "/homepage",
@@ -33,11 +43,6 @@ export default {
         {
           name: "/backend",
           leadItem: "后台管理"
-        }
-      ],
-      imgSrc: [
-        {
-          src: require("assets/img/logo.png")
         }
       ]
     };
@@ -60,8 +65,33 @@ export default {
       case "Backend":
         this.activeIndex = GlOBAL.pathName.backend;
     }
+  },
+  watch: {},
+
+  methods: {
+    handSelect(key) {
+      console.log(key);
+    }
   }
 };
 </script>
 
-<style lang="stylus" scoped></style>
+<style lang="stylus" scoped>
+#lab-img
+  width: 64px
+  height: 64px
+  float: left
+  margin: 32px
+#lab-name
+  display: block
+  height: 100px
+  margin-bottom: 45px
+#lab-font
+  text-align: center
+  font-size: 24px
+  font-family: sans-serif
+  color: #5184ca
+  display: block
+  float: left
+  margin-top: 53px
+</style>

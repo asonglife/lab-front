@@ -7,6 +7,10 @@ import Science from 'view/science/science.vue'
 import Backend from 'view/backend/backend.vue'
 import Homepage from 'view/home/homepage.vue'
 Vue.use(Router)
+const originalPush = Router.prototype.push
+Router.prototype.push = function push (location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 export default new Router({
   routes: [{
