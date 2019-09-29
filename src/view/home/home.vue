@@ -7,7 +7,7 @@
       <el-main>
         <mainpage></mainpage>
       </el-main>
-      <el-footer>
+      <el-footer height="100px">
         <m-footer></m-footer>
       </el-footer>
     </el-container>
@@ -25,28 +25,6 @@ export default {
     MHeader,
     MFooter
   }
-  // methods: {
-  //   changeTab(e) {
-  //     switch (e) {
-  //       case GlOBAL.pathName.news:
-  //         this.$router.push({ name: "News" });
-  //         console.log(this.$router);
-  //         break;
-  //       case GlOBAL.pathName.members:
-  //         this.$router.push({ name: "Members" });
-  //         break;
-  //       case GlOBAL.pathName.science:
-  //         this.$router.push({ name: "Science" });
-  //         break;
-  //       case GlOBAL.pathName.backend:
-  //         this.$router.push({ name: "Backend" });
-  //         break;
-  //       case GlOBAL.pathName.homepage:
-  //         this.$router.push({ name: "Homepage" });
-  //         break;
-  //     }
-  //   }
-  // }
 };
 </script>
 
@@ -57,14 +35,15 @@ export default {
   background-color: #ffffff
   color: #333
   text-align: center
-  margin-left: 100px
-  margin-right: 100px
+  margin-left: 12%
+  margin-right: 12%
   padding: 0
 .el-main
   background-color: #ffffff
   color: #333
-  text-align: center
-  height: 700px
-  margin-left: 100px
-  margin-right: 100px
+  margin-left: 12%
+  margin-right: 12%
+  padding: 31px
+.el-footer
+  background-color: #e9eef3
 </style>
