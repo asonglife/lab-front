@@ -1,15 +1,10 @@
 <template>
-  <div>
-      新闻
-  </div>
+  <div>news</div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style>
-
 </style>

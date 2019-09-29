@@ -35,10 +35,6 @@ export default new Router({
       name: 'Members',
       component: Members
 
-    }, {
-      path: '/backend',
-      name: 'Backend',
-      component: Backend
     },
     {
       path: '/science',
@@ -48,6 +44,10 @@ export default new Router({
 
     ]
 
+  }, {
+    path: '/backend',
+    name: 'Backend',
+    component: Backend
   }
   ]
 })
