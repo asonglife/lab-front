@@ -2,7 +2,7 @@
   <div>
     <div id="lab-name">
       <img :src="img" alt="home" id="lab-img" />
-      <span id="lab-font">这是实验室名称</span>
+      <span id="lab-font">中国科学技术大学信息网络实验室</span>
     </div>
     <el-menu
       mode="horizontal"

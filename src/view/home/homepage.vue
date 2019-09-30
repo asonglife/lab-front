@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     getLabMessage() {
-      this.axios.get("http://localhost:8081/static/homepage.json").then(res => {
+      this.axios.get("api/homepage.json").then(res => {
         this.labIntroduction = res.data.labIntroduction;
         this.labDirection = res.data.labDirection;
       });
