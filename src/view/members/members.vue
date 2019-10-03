@@ -1,31 +1,38 @@
 <template>
   <div class="members-container">
+    <h2 class="lab-item">教师团队</h2>
     <div class="demo-fit">
-      <div class="block" v-for="fit in fits" :key="fit">
-        <el-avatar shape="square" :size="100" :fit="fit" :src="url"></el-avatar>
+      <div class="block" v-for="(item,index) in membersData" :key="index">
+        <el-image style="width: 100px; height: 100px;border-radius:5%" :src="item.photo"></el-image>
+        <p>{{item.name+" "+item.education}}</p>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { getData } from "api/getData.js";
 export default {
   data() {
     return {
-      fits: [
-        "fill",
-        "contain",
-        "cover",
-        "none",
-        "scale-down1",
-        "fill2",
-        "contain3",
-        "cover4",
-        "none3",
-        "scale-down4"
-      ],
-      url:
-        "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
+      membersData: [
+        {
+          photo: "",
+          name: "",
+          education: ""
+        }
+      ]
     };
+  },
+  mounted() {
+    this.getMembersData();
+  },
+  methods: {
+    getMembersData() {
+      getData("lab.json").then(res => {
+        this.membersData = res.data.membersData;
+        console.log(this.membersData);
+      });
+    }
   }
 };
 </script>
@@ -34,4 +41,10 @@ export default {
   display: flex
   flex-direction: row
   flex-wrap: wrap
+  text-align: center
+.members-container >>> .block
+  margin: 3%
+.lab-item
+  text-align: left
+  color: #333
 </style>

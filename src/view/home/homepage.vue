@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { getData } from "api/getData.js";
 export default {
   data() {
     return {
@@ -20,12 +21,17 @@ export default {
       labDirection: ""
     };
   },
+  computed: {
+    httpErr() {
+      return this.$store.state.httpErr;
+    }
+  },
   mounted() {
     this.getLabMessage();
   },
   methods: {
     getLabMessage() {
-      this.axios.get("api/homepage.json").then(res => {
+      getData("lab.json").then(res => {
         this.labIntroduction = res.data.labIntroduction;
         this.labDirection = res.data.labDirection;
       });
