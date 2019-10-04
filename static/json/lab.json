@@ -1,21 +1,81 @@
 {
     "labIntroduction": "中国科学技术大学信息网络实验室（Lab. of Information Network，InfoNet）为无线网络通信安徽省重点实验室的成员单位之一，由李津生教授创建于1988年，原名ISDN实验室。自成立以来，实验室一直致力于网络基础理论研究和关键技术开发，先后承担了国家自然科学基金、科技部重大专项、863课题、中国下一代互联网CNGI项目、国家攻关课题等数十项项国家、军队和省部级重大课题。实验室是国内较早从事IPv6技术研究和应用的科研单位之一。目前，在对新一代网络技术及其应用的研究中，实验室主要课题方向包括：未来网络系统结构、智能电网、特定网络环境下的多媒体优化传输、无线网络技术、网络移动性管理、网络安全等等。在研项目包括：国家自然科学基金项目2项、科技部重大专项3项、国防科工类项目3项和一系列横向合作课题。实验室还承担学校本科生和研究生的教学工作， 教学内容注重与网络技术发展同步， 并及时将科研成果反映到课堂教学和实验中。 所开设课程包括信息学院院定必修课—— 计算机网络、 信息安全专业必修课程—— 网络安全协议和通信与信息系统专业研究生必修课——信息网络与协议。实验室现有教授1名，副教授2名，在读博士研究生12人、硕士研究生32人",
     "labDirection": ["计算机网络", "移动通信", "移动互联网开发"],
-    "membersData": [{
-        "photo": "https://qpic.y.qq.com/music_cover/KetjXWSVppvyrVJfzfdpibzqjiaxVebDBUOU7ticPVanLLJgBicrJN9XSA/300?n=1",
-        "name": "李宇春",
-        "education": "本科"
-    }, {
-        "photo": "https://qpic.y.qq.com/music_cover/3MLTH2k3HibTypyQfrdDcnM7VEodMX7LgkUxticK5QjnXZzG5kdo49Hw/300?n=1",
-        "name": "肖战",
-        "education": "本科"
-    }, {
-        "photo": "https://qpic.y.qq.com/music_cover/KetjXWSVppvyrVJfzfdpibzqjiaxVebDBUOU7ticPVanLLJgBicrJN9XSA/300?n=1",
-        "name": "李宇春",
-        "education": "本科"
-    }, {
-        "photo": "https://qpic.y.qq.com/music_cover/3MLTH2k3HibTypyQfrdDcnM7VEodMX7LgkUxticK5QjnXZzG5kdo49Hw/300?n=1",
-        "name": "肖战",
-        "education": "本科"
-    }]
+    "membersData": {
+        "teachersData": [{
+            "id": "00001",
+            "photo": "https://qpic.y.qq.com/music_cover/KetjXWSVppvyrVJfzfdpibzqjiaxVebDBUOU7ticPVanLLJgBicrJN9XSA/300?n=1",
+            "name": "李宇春",
+            "education": "本科",
+            "experience": "李宇春（Chris Lee），1984年3月10日出生于成都，中国流行女歌手、演员、词曲创作人、演唱会导演。2005年，李宇春获得”超级女声“全国总冠军，登上美国《时代周刊》封面。2006年发行首张专辑《皇后与梦想》，年终销量137万张，创立品牌演唱会“WhyMe”。2007年发行专辑《我的》并首次开展全国巡演，再登美国《时代周刊》。2008年发行专辑《少年中国》，获得MTV亚洲音乐大奖中国最受欢李宇春（Chris Lee），1984年3月10日出生于成都，中国流行女歌手、演员、词曲创作人、演唱会导演。2005年，李宇春获得”超级女声“全国总冠军，登上美国《时代周刊》封面。2006年发行首张专辑《皇后与梦想》，年终销量137万张，创立品牌演唱会“WhyMe”。2007年发行专辑《我的》并首次开展全国巡演，再登美国《时代周刊》。2008年发行专辑《少年中国》，获得MTV亚洲音乐大奖中国最受欢李宇春（Chris Lee），1984年3月10日出生于成都，中国流行女歌手、演员、词曲创作人、演唱会导演。2005年，李宇春获得”超级女声“全国总冠军，登上美国《时代周刊》封面。2006年发行首张专辑《皇后与梦想》，年终销量137万张，创立品牌演唱会“WhyMe”。2007年发行专辑《我的》并首次开展全国巡演，再登美国《时代周刊》。2008年发行专辑《少年中国》，获得MTV亚洲音乐大奖中国最受欢李宇春（Chris Lee），1984年3月10日出生于成都，中国流行女歌手、演员、词曲创作人、演唱会导演。2005年，李宇春获得”超级女声“全国总冠军，登上美国《时代周刊》封面。2006年发行首张专辑《皇后与梦想》，年终销量137万张，创立品牌演唱会“WhyMe”。2007年发行专辑《我的》并首次开展全国巡演，再登美国《时代周刊》。2008年发行专辑《少年中国》，获得MTV亚洲音乐大奖中国最受欢 "
+        }, {
+            "id": "00002",
+            "photo": "https://qpic.y.qq.com/music_cover/3MLTH2k3HibTypyQfrdDcnM7VEodMX7LgkUxticK5QjnXZzG5kdo49Hw/300?n=1",
+            "name": "肖战",
+            "education": "本科",
+            "experience": "肖战，1991年10月5日出生于重庆，中国内地男演员、歌手。2015年，以选手的身份参加浙江卫视才艺养成选秀节目《燃烧吧少年》。2016年4月，主演校园星座超能力网络剧《超星星学园》。2017年，参演古装励志玄幻剧《斗破苍穹》；之后，在古装言情传奇剧《狼殿下》中饰演浪迹天涯的赏金猎人疾冲。2018年4月25日，古装奇幻网络剧《哦！我的皇帝陛下》在腾讯视频播出，肖战凭北堂墨染一角崭露头角。2019年 ..."
+        }, {
+            "id": "00003",
+            "photo": "https://qpic.y.qq.com/music_cover/KetjXWSVppvyrVJfzfdpibzqjiaxVebDBUOU7ticPVanLLJgBicrJN9XSA/300?n=1",
+            "name": "李宇春",
+            "education": "本科",
+            "experience": "李宇春（Chris Lee），1984年3月10日出生于成都，中国流行女歌手、演员、词曲创作人、演唱会导演。2005年，李宇春获得”超级女声“全国总冠军，登上美国《时代周刊》封面。2006年发行首张专辑《皇后与梦想》，年终销量137万张，创立品牌演唱会“WhyMe”。2007年发行专辑《我的》并首次开展全国巡演，再登美国《时代周刊》。2008年发行专辑《少年中国》，获得MTV亚洲音乐大奖中国最受欢 "
+        }, {
+            "id": "00004",
+            "photo": "https://qpic.y.qq.com/music_cover/3MLTH2k3HibTypyQfrdDcnM7VEodMX7LgkUxticK5QjnXZzG5kdo49Hw/300?n=1",
+            "name": "肖战",
+            "education": "本科",
+            "experience": "李宇春（Chris Lee），1984年3月10日出生于成都，中国流行女歌手、演员、词曲创作人、演唱会导演。2005年，李宇春获得”超级女声“全国总冠军，登上美国《时代周刊》封面。2006年发行首张专辑《皇后与梦想》，年终销量137万张，创立品牌演唱会“WhyMe”。2007年发行专辑《我的》并首次开展全国巡演，再登美国《时代周刊》。2008年发行专辑《少年中国》，获得MTV亚洲音乐大奖中国最受欢 "
+        }],
+        "studentsData": [{
+                "id": "10001",
+                "photo": "https://qpic.y.qq.com/music_cover/KetjXWSVppvyrVJfzfdpibzqjiaxVebDBUOU7ticPVanLLJgBicrJN9XSA/300?n=1",
+                "name": "李宇春",
+                "education": "本科",
+                "experience": "李宇春（Chris Lee），1984年3月10日出生于成都，中国流行女歌手、演员、词曲创作人、演唱会导演。2005年，李宇春获得”超级女声“全国总冠军，登上美国《时代周刊》封面。2006年发行首张专辑《皇后与梦想》，年终销量137万张，创立品牌演唱会“WhyMe”。2007年发行专辑《我的》并首次开展全国巡演，再登美国《时代周刊》。2008年发行专辑《少年中国》，获得MTV亚洲音乐大奖中国最受欢 "
+            },
+            {
+                "id": "10002",
+                "photo": "https://qpic.y.qq.com/music_cover/3MLTH2k3HibTypyQfrdDcnM7VEodMX7LgkUxticK5QjnXZzG5kdo49Hw/300?n=1",
+                "name": "肖战",
+                "education": "本科",
+                "experience": "李宇春（Chris Lee），1984年3月10日出生于成都，中国流行女歌手、演员、词曲创作人、演唱会导演。2005年，李宇春获得”超级女声“全国总冠军，登上美国《时代周刊》封面。2006年发行首张专辑《皇后与梦想》，年终销量137万张，创立品牌演唱会“WhyMe”。2007年发行专辑《我的》并首次开展全国巡演，再登美国《时代周刊》。2008年发行专辑《少年中国》，获得MTV亚洲音乐大奖中国最受欢 "
+            },
+            {
+                "id": "10003",
+                "photo": "https://qpic.y.qq.com/music_cover/KetjXWSVppvyrVJfzfdpibzqjiaxVebDBUOU7ticPVanLLJgBicrJN9XSA/300?n=1",
+                "name": "李宇春",
+                "education": "本科",
+                "experience": "李宇春（Chris Lee），1984年3月10日出生于成都，中国流行女歌手、演员、词曲创作人、演唱会导演。2005年，李宇春获得”超级女声“全国总冠军，登上美国《时代周刊》封面。2006年发行首张专辑《皇后与梦想》，年终销量137万张，创立品牌演唱会“WhyMe”。2007年发行专辑《我的》并首次开展全国巡演，再登美国《时代周刊》。2008年发行专辑《少年中国》，获得MTV亚洲音乐大奖中国最受欢 "
+            },
+            {
+                "id": "10004",
+                "photo": "https://qpic.y.qq.com/music_cover/3MLTH2k3HibTypyQfrdDcnM7VEodMX7LgkUxticK5QjnXZzG5kdo49Hw/300?n=1",
+                "name": "肖战",
+                "education": "本科",
+                "experience": "李宇春（Chris Lee），1984年3月10日出生于成都，中国流行女歌手、演员、词曲创作人、演唱会导演。2005年，李宇春获得”超级女声“全国总冠军，登上美国《时代周刊》封面。2006年发行首张专辑《皇后与梦想》，年终销量137万张，创立品牌演唱会“WhyMe”。2007年发行专辑《我的》并首次开展全国巡演，再登美国《时代周刊》。2008年发行专辑《少年中国》，获得MTV亚洲音乐大奖中国最受欢 "
+            },
+            {
+                "id": "10005",
+                "photo": "https://qpic.y.qq.com/music_cover/3MLTH2k3HibTypyQfrdDcnM7VEodMX7LgkUxticK5QjnXZzG5kdo49Hw/300?n=1",
+                "name": "肖战",
+                "education": "本科",
+                "experience": "李宇春（Chris Lee），1984年3月10日出生于成都，中国流行女歌手、演员、词曲创作人、演唱会导演。2005年，李宇春获得”超级女声“全国总冠军，登上美国《时代周刊》封面。2006年发行首张专辑《皇后与梦想》，年终销量137万张，创立品牌演唱会“WhyMe”。2007年发行专辑《我的》并首次开展全国巡演，再登美国《时代周刊》。2008年发行专辑《少年中国》，获得MTV亚洲音乐大奖中国最受欢 "
+            },
+            {
+                "id": "10006",
+                "photo": "https://qpic.y.qq.com/music_cover/KetjXWSVppvyrVJfzfdpibzqjiaxVebDBUOU7ticPVanLLJgBicrJN9XSA/300?n=1",
+                "name": "李宇春",
+                "education": "本科",
+                "experience": "李宇春（Chris Lee），1984年3月10日出生于成都，中国流行女歌手、演员、词曲创作人、演唱会导演。2005年，李宇春获得”超级女声“全国总冠军，登上美国《时代周刊》封面。2006年发行首张专辑《皇后与梦想》，年终销量137万张，创立品牌演唱会“WhyMe”。2007年发行专辑《我的》并首次开展全国巡演，再登美国《时代周刊》。2008年发行专辑《少年中国》，获得MTV亚洲音乐大奖中国最受欢 "
+            },
+            {
+                "id": "10007",
+                "photo": "https://qpic.y.qq.com/music_cover/TllialMLMeTvW5zqqj23fgRicewGO4acf3ugI2pjebNHvU0bDArnice1g/300?n=1",
+                "name": "肖战",
+                "education": "本科",
+                "experience": "肖战，1991年10月5日出生于重庆，中国内地男演员、歌手。2015年，以选手的身份参加浙江卫视才艺养成选秀节目《燃烧吧少年》。2016年4月，主演校园星座超能力网络剧《超星星学园》。2017年，参演古装励志玄幻剧《斗破苍穹》；之后，在古装言情传奇剧《狼殿下》中饰演浪迹天涯的赏金猎人疾冲。2018年4月25日，古装奇幻网络剧《哦！我的皇帝陛下》在腾讯视频播出，肖战凭北堂墨染一角崭露头角。2019年 ..."
+            }
+        ]
+    }
 }

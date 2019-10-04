@@ -4,13 +4,7 @@
       <img :src="img" alt="home" id="lab-img" />
       <span id="lab-font">中国科学技术大学信息网络实验室</span>
     </div>
-    <el-menu
-      mode="horizontal"
-      :default-active="this.activeIndex"
-      router
-      @select="handSelect"
-      background-color="#a6e1f1"
-    >
+    <el-menu mode="horizontal" :default-active="this.activeIndex" router background-color="#a6e1f1">
       <el-menu-item v-for="item in leadList" :key="item.length" :index="item.name">{{item.leadItem}}</el-menu-item>
     </el-menu>
   </div>
@@ -64,13 +58,6 @@ export default {
         break;
       case "Backend":
         this.activeIndex = GlOBAL.pathName.backend;
-    }
-  },
-  watch: {},
-
-  methods: {
-    handSelect(key) {
-      console.log(key);
     }
   }
 };

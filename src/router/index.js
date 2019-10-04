@@ -6,6 +6,8 @@ import Members from 'view/members/members.vue'
 import Science from 'view/science/science.vue'
 import Backend from 'view/backend/backend.vue'
 import Homepage from 'view/home/homepage.vue'
+import membersDetail from 'view/members/membersDetail.vue'
+import newsDetail from 'view/news/newsDetail.vue'
 Vue.use(Router)
 const originalPush = Router.prototype.push
 Router.prototype.push = function push (location) {
@@ -40,6 +42,14 @@ export default new Router({
       path: '/science',
       name: 'Science',
       component: Science
+    }, {
+      path: 'membersdetail/:id',
+      name: 'membersDetail',
+      component: membersDetail
+    }, {
+      path: 'newsdetail/:id',
+      name: 'newsDetail',
+      component: newsDetail
     }
 
     ]

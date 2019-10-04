@@ -1,9 +1,26 @@
 <template>
   <div class="members-container">
-    <h2 class="lab-item">教师团队</h2>
+    <h3 class="lab-item">教师团队</h3>
     <div class="demo-fit">
-      <div class="block" v-for="(item,index) in membersData" :key="index">
-        <el-image style="width: 100px; height: 100px;border-radius:5%" :src="item.photo"></el-image>
+      <div
+        class="block"
+        v-for="(item,index) in teachersData"
+        :key="index"
+        @click="openDetails(item.id)"
+      >
+        <el-image style="width: 100px; height: 100px;border-radius:5%" :src="item.photo" lazy></el-image>
+        <p>{{item.name+" "+item.education}}</p>
+      </div>
+    </div>
+    <h3 class="lab-item">学生团队</h3>
+    <div class="demo-fit">
+      <div
+        class="block"
+        v-for="(item,index) in studentsData"
+        :key="index"
+        @click="openDetails(item.id)"
+      >
+        <el-image style="width: 100px; height: 100px;border-radius:5%" :src="item.photo" lazy></el-image>
         <p>{{item.name+" "+item.education}}</p>
       </div>
     </div>
@@ -14,13 +31,8 @@ import { getData } from "api/getData.js";
 export default {
   data() {
     return {
-      membersData: [
-        {
-          photo: "",
-          name: "",
-          education: ""
-        }
-      ]
+      teachersData: [],
+      studentsData: []
     };
   },
   mounted() {
@@ -29,9 +41,13 @@ export default {
   methods: {
     getMembersData() {
       getData("lab.json").then(res => {
-        this.membersData = res.data.membersData;
-        console.log(this.membersData);
+        this.teachersData = res.data.membersData.teachersData;
+        this.studentsData = res.data.membersData.studentsData;
       });
+    },
+    openDetails(id) {
+      //查看详情
+      this.$router.push({ path: "membersDetail/" + id });
     }
   }
 };
@@ -47,4 +63,7 @@ export default {
 .lab-item
   text-align: left
   color: #333
+.block:hover
+  color: #5184ca
+  cursor: pointer
 </style>

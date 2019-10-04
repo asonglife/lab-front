@@ -1,8 +1,8 @@
 <template>
   <div id="#home">
-    <h2 class="lab-item">实验室简介</h2>
+    <h3 class="lab-item">实验室简介</h3>
     <p class="lab-content">{{labIntroduction}}</p>
-    <h2 class="lab-item">主要方向</h2>
+    <h3 class="lab-item">主要方向</h3>
     <ul style="padding:0">
       <li class="lab-direction" v-for="(item,index) in labDirection" :key="index">
         <i class="el-icon-s-opportunity" style="color:gold"></i>
