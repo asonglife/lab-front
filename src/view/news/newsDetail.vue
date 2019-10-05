@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div class="news-container" v-for="item in news" :key="item.id">
-      <div v-if="item.id==newsId">
+    <div v-for="item in news" :key="item.id">
+      <div v-if="item.id==newsId" class="news-container">
         <h3>{{item.newTitle}}</h3>
+        <i class="news-author">{{item.newAuthor+' '+item.newDate}}</i>
         <article>{{item.newContent}}</article>
         <el-image class="detail-img" :src="item.newImage"></el-image>
       </div>
@@ -46,4 +47,8 @@ export default {
   width: 500px
   height: 300px
   margin-top: 36px
+.news-author
+  display: block
+  text-align: right
+  margin: 10px
 </style>

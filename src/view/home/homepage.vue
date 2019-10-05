@@ -1,6 +1,7 @@
 <template>
   <div id="#home">
     <h3 class="lab-item">实验室简介</h3>
+    <swiper></swiper>
     <p class="lab-content">{{labIntroduction}}</p>
     <h3 class="lab-item">主要方向</h3>
     <ul style="padding:0">
@@ -14,12 +15,16 @@
 
 <script>
 import { getData } from "api/getData.js";
+import Swiper from "view/home/swiper.vue";
 export default {
   data() {
     return {
       labIntroduction: "",
       labDirection: ""
     };
+  },
+  components: {
+    Swiper
   },
   computed: {
     httpErr() {

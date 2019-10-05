@@ -1,7 +1,7 @@
 <template>
-  <div class="detail-container">
+  <div>
     <div v-for="item in membersData" :key="item.id">
-      <div v-if="item.id==routeId">
+      <div v-if="item.id==routeId" class="detail-container">
         <el-image class="detail-img" :src="item.photo"></el-image>
         <h3>{{item.name+" "+item.education}}</h3>
         <article>个人经历：{{item.experience}}</article>
