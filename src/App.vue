@@ -13,5 +13,5 @@ export default {
 <style lang="stylus" scoped>
 #app
   background-color: #e9eef3
-  min-width: 850px
+  min-width: 900px
 </style>

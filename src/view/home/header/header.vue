@@ -4,8 +4,15 @@
       <img :src="img" alt="home" id="lab-img" />
       <span id="lab-font">中国科学技术大学信息网络实验室</span>
     </div>
-    <el-menu mode="horizontal" :default-active="this.activeIndex" router background-color="#a6e1f1">
+    <el-menu
+      mode="horizontal"
+      :default-active="this.activeIndex"
+      background-color="#a6e1f1"
+      @select="handleSelect"
+    >
       <el-menu-item v-for="item in leadList" :key="item.length" :index="item.name">{{item.leadItem}}</el-menu-item>
+      <el-menu-item class="login" @click="goLogin()" v-if="!loginState">登录</el-menu-item>
+      <el-menu-item class="login" v-if="loginState" @click="loginOut()">注销</el-menu-item>
     </el-menu>
   </div>
 </template>
@@ -41,12 +48,10 @@ export default {
       ]
     };
   },
+
   mounted() {
     let name = this.$router.name;
     switch (name) {
-      case "Homepage":
-        this.activeIndex = GlOBAL.pathName.homepage;
-        break;
       case "News":
         this.activeIndex = GlOBAL.pathName.news;
         break;
@@ -58,6 +63,31 @@ export default {
         break;
       case "Backend":
         this.activeIndex = GlOBAL.pathName.backend;
+        break;
+      default:
+        this.$router.replace("/homepage");
+    }
+  },
+  methods: {
+    handleSelect(keyPath) {
+      this.$emit("change-router", keyPath);
+    },
+    goLogin() {
+      this.$router.push({ name: "Login" });
+    },
+    loginOut() {
+      this.$store.dispatch("logout").then(() => {
+        this.$router.replace("/login");
+      });
+    }
+  },
+  computed: {
+    loginState() {
+      if (this.$store.state.user) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 };
@@ -81,4 +111,6 @@ export default {
   display: block
   float: left
   margin-top: 53px
+.login
+  float: right
 </style>

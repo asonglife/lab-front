@@ -8,6 +8,7 @@ import Backend from 'view/backend/backend.vue'
 import Homepage from 'view/home/homepage.vue'
 import membersDetail from 'view/members/membersDetail.vue'
 import newsDetail from 'view/news/newsDetail.vue'
+import Login from 'view/backend/login/login.vue'
 Vue.use(Router)
 const originalPush = Router.prototype.push
 Router.prototype.push = function push (location) {
@@ -58,6 +59,10 @@ export default new Router({
     path: '/backend',
     name: 'Backend',
     component: Backend
+  }, {
+    path: '/login',
+    name: 'Login',
+    component: Login
   }
   ]
 })

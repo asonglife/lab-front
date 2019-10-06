@@ -2,27 +2,31 @@
   <div class="members-container">
     <h3 class="lab-item">教师团队</h3>
     <div class="demo-fit">
-      <div
-        class="block"
-        v-for="(item,index) in teachersData"
-        :key="index"
-        @click="openDetails(item.id)"
-      >
-        <el-image style="width: 100px; height: 100px;border-radius:5%" :src="item.photo" lazy></el-image>
-        <p>{{item.name+" "+item.education}}</p>
-      </div>
+      <el-row>
+        <el-col v-for="(item,index) in teachersData" :key="index" class="block">
+          <el-card :body-style="{ padding: '0px' }">
+            <img :src="item.photo" class="member-img" />
+            <div style="padding: 14px;" class="go-exper" @click="openDetails(item.id)">
+              <span>{{item.name}}</span>
+              <span class="time">{{item.education}}</span>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
     </div>
     <h3 class="lab-item">学生团队</h3>
     <div class="demo-fit">
-      <div
-        class="block"
-        v-for="(item,index) in studentsData"
-        :key="index"
-        @click="openDetails(item.id)"
-      >
-        <el-image style="width: 100px; height: 100px;border-radius:5%" :src="item.photo" lazy></el-image>
-        <p>{{item.name+" "+item.education}}</p>
-      </div>
+      <el-row>
+        <el-col v-for="(item,index) in studentsData" :key="index" class="block">
+          <el-card :body-style="{ padding: '0px' }">
+            <img :src="item.photo" class="member-img" />
+            <div style="padding: 14px;" class="go-exper" @click="openDetails(item.id)">
+              <span>{{item.name}}</span>
+              <span class="time">{{item.education}}</span>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
@@ -59,11 +63,22 @@ export default {
   flex-wrap: wrap
   text-align: center
 .members-container >>> .block
-  margin: 3%
+  margin: 4%
+  width: 16%
 .lab-item
   text-align: left
   color: #333
-.block:hover
-  color: #5184ca
+.member-img
+  width: 100%
+  display: block
+.members-container
+  text-align: center
+.go-exper:hover
+  color: #a6e1f1
   cursor: pointer
+.time
+  display: block
+  font-size: 13px
+  color: #999
+  margin: 2px
 </style>

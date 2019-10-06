@@ -6,9 +6,15 @@
         <p>登录后台管理</p>
       </div>
       <i id="login-logo" class="el-icon-user-solid"></i>
-      <el-input placeholder="账户"></el-input>
-      <el-input placeholder="密码"></el-input>
-      <el-button type="primary" plain>登录</el-button>
+      <el-form :model="user" :rules="rules" ref="loginForm" status-icon>
+        <el-form-item prop="name" class="input-container">
+          <el-input placeholder="账户" v-model="user.name"></el-input>
+        </el-form-item>
+        <el-form-item prop="pass" class="input-container">
+          <el-input placeholder="密码" v-model="user.pass" type="password"></el-input>
+        </el-form-item>
+        <el-button type="primary" plain @click="login">登录</el-button>
+      </el-form>
     </el-card>
   </div>
 </template>
@@ -17,15 +23,41 @@
 export default {
   data() {
     return {
-      img: require("assets/img/title.jpg")
+      img: require("assets/img/title.jpg"),
+      user: {},
+      rules: {
+        name: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
+        pass: [{ required: true, message: "密码不能为空", trigger: "blur" }]
+      }
     };
-  },
-  mounted() {
-    gotoHome;
   },
   methods: {
     gotoHome() {
       this.$router.push({ path: "/homepage" });
+    },
+    login() {
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          if (this.user.name === "admin123" && this.user.pass === "123456") {
+            this.$store.dispatch("login", this.user).then(() => {
+              this.$notify({
+                type: "success",
+                message: "welcome" + this.user.name + "!",
+                duration: 3000
+              });
+              this.$router.replace("/");
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "用户名或密码错误",
+              showClose: true
+            });
+          }
+        } else {
+          return false;
+        }
+      });
     }
   }
 };
@@ -51,8 +83,8 @@ export default {
   left: 0
   right: 0
   bottom: 0
-.el-input
-  margin: 40px auto
+.input-container
+  margin: 20px auto
   width: 200px
   display: block
 #login-logo

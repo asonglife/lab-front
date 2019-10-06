@@ -5,7 +5,7 @@
         <h3>{{item.newTitle}}</h3>
         <i class="news-author">{{item.newAuthor+' '+item.newDate}}</i>
         <article>{{item.newContent}}</article>
-        <el-image class="detail-img" :src="item.newImage"></el-image>
+        <el-image class="detail-img" :src="item.newImage" v-if="item.newImage.length>0"></el-image>
       </div>
     </div>
   </div>

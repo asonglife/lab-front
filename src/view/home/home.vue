@@ -2,7 +2,7 @@
   <div>
     <el-container>
       <el-header height="222px">
-        <m-header></m-header>
+        <m-header @change-router="changeRouter"></m-header>
       </el-header>
       <el-main>
         <mainpage></mainpage>
@@ -24,6 +24,40 @@ export default {
     Mainpage,
     MHeader,
     MFooter
+  },
+  methods: {
+    changeRouter(e) {
+      switch (e) {
+        case GlOBAL.pathName.news:
+          this.$router.push({ name: "News" });
+          break;
+        case GlOBAL.pathName.members:
+          this.$router.push({ name: "Members" });
+          break;
+        case GlOBAL.pathName.science:
+          this.$router.push({ name: "Science" });
+          break;
+        case GlOBAL.pathName.backend:
+          if (this.user != undefined) {
+            this.$router.push({ name: "Backend" });
+          } else {
+            this.$message({
+              type: "error",
+              message: "请登录后再访问",
+              showClose: true
+            });
+          }
+          break;
+        default:
+          this.$router.push({ name: "Homepage" });
+          break;
+      }
+    }
+  },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    }
   }
 };
 </script>

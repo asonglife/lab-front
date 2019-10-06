@@ -1,5 +1,5 @@
 import axios from 'axios'
-import store from '@/store/store.js'
+import store from '@/store/index.js'
 const service = axios.create({
   baseURL: 'api',
   timeout: 15000

@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <login></login>
-  </div>
+  <div>后台</div>
 </template>
 
 <script>

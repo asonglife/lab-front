@@ -1,6 +1,6 @@
 <template>
   <div class="lab-swiper">
-    <el-carousel :interval="5000" type="card" arrow="always">
+    <el-carousel :interval="5000" type="card" arrow="hover">
       <el-carousel-item v-for="item in SwiperImg" :key="item">
         <img :src="item" />
       </el-carousel-item>
