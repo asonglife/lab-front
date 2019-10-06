@@ -1,7 +1,7 @@
 <template>
   <div id="#home">
     <h3 class="lab-item">实验室简介</h3>
-    <swiper></swiper>
+    <swiper :labImg="labImage"></swiper>
     <p class="lab-content">{{labIntroduction}}</p>
     <h3 class="lab-item">主要方向</h3>
     <ul style="padding:0">
@@ -19,8 +19,9 @@ import Swiper from "view/home/swiper.vue";
 export default {
   data() {
     return {
-      labIntroduction: "",
-      labDirection: ""
+      labIntroduction: [],
+      labDirection: [],
+      labImage: []
     };
   },
   components: {
@@ -39,6 +40,7 @@ export default {
       getData("lab.json").then(res => {
         this.labIntroduction = res.data.labIntroduction;
         this.labDirection = res.data.labDirection;
+        this.labImage = res.data.labImage;
       });
     }
   }

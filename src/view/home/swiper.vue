@@ -1,26 +1,40 @@
 <template>
-  <el-carousel :interval="5000" arrow="always">
-    <el-carousel-item v-for="item in 4" :key="item">
-      <h3>{{ item }}</h3>
-    </el-carousel-item>
-  </el-carousel>
+  <div class="lab-swiper">
+    <el-carousel :interval="5000" type="card" arrow="always">
+      <el-carousel-item v-for="item in SwiperImg" :key="item">
+        <img :src="item" />
+      </el-carousel-item>
+    </el-carousel>
+  </div>
 </template>
-
-<style>
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 18px;
-  opacity: 0.75;
-  line-height: 300px;
-  margin: 0;
-  text-align: center;
-}
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
-}
+<script>
+export default {
+  data() {
+    return {
+      SwiperImg: []
+    };
+  },
+  props: {
+    labImg: {
+      type: Array,
+      default: []
+    }
+  },
+  watch: {
+    labImg(val) {
+      this.SwiperImg = val;
+    }
+  }
+};
+</script>
+<style lang="stylus" scoped>
+.el-carousel__item:nth-child(2n)
+  background-color: #ffffff
+.el-carousel__item:nth-child(2n + 1)
+  background-color: #ffffff
+.el-carousel__item img
+  width: 75%
+  height: 300px
+.lab-swiper
+  text-align: center
 </style>
