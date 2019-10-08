@@ -38,7 +38,7 @@ export default {
           this.$router.push({ name: "Science" });
           break;
         case GlOBAL.pathName.backend:
-          if (this.user != undefined) {
+          if (this.user) {
             this.$router.push({ name: "Backend" });
           } else {
             this.$message({
@@ -54,9 +54,14 @@ export default {
       }
     }
   },
+
   computed: {
     user() {
-      return this.$store.state.user;
+      let userInfo = this.$store.state.userInfo;
+      for (let key in userInfo) {
+        return true;
+      }
+      return false;
     }
   }
 };

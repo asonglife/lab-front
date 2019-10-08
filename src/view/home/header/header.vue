@@ -2,7 +2,8 @@
   <div>
     <div id="lab-name">
       <img :src="img" alt="home" id="lab-img" />
-      <span id="lab-font">中国科学技术大学信息网络实验室</span>
+      <span id="lab-font">重庆邮电大学信息网络实验室</span>
+      <login-state></login-state>
     </div>
     <el-menu
       mode="horizontal"
@@ -11,14 +12,13 @@
       @select="handleSelect"
     >
       <el-menu-item v-for="item in leadList" :key="item.length" :index="item.name">{{item.leadItem}}</el-menu-item>
-      <el-menu-item class="login" @click="goLogin()" v-if="!loginState">登录</el-menu-item>
-      <el-menu-item class="login" v-if="loginState" @click="loginOut()">注销</el-menu-item>
     </el-menu>
   </div>
 </template>
 
 <script>
 import GlOBAL from "api/global_variable.js";
+import loginState from "view/backend/login/loginState.vue";
 export default {
   data() {
     return {
@@ -48,7 +48,9 @@ export default {
       ]
     };
   },
-
+  components: {
+    loginState
+  },
   mounted() {
     let name = this.$router.name;
     switch (name) {
@@ -71,23 +73,6 @@ export default {
   methods: {
     handleSelect(keyPath) {
       this.$emit("change-router", keyPath);
-    },
-    goLogin() {
-      this.$router.push({ name: "Login" });
-    },
-    loginOut() {
-      this.$store.dispatch("logout").then(() => {
-        this.$router.replace("/login");
-      });
-    }
-  },
-  computed: {
-    loginState() {
-      if (this.$store.state.user) {
-        return true;
-      } else {
-        return false;
-      }
     }
   }
 };
@@ -111,6 +96,4 @@ export default {
   display: block
   float: left
   margin-top: 53px
-.login
-  float: right
 </style>

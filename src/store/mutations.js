@@ -3,11 +3,12 @@ const mutations = {
     state.httpErr = payload
   },
   login (state, payload) {
-    state.user = payload
     localStorage.setItem('userInfo', JSON.stringify(payload))
+    state.userInfo = payload
   }, // 登入
   logout (state) {
-    state.user = undefined
+    localStorage.removeItem('userInfo')
+    state.userInfo = {}
   } // 登出
 }
 export default mutations

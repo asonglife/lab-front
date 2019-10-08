@@ -1,9 +1,16 @@
+function initUserInfo () {
+  let s = localStorage.getItem('userInfo')
+  if (s) {
+    return JSON.parse(s)
+  }
+  return {}
+}
 const state = {
   httpErr: {
     hasErr: false,
     status: '',
     statusText: ''
   },
-  user: undefined
+  userInfo: initUserInfo()
 }
 export default state

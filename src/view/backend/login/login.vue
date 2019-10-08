@@ -24,7 +24,10 @@ export default {
   data() {
     return {
       img: require("assets/img/title.jpg"),
-      user: {},
+      user: {
+        name: "",
+        pass: ""
+      },
       rules: {
         name: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
         pass: [{ required: true, message: "密码不能为空", trigger: "blur" }]
@@ -38,11 +41,11 @@ export default {
     login() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          if (this.user.name === "admin123" && this.user.pass === "123456") {
+          if (this.user.name === "admin123" && this.user.pass == "123456") {
             this.$store.dispatch("login", this.user).then(() => {
               this.$notify({
                 type: "success",
-                message: "welcome" + this.user.name + "!",
+                message: "welcome," + this.user.name + "!",
                 duration: 3000
               });
               this.$router.replace("/");
