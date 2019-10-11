@@ -1,54 +1,55 @@
 <template>
   <el-menu
-    default-active="2"
+    :default-active="this.systemIndex"
     class="el-menu-vertical-demo"
-    @open="handleOpen"
-    @close="handleClose"
-    background-color="#545c64"
-    text-color="#fff"
-    active-text-color="#ffd04b"
+    background-color="whitesmoke"
+    @select="handleSelect"
   >
-    <el-submenu index="1">
-      <template slot="title">
-        <i class="el-icon-location"></i>
-        <span></span>
-      </template>
-      <el-menu-item-group>
-        <template slot="title">分组一</template>
-        <el-menu-item index="1-1">选项1</el-menu-item>
-        <el-menu-item index="1-2">选项2</el-menu-item>
-      </el-menu-item-group>
-      <el-menu-item-group title="分组2">
-        <el-menu-item index="1-3">选项3</el-menu-item>
-      </el-menu-item-group>
-      <el-submenu index="1-4">
-        <template slot="title">选项4</template>
-        <el-menu-item index="1-4-1">选项1</el-menu-item>
-      </el-submenu>
-    </el-submenu>
+    <el-menu-item index="1">
+      <i class="el-icon-location-outline"></i>
+      <span slot="title">返回主页</span>
+    </el-menu-item>
     <el-menu-item index="2">
-      <i class="el-icon-menu"></i>
-      <span slot="title">导航二</span>
+      <i class="el-icon-user-solid"></i>
+      <span slot="title">成员管理</span>
     </el-menu-item>
-    <el-menu-item index="3" disabled>
+    <el-menu-item index="3">
       <i class="el-icon-document"></i>
-      <span slot="title">导航三</span>
+      <span slot="title">资产管理</span>
     </el-menu-item>
-    <el-menu-item index="4">
-      <i class="el-icon-setting"></i>
-      <span slot="title">导航四</span>
+    <el-submenu index>
+      <template slot="title">
+        <i class="el-icon-notebook-1"></i>
+        <span>新闻动态</span>
+      </template>
+
+      <el-menu-item index="4">
+        <i class="el-icon-refresh-left"></i>
+        <span slot="title">动态管理</span>
+      </el-menu-item>
+      <el-menu-item index="5">
+        <i class="el-icon-upload"></i>
+        <span slot="title">文章撰写</span>
+      </el-menu-item>
+    </el-submenu>
+    <el-menu-item index="6">
+      <i class="el-icon-magic-stick"></i>
+      <span slot="title">个人中心</span>
     </el-menu-item>
   </el-menu>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      systemIndex: "2"
+    };
+  },
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
+    handleSelect(key, keyPath) {
+      this.$emit("system-router", keyPath);
+      this.systemIndex = keyPath.toString();
     }
   }
 };

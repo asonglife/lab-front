@@ -9,6 +9,11 @@ import Homepage from 'view/home/homepage.vue'
 import membersDetail from 'view/members/membersDetail.vue'
 import newsDetail from 'view/news/newsDetail.vue'
 import Login from 'view/backend/login/login.vue'
+import Managemember from 'view/backend/system/manage/managemember.vue'
+import Managenews from 'view/backend/system/manage/managenews.vue'
+import Uploadnews from 'view/backend/system/manage/uploadnews.vue'
+import Managecaptial from 'view/backend/system/manage/managecaptial.vue'
+import Personalcenter from 'view/backend/system/manage/personalcenter.vue'
 Vue.use(Router)
 const originalPush = Router.prototype.push
 Router.prototype.push = function push (location) {
@@ -58,7 +63,30 @@ export default new Router({
   }, {
     path: '/backend',
     name: 'Backend',
-    component: Backend
+    component: Backend,
+    children: [{
+      path: 'managemember',
+      name: 'Managemember',
+      component: Managemember
+    },
+    {
+      path: 'managenews',
+      name: 'Managenews',
+      component: Managenews
+    }, {
+      path: 'uploadnews',
+      name: 'Uploadnews',
+      component: Uploadnews
+    }, {
+      path: 'managecaptial',
+      name: 'Managecaptial',
+      component: Managecaptial
+    }, {
+      path: 'personalcenter',
+      name: 'Personalcenter',
+      component: Personalcenter
+    }
+    ]
   }, {
     path: '/login',
     name: 'Login',

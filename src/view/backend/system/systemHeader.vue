@@ -1,8 +1,9 @@
 <template>
   <div class="header-container">
     <div class="system-name">
-      <img :src="img" alt="home" class="system-img" />
-      <span class="system-font">重庆邮电大学信息网络实验室后台管理系统</span>
+      <span class="system-font">
+        <i class="el-icon-s-custom"></i>重庆邮电大学信息网络实验室后台管理系统
+      </span>
       <login-state class="system-state"></login-state>
     </div>
   </div>
@@ -34,12 +35,9 @@ export default {
   color: #5184ca
   display: block
   float: left
-  margin-top: 34px
-.system-img
-  width: 64px
-  height: 64px
-  float: left
-  margin: 15px
+  margin-top: 25px
 .system-name >>> .login
-  margin-top: 11px
+  margin-top: 8px
+.el-icon-s-custom
+  padding-right: 6px
 </style>
