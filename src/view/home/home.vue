@@ -39,7 +39,7 @@ export default {
           break;
         case GlOBAL.pathName.backend:
           if (this.user) {
-            this.$router.push({ name: "Backend" });
+            this.$router.push({ name: "Managemember" });
           } else {
             this.$message({
               type: "error",

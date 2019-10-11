@@ -48,7 +48,7 @@ export default {
           this.$router.push({ name: "Personalcenter" });
           break;
         default:
-          this.$router.push({ name: "Managemember" });
+          this.$router.replace({ name: "Managemember" });
           break;
       }
     }
@@ -62,11 +62,11 @@ export default {
   color: #333
   text-align: center
 .el-aside
-  background-color: #D3DCE6
+  background-color: whitesmoke
   color: #333
   text-align: center
 .el-main
-  background-color: #E9EEF3
+  background-color: #ffffff
   color: #333
   text-align: center
 </style>

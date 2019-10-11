@@ -13,21 +13,32 @@
       <i class="el-icon-user-solid"></i>
       <span slot="title">成员管理</span>
     </el-menu-item>
-    <el-menu-item index="3">
-      <i class="el-icon-document"></i>
-      <span slot="title">资产管理</span>
-    </el-menu-item>
+    <el-submenu index>
+      <template slot="title">
+        <i class="el-icon-notebook-1"></i>
+        <span>资产管理</span>
+      </template>
+
+      <el-menu-item index="3" style="padding-left:4em">
+        <i class="el-icon-document"></i>
+        <span slot="title">动态管理</span>
+      </el-menu-item>
+      <el-menu-item index="4" style="padding-left:4em">
+        <i class="el-icon-upload"></i>
+        <span slot="title">文章撰写</span>
+      </el-menu-item>
+    </el-submenu>
     <el-submenu index>
       <template slot="title">
         <i class="el-icon-notebook-1"></i>
         <span>新闻动态</span>
       </template>
 
-      <el-menu-item index="4">
+      <el-menu-item index="5" style="padding-left:4em">
         <i class="el-icon-refresh-left"></i>
         <span slot="title">动态管理</span>
       </el-menu-item>
-      <el-menu-item index="5">
+      <el-menu-item index="6" style="padding-left:4em">
         <i class="el-icon-upload"></i>
         <span slot="title">文章撰写</span>
       </el-menu-item>

@@ -38,6 +38,7 @@ export default {
   margin-top: 25px
 .system-name >>> .login
   margin-top: 8px
+  color: #000000
 .el-icon-s-custom
   padding-right: 6px
 </style>
