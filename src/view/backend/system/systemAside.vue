@@ -13,37 +13,37 @@
       <i class="el-icon-user-solid"></i>
       <span slot="title">成员管理</span>
     </el-menu-item>
-    <el-submenu index>
+    <el-submenu index="3">
       <template slot="title">
         <i class="el-icon-notebook-1"></i>
         <span>资产管理</span>
       </template>
 
-      <el-menu-item index="3" style="padding-left:4em">
+      <el-menu-item index="3-1" style="padding-left:4em">
         <i class="el-icon-document"></i>
-        <span slot="title">动态管理</span>
+        <span slot="title">资产详情</span>
       </el-menu-item>
-      <el-menu-item index="4" style="padding-left:4em">
+      <el-menu-item index="3-2" style="padding-left:4em">
         <i class="el-icon-upload"></i>
-        <span slot="title">文章撰写</span>
+        <span slot="title">账单统计</span>
       </el-menu-item>
     </el-submenu>
-    <el-submenu index>
+    <el-submenu index="4">
       <template slot="title">
         <i class="el-icon-notebook-1"></i>
         <span>新闻动态</span>
       </template>
 
-      <el-menu-item index="5" style="padding-left:4em">
+      <el-menu-item index="4-1" style="padding-left:4em">
         <i class="el-icon-refresh-left"></i>
         <span slot="title">动态管理</span>
       </el-menu-item>
-      <el-menu-item index="6" style="padding-left:4em">
+      <el-menu-item index="4-2" style="padding-left:4em">
         <i class="el-icon-upload"></i>
         <span slot="title">文章撰写</span>
       </el-menu-item>
     </el-submenu>
-    <el-menu-item index="6">
+    <el-menu-item index="5">
       <i class="el-icon-magic-stick"></i>
       <span slot="title">个人中心</span>
     </el-menu-item>
@@ -59,8 +59,12 @@ export default {
   },
   methods: {
     handleSelect(key, keyPath) {
+      if (keyPath.length < 2) {
+        this.systemIndex = keyPath.toString();
+      } else {
+        this.systemIndex = keyPath[1].toString();
+      }
       this.$emit("system-router", keyPath);
-      this.systemIndex = keyPath.toString();
     }
   }
 };

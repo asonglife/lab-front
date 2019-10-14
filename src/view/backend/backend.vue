@@ -31,20 +31,24 @@ export default {
   },
   methods: {
     systemRouter(i) {
-      switch (parseInt(i)) {
-        case 1:
+      let routerCase = i.toString();
+      switch (routerCase) {
+        case "1":
           this.$router.replace({ name: "Homepage" });
           break;
-        case 3:
+        case "3,3-1":
           this.$router.push({ name: "Managecaptial" });
           break;
-        case 4:
+        case "3,3-2":
+          this.$router.push({ name: "Captialgraph" });
+          break;
+        case "4,4-1":
           this.$router.push({ name: "Managenews" });
           break;
-        case 5:
+        case "4,4-2":
           this.$router.push({ name: "Uploadnews" });
           break;
-        case 6:
+        case "5":
           this.$router.push({ name: "Personalcenter" });
           break;
         default:

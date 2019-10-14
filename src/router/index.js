@@ -14,83 +14,88 @@ import Managenews from 'view/backend/system/manage/managenews.vue'
 import Uploadnews from 'view/backend/system/manage/uploadnews.vue'
 import Managecaptial from 'view/backend/system/manage/managecaptial.vue'
 import Personalcenter from 'view/backend/system/manage/personalcenter.vue'
+import Captialgraph from 'view/backend/system/manage/captialgraph.vue'
 Vue.use(Router)
 const originalPush = Router.prototype.push
-Router.prototype.push = function push(location) {
-    return originalPush.call(this, location).catch(err => err)
+Router.prototype.push = function push (location) {
+  return originalPush.call(this, location).catch(err => err)
 }
 
 export default new Router({
-    routes: [{
-            path: '/',
-            redirect: '/homepage'
-        },
-        {
-            path: '/',
-            name: 'Home',
-            component: Home,
-            children: [{
-                    path: '/homepage',
-                    name: 'Homepage',
-                    component: Homepage
-                },
-                {
-                    path: '/news',
-                    name: 'News',
-                    component: News
-                }, {
-                    path: '/members',
-                    name: 'Members',
-                    component: Members
+  routes: [{
+    path: '/',
+    redirect: '/homepage'
+  },
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+    children: [{
+      path: '/homepage',
+      name: 'Homepage',
+      component: Homepage
+    },
+    {
+      path: '/news',
+      name: 'News',
+      component: News
+    }, {
+      path: '/members',
+      name: 'Members',
+      component: Members
 
-                },
-                {
-                    path: '/science',
-                    name: 'Science',
-                    component: Science
-                }, {
-                    path: 'membersdetail/:id',
-                    name: 'membersDetail',
-                    component: membersDetail
-                }, {
-                    path: 'newsdetail/:id',
-                    name: 'newsDetail',
-                    component: newsDetail
-                }
+    },
+    {
+      path: '/science',
+      name: 'Science',
+      component: Science
+    }, {
+      path: 'membersdetail/:id',
+      name: 'membersDetail',
+      component: membersDetail
+    }, {
+      path: 'newsdetail/:id',
+      name: 'newsDetail',
+      component: newsDetail
+    }
 
-            ]
-
-        }, {
-            path: '/backend',
-            name: 'Backend',
-            component: Backend,
-            children: [{
-                    path: 'managemember',
-                    name: 'Managemember',
-                    component: Managemember
-                },
-                {
-                    path: 'managenews',
-                    name: 'Managenews',
-                    component: Managenews
-                }, {
-                    path: 'uploadnews',
-                    name: 'Uploadnews',
-                    component: Uploadnews
-                }, {
-                    path: 'managecaptial',
-                    name: 'Managecaptial',
-                    component: Managecaptial
-                }, {
-                    path: 'personalcenter',
-                    name: 'Personalcenter',
-                    component: Personalcenter
-                }
-            ]
-        }, {
-            path: '/login',
-            name: 'Login',
-            component: Login
-        }
     ]
+
+  }, {
+    path: '/backend',
+    name: 'Backend',
+    component: Backend,
+    children: [{
+      path: 'managemember',
+      name: 'Managemember',
+      component: Managemember
+    },
+    {
+      path: 'managenews',
+      name: 'Managenews',
+      component: Managenews
+    }, {
+      path: 'uploadnews',
+      name: 'Uploadnews',
+      component: Uploadnews
+    }, {
+      path: 'managecaptial',
+      name: 'Managecaptial',
+      component: Managecaptial
+    }, {
+      path: 'personalcenter',
+      name: 'Personalcenter',
+      component: Personalcenter
+    }, {
+      path: 'captialgraph',
+      name: 'Captialgraph',
+      component: Captialgraph
+    }
+    ]
+  }, {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  }
+  ]
 })

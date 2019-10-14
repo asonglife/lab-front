@@ -8,10 +8,10 @@
           <el-input placeholder="姓名"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">查询</el-button>
+          <el-button type="primary" @click="findUser()">查询</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="success">新增</el-button>
+          <el-button type="success" @click="addUser()">新增</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -23,9 +23,9 @@
       <el-table-column prop="tel" label="电话" width="180"></el-table-column>
       <el-table-column prop="address" label="地址" min-width="270"></el-table-column>
       <el-table-column label="操作" min-width="200">
-        <template>
-          <el-button size="mini">编辑</el-button>
-          <el-button size="mini" type="danger">删除</el-button>
+        <template slot-scope="scope">
+          <el-button size="mini" @click="editUser()">编辑</el-button>
+          <el-button size="mini" type="danger" @click="deleteUser(scope.$index,tableData)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -35,10 +35,15 @@
       </div>
       <el-pagination :page-size="100" layout="prev, pager, next, jumper" :total="1000"></el-pagination>
     </div>
+
+    <el-drawer :visible.sync="drawer" size="400px" :before-close="handleClose">
+      <adduser></adduser>
+    </el-drawer>
   </div>
 </template>
 
 <script>
+import Adduser from "view/backend/system/managecomponents/addUser.vue";
 export default {
   data() {
     return {
@@ -49,67 +54,45 @@ export default {
           name: "王小虎",
           grade: "研一",
           tel: "13628315056"
-        },
-        {
-          user: "admin",
-          name: "王小虎",
-          grade: "大三",
-          email: "49253286@qq.com",
-          tel: "1362881596",
-
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          user: "admin",
-          name: "王小虎",
-          grade: "大二",
-          email: "1320599286@qq.com",
-          tel: "13615645956",
-
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          user: "admin",
-          name: "王小虎",
-          grade: "大二",
-          email: "1320599286@qq.com",
-          tel: "13615645956",
-
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          user: "admin",
-          name: "王小虎",
-          grade: "大二",
-          email: "1320599286@qq.com",
-          tel: "13615645956",
-
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          user: "admin",
-          name: "王小虎",
-          grade: "大二",
-          email: "1320599286@qq.com",
-          tel: "13615645956",
-
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          user: "admin",
-          name: "王小虎",
-          grade: "大二",
-          email: "1320599286@qq.com",
-          tel: "13615645956",
-
-          address: "上海市普陀区金沙江路 1518 弄"
         }
-      ]
+      ],
+      drawer: false
     };
   },
+  components: {
+    Adduser
+  },
+
   methods: {
-    formatter(row, column) {
-      return row.address;
+    deleteUser(index, rowdata) {
+      this.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.tableData.splice(index, 1);
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
+        })
+        .catch(err => {
+          this.$message({
+            type: "error",
+            message: err
+          });
+        });
+    },
+    addUser() {
+      this.drawer = true;
+    },
+    handleClose(done) {
+      this.$confirm("确认关闭？")
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
     }
   }
 };
