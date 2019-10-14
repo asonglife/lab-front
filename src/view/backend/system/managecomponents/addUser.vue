@@ -1,6 +1,6 @@
 <template>
   <div class="adduser">
-    <el-form ref="adduserform" :model="adduser" label-width="100px">
+    <el-form ref="adduserform" :model="studentsData" label-width="100px" :rules="rules">
       <el-form-item label="照片">
         <el-upload
           class="avatar-uploader"
@@ -13,21 +13,25 @@
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
-      <el-form-item label="姓名">
-        <el-input v-model="name"></el-input>
+      <el-form-item label="姓名" prop="name">
+        <el-input v-model="studentsData.name"></el-input>
       </el-form-item>
-      <el-form-item label="年级">
-        <el-input v-model="grade"></el-input>
+      <el-form-item label="学历" prop="education">
+        <el-input v-model="studentsData.education"></el-input>
       </el-form-item>
-      <el-form-item label="地址">
-        <el-input v-model="address"></el-input>
+      <el-form-item label="地址" prop="address">
+        <el-input v-model="studentsData.address"></el-input>
       </el-form-item>
-      <el-form-item label="邮箱">
-        <el-input v-model="email"></el-input>
+      <el-form-item label="邮箱" prop="email">
+        <el-input v-model="studentsData.email"></el-input>
       </el-form-item>
-      <el-form-item label="电话">
-        <el-input v-model="tel"></el-input>
+      <el-form-item label="电话" prop="tel">
+        <el-input v-model="studentsData.tel"></el-input>
       </el-form-item>
+      <el-form-item label="个人经历" prop="experience">
+        <el-input type="textarea" v-model="studentsData.experience"></el-input>
+      </el-form-item>
+      <el-button class="submitclass" type="primary" plain @click="submitData">提交</el-button>
     </el-form>
   </div>
 </template>
@@ -35,8 +39,57 @@
 <script>
 export default {
   data() {
+    var checktel = (rule, value, callback) => {
+      const tel = /^1[3|4|5|7|8][0-9]{9}$/;
+      if (!value) {
+        return callback(new Error("电话号码不能为空"));
+      }
+      setTimeout(() => {
+        if (!Number.isInteger(+value)) {
+          callback(new Error("请输入数字值"));
+        } else {
+          if (tel.test(value)) {
+            callback();
+          } else {
+            callback(new Error("电话号码格式不正确"));
+          }
+        }
+      }, 100);
+    };
+    var checkEmail = (rule, value, callback) => {
+      const mailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+      if (!value) {
+        return callback(new Error("邮箱不能为空"));
+      }
+      setTimeout(() => {
+        if (mailReg.test(value)) {
+          callback();
+        } else {
+          callback(new Error("请输入正确的邮箱格式"));
+        }
+      }, 100);
+    };
     return {
-      imageUrl: ""
+      imageUrl: "",
+      studentsData: {
+        name: "",
+        education: "",
+        address: "",
+        tel: "",
+        email: "",
+        experience: ""
+      },
+      rules: {
+        name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
+        education: [{ required: true, message: "请输入学历", trigger: "blur" }],
+        address: [{ required: true, message: "请输入地址", trigger: "blur" }],
+        experience: [
+          { required: true, message: "请输入个人经历", trigger: "blur" },
+          { min: 50, message: "不少于50字", trigger: "blur" }
+        ],
+        tel: [{ validator: checktel, trigger: "blur" }],
+        email: [{ validator: checkEmail, trigger: "blur" }]
+      }
     };
   },
   methods: {
@@ -54,6 +107,17 @@ export default {
         this.$message.error("上传头像图片大小不能超过 2MB!");
       }
       return isJPG && isLt2M;
+    },
+    submitData() {
+      this.studentsData = this.studentsData || [];
+      this.studentsData.push({
+        name: this.studentsData.name,
+        education: this.studentsData.education,
+        address: this.studentsData.address,
+        tel: this.studentsData.tel,
+        email: this.studentsData.email,
+        experience: this.studentsData.experience
+      });
     }
   }
 };
@@ -90,4 +154,9 @@ export default {
   bottom: 0
   width: 400px
   background: whitesmoke
+.submitclass
+  margin-left: 55%
+  margin-top: 12px
+.adduser>>>.el-upload
+  border: solid 0.5px greenyellow
 </style>

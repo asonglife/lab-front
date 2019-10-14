@@ -36,7 +36,7 @@
       <el-pagination :page-size="100" layout="prev, pager, next, jumper" :total="1000"></el-pagination>
     </div>
 
-    <el-drawer :visible.sync="drawer" size="400px" :before-close="handleClose">
+    <el-drawer :visible.sync="drawer" size="400px" :before-close="handleClose" class="form-drawer">
       <adduser></adduser>
     </el-drawer>
   </div>
@@ -104,4 +104,6 @@ export default {
 <style lang="stylus" scoped>
 .pagination
   margin-top: 20px
+.form-drawer >>>.el-drawer__close-btn
+  z-index: 200
 </style>

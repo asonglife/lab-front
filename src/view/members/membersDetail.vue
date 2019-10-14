@@ -24,7 +24,9 @@ export default {
   },
   methods: {
     getMembersData() {
-      getData("lab.json?id=" + this.$route.params.id).then(res => {
+      getData(
+        "http://47.103.210.8:8080/json_lab?id=" + this.$route.params.id
+      ).then(res => {
         this.routeId = this.$route.params.id;
         let teachersData = res.data.membersData.teachersData;
         let studentsData = res.data.membersData.studentsData;

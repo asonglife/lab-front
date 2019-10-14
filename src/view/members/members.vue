@@ -32,6 +32,7 @@
 </template>
 <script>
 import { getData } from "api/getData.js";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -44,10 +45,14 @@ export default {
   },
   methods: {
     getMembersData() {
-      getData("lab.json").then(res => {
-        this.teachersData = res.data.membersData.teachersData;
-        this.studentsData = res.data.membersData.studentsData;
-      });
+      getData("http://47.103.210.8:8080/json_lab")
+        .then(res => {
+          this.teachersData = res.data.membersData.teachersData;
+          this.studentsData = res.data.membersData.studentsData;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     openDetails(id) {
       //查看详情
@@ -58,19 +63,16 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .members-container >>> .demo-fit
-  display: flex
-  flex-direction: row
-  flex-wrap: wrap
-  text-align: center
+  overflow: hidden
 .members-container >>> .block
-  margin: 4%
-  width: 16%
+  margin: 3%
+  width: 152px
+  float: left
 .lab-item
   text-align: left
   color: #333
 .member-img
   width: 100%
-  display: block
 .members-container
   text-align: center
 .go-exper:hover
