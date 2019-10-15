@@ -1,21 +1,33 @@
 <template>
-  <el-drawer :visible.sync="drawer" size="400px" :before-close="handleClose" class="form-drawer">
+  <el-drawer
+    :visible="drawer"
+    size="400px"
+    :before-close="handleClose"
+    class="form-drawer"
+    :wrapperClosable="false"
+    :destroy-on-close="true"
+  >
     <div class="adduser">
       <el-form ref="adduserform" :model="studentsData" label-width="100px" :rules="rules">
-        <el-form-item label="照片">
+        <el-form-item label="照片" prop="photo" v-show="isEdit">
           <el-upload
             class="avatar-uploader"
             action="https://jsonplaceholder.typicode.com/posts/"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
+            :on-change="onchange"
+            :auto-upload="false"
           >
             <img v-if="imageUrl" :src="imageUrl" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
-        <el-form-item label="姓名" prop="name">
+        <el-form-item label="姓名" prop="name" placeholder>
           <el-input v-model="studentsData.name"></el-input>
+        </el-form-item>
+        <el-form-item label="学号" prop="studentsId" placeholder>
+          <el-input v-model="studentsData.studentsId"></el-input>
         </el-form-item>
         <el-form-item label="学历" prop="education">
           <el-autocomplete v-model="studentsData.education" :fetch-suggestions="querySearch"></el-autocomplete>
@@ -42,6 +54,14 @@
 export default {
   props: {
     addRow: {
+      type: Function,
+      default: null
+    },
+    rowIndex: {
+      type: Number,
+      default: null
+    },
+    saveEditUser: {
       type: Function,
       default: null
     }
@@ -82,13 +102,16 @@ export default {
       studentsData: {
         name: "",
         education: "",
+        studentsId: "",
         address: "",
         tel: "",
         email: "",
         experience: ""
       },
       rules: {
+        photo: [{ required: true, trigger: "blur" }],
         name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
+        studentsId: [{ required: true, trigger: "blur" }],
         education: [
           { required: true, message: "请输入学历", trigger: "change" }
         ],
@@ -101,7 +124,8 @@ export default {
         email: [{ validator: checkEmail, trigger: "blur", required: true }]
       },
       selectedu: [],
-      drawer: false
+      drawer: false,
+      isEdit: true
     };
   },
   mounted() {
@@ -114,6 +138,16 @@ export default {
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
+    },
+    onchange(file, fileList) {
+      let _this = this;
+      let event = event || window.event;
+      var file = event.target.files[0];
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        _this.imageUrl = e.target.result; //将图片路径赋值给src
+      };
+      reader.readAsDataURL(file);
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === "image/jpeg";
@@ -130,30 +164,28 @@ export default {
     submitData() {
       this.$confirm("确认提交？").then(() => {
         this.$store.dispatch("adduser", this.studentsData).then(() => {
-          this.addRow();
+          if (this.rowIndex >= 0) {
+            this.saveEditUser();
+          } else {
+            this.addRow();
+          }
           this.drawer = false;
-          this.studentsData = {
-            name: "",
-            education: "",
-            address: "",
-            tel: "",
-            email: "",
-            experience: ""
-          };
+          this.isEdit = true;
+          if (this.$refs["adduserform"] !== undefined) {
+            this.$refs["adduserform"].resetFields();
+          }
+          this.imageUrl = "";
         });
       });
     },
     handleClose() {
       this.$confirm("确认关闭？会失去未保存的工作").then(() => {
         this.drawer = false;
-        this.studentsData = {
-          name: "",
-          education: "",
-          address: "",
-          tel: "",
-          email: "",
-          experience: ""
-        };
+        this.isEdit = true;
+        if (this.$refs["adduserform"] !== undefined) {
+          this.$refs["adduserform"].resetFields();
+        }
+        this.imageUrl = "";
       });
     }
   }

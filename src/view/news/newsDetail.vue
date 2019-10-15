@@ -25,7 +25,9 @@ export default {
   },
   methods: {
     getNews() {
-      getData("news.json?id=" + this.$route.params.id).then(res => {
+      getData(
+        "http://47.103.210.8:8080/json_news?id=" + this.$route.params.id
+      ).then(res => {
         this.news = res.data.news;
         this.newsId = this.$route.params.id;
       });
