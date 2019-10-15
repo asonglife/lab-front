@@ -9,6 +9,9 @@ const mutations = {
   logout (state) {
     localStorage.removeItem('userInfo')
     state.userInfo = {}
-  } // 登出
+  }, // 登出
+  adduser (state, payload) {
+    state.studentsData = payload
+  }
 }
 export default mutations

@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     getNews() {
-      getData("news.json").then(res => {
+      getData("http://47.103.210.8:8080/json_news").then(res => {
         this.news = res.data.news;
       });
     },

@@ -18,7 +18,7 @@
     <el-table :data="tableData" style="width: 100%" :default-sort="{order: 'descending'}">
       <el-table-column type="selection" width="30" fixed></el-table-column>
       <el-table-column prop="name" label="姓名" width="120" fixed></el-table-column>
-      <el-table-column prop="grade" label="年级" sortable width="120"></el-table-column>
+      <el-table-column prop="education" label="学历" sortable width="120"></el-table-column>
       <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
       <el-table-column prop="tel" label="电话" width="180"></el-table-column>
       <el-table-column prop="address" label="地址" min-width="270"></el-table-column>
@@ -35,10 +35,7 @@
       </div>
       <el-pagination :page-size="100" layout="prev, pager, next, jumper" :total="1000"></el-pagination>
     </div>
-
-    <el-drawer :visible.sync="drawer" size="400px" :before-close="handleClose" class="form-drawer">
-      <adduser></adduser>
-    </el-drawer>
+    <adduser :addRow="addRow" ref="adduser"></adduser>
   </div>
 </template>
 
@@ -52,11 +49,10 @@ export default {
           email: "494083286@qq.com",
           address: "上海市普陀区金沙江路 1518 弄",
           name: "王小虎",
-          grade: "研一",
+          education: "研一",
           tel: "13628315056"
         }
-      ],
-      drawer: false
+      ]
     };
   },
   components: {
@@ -85,14 +81,17 @@ export default {
         });
     },
     addUser() {
-      this.drawer = true;
+      this.$refs.adduser.drawer = true;
     },
-    handleClose(done) {
-      this.$confirm("确认关闭？")
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
+    addRow() {
+      this.tableData.push({
+        name: this.$store.state.studentsData.name,
+        education: this.$store.state.studentsData.education,
+        address: this.$store.state.studentsData.address,
+        tel: this.$store.state.studentsData.tel,
+        email: this.$store.state.studentsData.email,
+        experience: this.$store.state.studentsData.experience
+      });
     }
   }
 };
