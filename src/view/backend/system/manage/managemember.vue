@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <p style="color:#a6e1f1;text-align:left">成员管理</p>
-    <el-slider disabled :show-tooltip="false"></el-slider>
+  <div class="managemember">
     <div class="toolbar" style="float:left; padding:18px;">
       <el-form :inline="true" size="small">
         <el-form-item>
@@ -108,15 +106,6 @@ export default {
         email: this.$refs.adduser.studentsData.email,
         experience: this.$refs.adduser.studentsData.experience
       });
-
-      //   name:this.$refs.adduser.studentsData.name,
-      //   education: this.$refs.adduser.studentsData.education,
-      //   studentsId: this.$refs.adduser.studentsData.studentsId,
-      //   address: this.$refs.adduser.studentsData.address,
-      //   tel: this.$refs.adduser.studentsData.tel,
-      //   email: this.$refs.adduser.studentsData.email,
-      //   experience: this.$refs.adduser.studentsData.experience
-      // });
       console.log(this.tableData[this.rowIndex]);
       this.rowIndex = -1;
     },

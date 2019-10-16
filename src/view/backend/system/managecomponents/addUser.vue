@@ -41,7 +41,7 @@
         <el-form-item label="电话" prop="tel" auto-complete="on">
           <el-input v-model="studentsData.tel"></el-input>
         </el-form-item>
-        <el-form-item label="个人经历" prop="experience">
+        <el-form-item label="个人经历" prop="experience" v-show="isEdit">
           <el-input type="textarea" v-model="studentsData.experience"></el-input>
         </el-form-item>
         <el-button class="submitclass" type="primary" plain @click="submitData">提交</el-button>
@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { sendData } from "api/getData.js";
 export default {
   props: {
     addRow: {
@@ -166,8 +167,20 @@ export default {
         this.$store.dispatch("adduser", this.studentsData).then(() => {
           if (this.rowIndex >= 0) {
             this.saveEditUser();
+            sendData(
+              "https://jsonplaceholder.typicode.com/posts/",
+              this.studentsData
+            ).then(res => {
+              console.log(res);
+            });
           } else {
             this.addRow();
+            sendData(
+              "https://jsonplaceholder.typicode.com/posts/",
+              this.studentsData
+            ).then(res => {
+              console.log(res);
+            });
           }
           this.drawer = false;
           this.isEdit = true;

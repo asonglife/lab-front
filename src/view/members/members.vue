@@ -32,7 +32,6 @@
 </template>
 <script>
 import { getData } from "api/getData.js";
-import axios from "axios";
 export default {
   data() {
     return {

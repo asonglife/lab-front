@@ -62,7 +62,6 @@ export default {
 
 <style lang="stylus" scoped>
 .el-header
-  background-color: rgb(16, 161, 152)
   color: #333
   text-align: center
 .el-aside
