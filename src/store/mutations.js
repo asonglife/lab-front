@@ -1,7 +1,4 @@
 const mutations = {
-  ON_HTTP_ERR (state, payload) {
-    state.httpErr = payload
-  },
   login (state, payload) {
     localStorage.setItem('userInfo', JSON.stringify(payload))
     state.userInfo = payload

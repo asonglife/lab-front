@@ -12,9 +12,9 @@
         <el-form-item label="照片" prop="photo" v-show="isEdit">
           <el-upload
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
+            action
             :before-upload="beforeAvatarUpload"
             :on-change="onchange"
             :auto-upload="false"
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { sendData } from "api/getData.js";
+import { getData } from "api/getData.js";
 export default {
   props: {
     addRow: {
@@ -126,7 +126,8 @@ export default {
       },
       selectedu: [],
       drawer: false,
-      isEdit: true
+      isEdit: true,
+      subtimeOut: ""
     };
   },
   mounted() {
@@ -167,27 +168,32 @@ export default {
         this.$store.dispatch("adduser", this.studentsData).then(() => {
           if (this.rowIndex >= 0) {
             this.saveEditUser();
-            sendData(
+            getData(
               "https://jsonplaceholder.typicode.com/posts/",
               this.studentsData
             ).then(res => {
+              this.subtimeOut = res.request.timeout;
+              console.log(this.subtimeOut);
               console.log(res);
             });
           } else {
             this.addRow();
-            sendData(
+            getData(
               "https://jsonplaceholder.typicode.com/posts/",
               this.studentsData
             ).then(res => {
+              this.subtimeOut = res.request.timeout;
               console.log(res);
             });
           }
-          this.drawer = false;
-          this.isEdit = true;
-          if (this.$refs["adduserform"] !== undefined) {
-            this.$refs["adduserform"].resetFields();
-          }
-          this.imageUrl = "";
+          setTimeout(() => {
+            this.drawer = false;
+            this.isEdit = true;
+            if (this.$refs.adduserform !== undefined) {
+              this.$refs.adduserform.resetFields();
+            }
+            this.imageUrl = "";
+          }, this.subtimeOut + 100);
         });
       });
     },
@@ -195,8 +201,8 @@ export default {
       this.$confirm("确认关闭？会失去未保存的工作").then(() => {
         this.drawer = false;
         this.isEdit = true;
-        if (this.$refs["adduserform"] !== undefined) {
-          this.$refs["adduserform"].resetFields();
+        if (this.$refs.adduserform !== undefined) {
+          this.$refs.adduserform.resetFields();
         }
         this.imageUrl = "";
       });

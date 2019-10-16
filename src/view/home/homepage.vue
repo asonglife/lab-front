@@ -27,11 +27,6 @@ export default {
   components: {
     Swiper
   },
-  computed: {
-    httpErr() {
-      return this.$store.state.httpErr;
-    }
-  },
   mounted() {
     this.getLabMessage();
   },
