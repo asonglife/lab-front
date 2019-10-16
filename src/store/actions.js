@@ -4,9 +4,6 @@ const actions = {
   },
   logout (context) {
     context.commit('logout')
-  },
-  adduser (context, payload) {
-    context.commit('adduser', payload)
   }
 }
 export default actions

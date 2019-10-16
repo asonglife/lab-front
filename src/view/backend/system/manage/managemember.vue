@@ -27,7 +27,7 @@
       <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
       <el-table-column prop="tel" label="电话" width="180"></el-table-column>
       <el-table-column prop="address" label="地址" :show-overflow-tooltip="true" width="260"></el-table-column>
-      <el-table-column label="操作" width="180">
+      <el-table-column label="操作" min-width="180">
         <template slot-scope="scope">
           <el-button size="mini" @click="editUser(scope.$index,tableData)">编辑</el-button>
           <el-button size="mini" type="danger" @click="deleteUser(scope.$index,tableData)">删除</el-button>
@@ -111,13 +111,13 @@ export default {
     },
     addRow() {
       this.tableData.push({
-        name: this.$store.state.studentsData.name,
-        education: this.$store.state.studentsData.education,
-        studentsId: this.$store.state.studentsData.studentsId,
-        address: this.$store.state.studentsData.address,
-        tel: this.$store.state.studentsData.tel,
-        email: this.$store.state.studentsData.email,
-        experience: this.$store.state.studentsData.experience
+        name: this.$refs.adduser.studentsData.name,
+        education: this.$refs.adduser.studentsData.education,
+        studentsId: this.$refs.adduser.studentsData.studentsId,
+        address: this.$refs.adduser.studentsData.address,
+        tel: this.$refs.adduser.studentsData.tel,
+        email: this.$refs.adduser.studentsData.email,
+        experience: this.$refs.adduser.studentsData.experience
       });
     }
   }

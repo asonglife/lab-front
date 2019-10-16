@@ -118,8 +118,7 @@ export default {
         ],
         address: [{ required: true, message: "请输入地址", trigger: "blur" }],
         experience: [
-          { required: true, message: "请输入个人经历", trigger: "blur" },
-          { min: 50, message: "不少于50字", trigger: "blur" }
+          { required: true, message: "请输入个人经历", trigger: "blur" }
         ],
         tel: [{ required: true, validator: checktel, trigger: "blur" }],
         email: [{ validator: checkEmail, trigger: "blur", required: true }]
@@ -165,36 +164,34 @@ export default {
     },
     submitData() {
       this.$confirm("确认提交？").then(() => {
-        this.$store.dispatch("adduser", this.studentsData).then(() => {
-          if (this.rowIndex >= 0) {
-            this.saveEditUser();
-            getData(
-              "https://jsonplaceholder.typicode.com/posts/",
-              this.studentsData
-            ).then(res => {
-              this.subtimeOut = res.request.timeout;
-              console.log(this.subtimeOut);
-              console.log(res);
-            });
-          } else {
-            this.addRow();
-            getData(
-              "https://jsonplaceholder.typicode.com/posts/",
-              this.studentsData
-            ).then(res => {
-              this.subtimeOut = res.request.timeout;
-              console.log(res);
-            });
+        if (this.rowIndex >= 0) {
+          this.saveEditUser();
+          getData(
+            "https://jsonplaceholder.typicode.com/posts/",
+            this.studentsData
+          ).then(res => {
+            this.subtimeOut = res.request.timeout;
+            console.log(this.subtimeOut);
+            console.log(res);
+          });
+        } else {
+          this.addRow();
+          getData(
+            "https://jsonplaceholder.typicode.com/posts/",
+            this.studentsData
+          ).then(res => {
+            this.subtimeOut = res.request.timeout;
+            console.log(res);
+          });
+        }
+        setTimeout(() => {
+          this.drawer = false;
+          this.isEdit = true;
+          if (this.$refs.adduserform !== undefined) {
+            this.$refs.adduserform.resetFields();
           }
-          setTimeout(() => {
-            this.drawer = false;
-            this.isEdit = true;
-            if (this.$refs.adduserform !== undefined) {
-              this.$refs.adduserform.resetFields();
-            }
-            this.imageUrl = "";
-          }, this.subtimeOut + 100);
-        });
+          this.imageUrl = "";
+        }, this.subtimeOut + 100);
       });
     },
     handleClose() {
