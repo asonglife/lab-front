@@ -68,28 +68,46 @@ export default new Router({
     children: [{
       path: 'managemember',
       name: 'Managemember',
-      component: Managemember
+      component: Managemember,
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: 'managenews',
       name: 'Managenews',
-      component: Managenews
+      component: Managenews,
+      meta: {
+        requireAuth: true
+      }
     }, {
       path: 'uploadnews',
       name: 'Uploadnews',
-      component: Uploadnews
+      component: Uploadnews,
+      meta: {
+        requireAuth: true
+      }
     }, {
       path: 'managecaptial',
       name: 'Managecaptial',
-      component: Managecaptial
+      component: Managecaptial,
+      meta: {
+        requireAuth: true
+      }
     }, {
       path: 'personalcenter',
       name: 'Personalcenter',
-      component: Personalcenter
+      component: Personalcenter,
+      meta: {
+        requireAuth: true
+      }
     }, {
       path: 'captialgraph',
       name: 'Captialgraph',
-      component: Captialgraph
+      component: Captialgraph,
+      meta: {
+        requireAuth: true
+      }
     }
     ]
   }, {

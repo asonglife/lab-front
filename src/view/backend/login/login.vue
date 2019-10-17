@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { getData } from "api/getData.js";
+import { postData } from "api/postData.js";
 import md5 from "js-md5";
 export default {
   data() {
@@ -43,7 +43,7 @@ export default {
     login() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          getData("http://47.103.210.8:8080/json_lab", {
+          postData("http://47.103.210.8:8080/login", {
             username: this.user.name,
             password: md5(this.user.pass)
           }).then(res => {

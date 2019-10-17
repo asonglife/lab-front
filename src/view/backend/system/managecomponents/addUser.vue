@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { getData } from "api/getData.js";
+import { postData } from "api/postData.js";
 export default {
   props: {
     addRow: {
@@ -166,7 +166,7 @@ export default {
       this.$confirm("确认提交？").then(() => {
         if (this.rowIndex >= 0) {
           this.saveEditUser();
-          getData(
+          postData(
             "https://jsonplaceholder.typicode.com/posts/",
             this.studentsData
           ).then(res => {
@@ -176,7 +176,7 @@ export default {
           });
         } else {
           this.addRow();
-          getData(
+          postData(
             "https://jsonplaceholder.typicode.com/posts/",
             this.studentsData
           ).then(res => {

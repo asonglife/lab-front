@@ -1,8 +1,18 @@
-import service from 'api/service.js'
-export function getData (apiRoute, sentData) {
-  return service({
-    url: apiRoute,
-    method: 'post',
-    data: sentData
+import axios from 'axios'
+const getService = axios.create({
+  baseURL: ''
+})
+getService.interceptors.response.use(
+  function (response) {
+    return Promise.resolve(response)
+  },
+  function (error) {
+    return Promise.reject(error)
+  }
+)
+export function getData (apiroute) {
+  return getService({
+    url: apiroute,
+    method: 'get'
   })
 }

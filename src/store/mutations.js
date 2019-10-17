@@ -1,11 +1,17 @@
 const mutations = {
-  login (state, payload) {
+  _setToken (state, payload) {
+    localStorage.setItem('token', JSON.stringify(payload))
+    state.token = payload
+  },
+  _removeToken (state) {
+    localStorage.removeItem(state.token)
+  },
+  _setUserInfo (state, payload) {
     localStorage.setItem('userInfo', JSON.stringify(payload))
     state.userInfo = payload
-  }, // 登入
-  logout (state) {
+  },
+  _removeUserInfo (state) {
     localStorage.removeItem('userInfo')
-    state.userInfo = {}
   }
 }
 export default mutations

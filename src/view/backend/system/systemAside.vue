@@ -21,11 +21,11 @@
 
       <el-menu-item index="3-1" style="padding-left:4em">
         <i class="el-icon-document"></i>
-        <span slot="title">资产详情</span>
+        <span slot="title">资产登记</span>
       </el-menu-item>
       <el-menu-item index="3-2" style="padding-left:4em">
         <i class="el-icon-upload"></i>
-        <span slot="title">账单统计</span>
+        <span slot="title">资产统计</span>
       </el-menu-item>
     </el-submenu>
     <el-submenu index="4">
@@ -56,6 +56,14 @@ export default {
     return {
       systemIndex: "2"
     };
+  },
+  mounted() {
+    let name = this.$route.name;
+    switch (name) {
+      default:
+        this.$router.replace({ name: "Managemember" });
+        break;
+    }
   },
   methods: {
     handleSelect(key, keyPath) {

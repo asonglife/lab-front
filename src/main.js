@@ -10,7 +10,8 @@ import store from '@/store/index.js'
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 Vue.use(ElementUI)
-/* eslint-disable no-new */
+
+// eslint-disable-next-line no-new
 new Vue({
   el: '#app',
   router,
