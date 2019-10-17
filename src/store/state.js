@@ -6,11 +6,8 @@ function initUserInfo () {
   return {}
 }
 const state = {
-  httpErr: {
-    hasErr: false,
-    status: '',
-    statusText: ''
-  },
-  userInfo: initUserInfo()
+  isLogin: '0',
+  userInfo: initUserInfo(),
+  token: ''
 }
 export default state

@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     getLabMessage() {
-      getData(" http://localhost:8081/static/json/lab.json").then(res => {
+      getData("http://47.103.210.8:8080/json_lab").then(res => {
         this.labIntroduction = res.data.labIntroduction;
         this.labDirection = res.data.labDirection;
         this.labImage = res.data.labImage;

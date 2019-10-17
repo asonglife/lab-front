@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import { getData } from "api/getData.js";
+import md5 from "js-md5";
 export default {
   data() {
     return {
@@ -41,24 +43,16 @@ export default {
     login() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          if (this.user.name === "admin123" && this.user.pass == "123456") {
-            this.$store.dispatch("login", this.user).then(() => {
-              this.$notify({
-                type: "success",
-                message: "welcome," + this.user.name + "!",
-                duration: 3000
-              });
-              this.$router.replace("/");
-            });
-          } else {
-            this.$message({
-              type: "error",
-              message: "用户名或密码错误",
-              showClose: true
-            });
-          }
-        } else {
-          return false;
+          getData("http://47.103.210.8:8080/json_lab", {
+            username: this.user.name,
+            password: md5(this.user.pass)
+          }).then(res => {
+            if (res.status == 200) {
+              console.log(res);
+            } else {
+              this.$message.error("密码错误");
+            }
+          });
         }
       });
     }
