@@ -41,16 +41,19 @@ export default {
       this.$router.push({ path: "/homepage" });
     },
     login() {
+      let _this = this;
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           postData("http://47.103.210.8:8080/login", {
-            username: this.user.name,
-            password: md5(this.user.pass)
+            username: _this.user.name,
+            password: md5(_this.user.pass)
           }).then(res => {
-            if (res.status == 200) {
+            if (res.status === 200) {
+              let token = res.headers.token;
+              let userInfo = res.data;
+              this.$store.dispatch("_setToken", token);
+              this.$store.dispatch("_setUserInfo", userInfo);
               console.log(res);
-            } else {
-              this.$message.error("密码错误");
             }
           });
         }

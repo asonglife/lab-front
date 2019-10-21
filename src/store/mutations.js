@@ -11,7 +11,7 @@ const mutations = {
     state.userInfo = payload
   },
   _removeUserInfo (state) {
-    localStorage.removeItem('userInfo')
+    localStorage.removeItem(state.userInfo)
   }
 }
 export default mutations

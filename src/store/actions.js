@@ -1,9 +1,15 @@
 const actions = {
-  login (context, payload) {
-    context.commit('login', payload)
+  _setToken (context, payload) {
+    context.commit('_setToken', payload)
   },
-  logout (context) {
-    context.commit('logout')
+  _removeToken (context) {
+    context.commit('_removeToken')
+  },
+  _setUserInfo (context, payload) {
+    context.commit('_setUserInfo', payload)
+  },
+  _removeUserInfo (context) {
+    context.context('_removeUserInfo')
   }
 }
 export default actions
