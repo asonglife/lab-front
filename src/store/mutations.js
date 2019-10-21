@@ -4,14 +4,16 @@ const mutations = {
     state.token = payload
   },
   _removeToken (state) {
-    localStorage.removeItem(state.token)
+    localStorage.removeItem('token')
+    state.token = ''
   },
   _setUserInfo (state, payload) {
     localStorage.setItem('userInfo', JSON.stringify(payload))
     state.userInfo = payload
   },
   _removeUserInfo (state) {
-    localStorage.removeItem(state.userInfo)
+    localStorage.removeItem('userInfo')
+    state.userInfo = {}
   }
 }
 export default mutations

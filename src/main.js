@@ -10,6 +10,31 @@ import store from '@/store/index.js'
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(m => m.meta.requireAuth)) {
+    if (window.localStorage.token) {
+      next()
+    } else if (to.path !== '/login') {
+      let token = window.localStorage.token
+      if (token === '' || token === undefined || token === null) {
+        next({
+          name: 'Login'
+        })
+        this.$message({
+          type: 'error',
+          message: '请登录后再访问',
+          showClose: true
+        })
+      } else {
+        next()
+      }
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
 
 // eslint-disable-next-line no-new
 new Vue({

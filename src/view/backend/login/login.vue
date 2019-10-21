@@ -51,9 +51,16 @@ export default {
             if (res.status === 200) {
               let token = res.headers.token;
               let userInfo = res.data;
-              this.$store.dispatch("_setToken", token);
-              this.$store.dispatch("_setUserInfo", userInfo);
-              console.log(res);
+              this.$store.dispatch("_setToken", token).then(
+                this.$store.dispatch("_setUserInfo", userInfo).then(() => {
+                  this.$notify({
+                    type: "success",
+                    message: "欢迎你，" + userInfo.name,
+                    duration: 3000
+                  });
+                  this.$router.push({ name: "Managemember" });
+                })
+              );
             }
           });
         }

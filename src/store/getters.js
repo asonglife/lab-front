@@ -5,8 +5,11 @@ const getters = {
     }
     return state.token
   },
-  getuserStatus (state) {
+  getUserStatus (state) {
     return state.isManager
+  },
+  getUserInfo (state) {
+    return state.userInfo
   }
 
 }

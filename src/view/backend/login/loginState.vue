@@ -15,12 +15,12 @@
 export default {
   data() {
     return {
-      username: this.$store.state.userInfo.name
+      username: this.$store.getters.getUserInfo.name
     };
   },
   methods: {
     loginState() {
-      let userInfo = this.$store.state.userInfo;
+      let userInfo = this.$store.getters.getUserInfo;
       for (let key in userInfo) {
         return true;
       }
@@ -28,10 +28,13 @@ export default {
     },
     goLogin() {
       this.$router.push({ name: "Login" });
+      console.log(this.$store.getters.getUserInfo);
     },
     loginOut() {
-      this.$store.dispatch("logout").then(() => {
-        this.$router.replace("/login");
+      this.$store.dispatch("_removeToken").then(() => {
+        this.$store.dispatch("_removeUserInfo").then(() => {
+          this.$router.push("/login");
+        });
       });
     }
   },

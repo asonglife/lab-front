@@ -9,7 +9,7 @@ const actions = {
     context.commit('_setUserInfo', payload)
   },
   _removeUserInfo (context) {
-    context.context('_removeUserInfo')
+    context.commit('_removeUserInfo')
   }
 }
 export default actions
