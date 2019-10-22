@@ -20,13 +20,13 @@
       :stripe="true"
       header-align="center"
     >
-      <el-table-column type="selection" width="70"></el-table-column>
-      <el-table-column prop="name" label="姓名" width="100"></el-table-column>
-      <el-table-column prop="studentsId" label="学号" sortable width="180"></el-table-column>
-      <el-table-column prop="education" label="学历" width="100"></el-table-column>
-      <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
+      <el-table-column type="selection" min-width="70"></el-table-column>
+      <el-table-column prop="name" label="姓名" min-width="100"></el-table-column>
+      <el-table-column prop="studentsId" label="学号" sortable min-width="180"></el-table-column>
+      <el-table-column prop="education" label="学历" min-width="100"></el-table-column>
+      <el-table-column prop="email" label="邮箱" min-width="180"></el-table-column>
       <el-table-column prop="tel" label="电话" width="180"></el-table-column>
-      <el-table-column prop="address" label="地址" :show-overflow-tooltip="true" width="260"></el-table-column>
+      <el-table-column prop="address" label="地址" :show-overflow-tooltip="true" min-width="260"></el-table-column>
       <el-table-column label="操作" min-width="180">
         <template slot-scope="scope">
           <el-button size="mini" @click="editUser(scope.$index,tableData)">编辑</el-button>

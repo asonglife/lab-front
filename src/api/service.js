@@ -1,11 +1,12 @@
 import axios from 'axios'
 import store from '@/store/index.js'
+import router from '@/router/index.js'
 const service = axios.create({
   baseURL: ''
 })
 service.interceptors.request.use(
   function (config) {
-    if (store.state.token) {
+    if (store.state.token !== null && store.state.token !== '' && store.state.token !== undefined) {
       config.headers.post['token'] = store.state.token
     }
     return Promise.resolve(config)
@@ -17,6 +18,14 @@ service.interceptors.request.use(
 )
 service.interceptors.response.use(
   function (response) {
+    if (response.headers.token === '11' || response.headers.token === '12' || response.headers.token === '13') {
+      store.dispatch('_removeToken').then(() => {
+        store.dispatch('_removeUserInfo').then(() => {
+          router.push('/login')
+        })
+      })
+    }
+
     return Promise.resolve(response)
   },
   function (error) {

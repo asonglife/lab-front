@@ -162,22 +162,20 @@ export default {
       this.$confirm("确认提交？").then(() => {
         if (this.rowIndex >= 0) {
           this.saveEditUser();
-          postData(
-            "https://jsonplaceholder.typicode.com/posts/",
-            this.studentsData
-          ).then(res => {
-            this.subtimeOut = res.request.timeout;
-            console.log(res);
-          });
+          postData("http://47.103.210.8:8080/login", this.studentsData).then(
+            res => {
+              this.subtimeOut = res.request.timeout;
+              console.log(res);
+            }
+          );
         } else {
           this.addRow();
-          postData(
-            "https://jsonplaceholder.typicode.com/posts/",
-            this.studentsData
-          ).then(res => {
-            this.subtimeOut = res.request.timeout;
-            console.log(res);
-          });
+          postData("http://47.103.210.8:8080/login", this.studentsData).then(
+            res => {
+              this.subtimeOut = res.request.timeout;
+              console.log(res);
+            }
+          );
         }
         setTimeout(() => {
           this.drawer = false;
