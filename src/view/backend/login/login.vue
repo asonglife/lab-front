@@ -48,7 +48,8 @@ export default {
             username: _this.user.name,
             password: md5(_this.user.pass)
           }).then(res => {
-            if (res.status === 200) {
+            if (res.status === 200 && res.data.status === true) {
+              console.log(res);
               let token = res.headers.token;
               let userInfo = res.data;
               this.$store.dispatch("_setToken", token).then(
@@ -61,6 +62,12 @@ export default {
                   this.$router.push({ name: "Managemember" });
                 })
               );
+            } else {
+              this.$message({
+                type: "error",
+                message: "密码或用户名错误",
+                duration: 3000
+              });
             }
           });
         }

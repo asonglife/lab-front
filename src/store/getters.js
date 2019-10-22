@@ -1,7 +1,7 @@
 const getters = {
   getStorage (state) {
     if (!state.token) {
-      state.token = JSON.stringify(localStorage.getItem('token'))
+      state.token = localStorage.getItem('token')
     }
     return state.token
   },

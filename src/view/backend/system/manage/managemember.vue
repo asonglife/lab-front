@@ -85,7 +85,6 @@ export default {
       this.rowIndex = index;
       console.log(typeof this.rowIndex);
       this.$refs.adduser.drawer = true;
-      this.$refs.adduser.isEdit = false;
       this.$refs.adduser.studentsData = {
         name: rowdata[index].name,
         education: rowdata[index].education,

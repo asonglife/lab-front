@@ -20,7 +20,7 @@ router.beforeEach((to, from, next) => {
         next({
           name: 'Login'
         })
-        this.$message({
+        Vue.prototype.$message({
           type: 'error',
           message: '请登录后再访问',
           showClose: true

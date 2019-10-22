@@ -51,7 +51,7 @@ export default {
         case "5":
           this.$router.push({ name: "Personalcenter" });
           break;
-        default:
+        case "2":
           this.$router.replace({ name: "Managemember" });
           break;
       }

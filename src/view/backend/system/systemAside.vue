@@ -60,8 +60,29 @@ export default {
   mounted() {
     let name = this.$route.name;
     switch (name) {
-      default:
+      case "Managemember":
         this.$router.replace({ name: "Managemember" });
+        this.systemIndex = "2";
+        break;
+      case "Managenews":
+        this.$router.replace({ name: "Managenews" });
+        this.systemIndex = "4-1";
+        break;
+      case "Uploadnews":
+        this.$router.replace({ name: "Uploadnews" });
+        this.systemIndex = "4-2";
+        break;
+      case "Managecaptial":
+        this.$router.replace({ name: "Managecaptial" });
+        this.systemIndex = "3-1";
+        break;
+      case "Captialgraph":
+        this.$router.replace({ name: "Captialgraph" });
+        this.systemIndex = "3-2";
+        break;
+      case "Personalcenter":
+        this.$router.replace({ name: "Personalcenter" });
+        this.systemIndex = "5";
         break;
     }
   },

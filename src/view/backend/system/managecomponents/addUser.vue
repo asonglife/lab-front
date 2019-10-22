@@ -9,7 +9,7 @@
   >
     <div class="adduser">
       <el-form ref="adduserform" :model="studentsData" label-width="100px" :rules="rules">
-        <el-form-item label="照片" prop="photo" v-show="isEdit">
+        <el-form-item label="照片" prop="photo">
           <el-upload
             class="avatar-uploader"
             :show-file-list="false"
@@ -30,7 +30,11 @@
           <el-input v-model="studentsData.studentsId"></el-input>
         </el-form-item>
         <el-form-item label="学历" prop="education">
-          <el-autocomplete v-model="studentsData.education" :fetch-suggestions="querySearch"></el-autocomplete>
+          <el-select v-model="studentsData.education" placeholder="请选择学历">
+            <el-option label="本科" value="本科"></el-option>
+            <el-option label="硕士" value="硕士"></el-option>
+            <el-option label="博士" value="博士"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="地址" prop="address" auto-complete="on">
           <el-input v-model="studentsData.address"></el-input>
@@ -41,7 +45,7 @@
         <el-form-item label="电话" prop="tel" auto-complete="on">
           <el-input v-model="studentsData.tel"></el-input>
         </el-form-item>
-        <el-form-item label="个人经历" prop="experience" v-show="isEdit">
+        <el-form-item label="个人经历" prop="experience">
           <el-input type="textarea" v-model="studentsData.experience"></el-input>
         </el-form-item>
         <el-button class="submitclass" type="primary" plain @click="submitData">提交</el-button>
@@ -123,20 +127,12 @@ export default {
         tel: [{ required: true, validator: checktel, trigger: "blur" }],
         email: [{ validator: checkEmail, trigger: "blur", required: true }]
       },
-      selectedu: [],
       drawer: false,
-      isEdit: true,
+
       subtimeOut: ""
     };
   },
-  mounted() {
-    this.selectedu = [{ value: "本科" }, { value: "硕士" }, { value: "博士" }];
-  },
   methods: {
-    querySearch(queryString, cb) {
-      var selectedu = this.selectedu;
-      cb(selectedu);
-    },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
     },
@@ -171,7 +167,6 @@ export default {
             this.studentsData
           ).then(res => {
             this.subtimeOut = res.request.timeout;
-            console.log(this.subtimeOut);
             console.log(res);
           });
         } else {

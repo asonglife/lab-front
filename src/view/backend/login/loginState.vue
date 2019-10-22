@@ -28,7 +28,6 @@ export default {
     },
     goLogin() {
       this.$router.push({ name: "Login" });
-      console.log(this.$store.getters.getUserInfo);
     },
     loginOut() {
       this.$store.dispatch("_removeToken").then(() => {

@@ -1,12 +1,33 @@
 
    <template>
-  <div class="captial">
-    <el-table :data="tableData" stripe style="width: 60%">
-      <el-table-column prop="date" label="日期" width="180"></el-table-column>
-      <el-table-column prop="name" label="姓名" width="180"></el-table-column>
-      <el-table-column prop="address" label="地址" :show-overflow-tooltip="true"></el-table-column>
-    </el-table>
-  </div>
+  <el-container>
+    <el-main style="border-right:solid 1px #a6e1f1">
+      <el-table :data="tableData" stripe>
+        <el-table-column prop="date" label="登记项目" width="180"></el-table-column>
+        <el-table-column prop="name" label="登记金额" width="180"></el-table-column>
+        <el-table-column prop="name" label="登记时间" width="180"></el-table-column>
+        <el-table-column prop="name" label="登记人" width="180"></el-table-column>
+        <el-table-column prop="address" label="备注" :show-overflow-tooltip="true"></el-table-column>
+      </el-table>
+    </el-main>
+    <el-aside width="250px" style="padding:18px">
+      <el-form>
+        <el-form-item>
+          <el-input placeholder="登记项目"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input placeholder="登记金额"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input placeholder="登记人"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input placeholder="备注"></el-input>
+        </el-form-item>
+        <el-button type="primary" plain>提交</el-button>
+      </el-form>
+    </el-aside>
+  </el-container>
 </template>
 
 <script>
