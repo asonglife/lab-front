@@ -13,14 +13,13 @@
           <el-upload
             class="avatar-uploader"
             :show-file-list="false"
-            :on-success="handleAvatarSuccess"
             action
-            :before-upload="beforeAvatarUpload"
-            :on-change="onchange"
             :auto-upload="false"
+            :on-change="onchange"
+            accept="image/png, image/gif, image/jpg, image/jpeg"
           >
             <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <i v-else class="el-icon-upload avatar-uploader-icon">上传照片</i>
           </el-upload>
         </el-form-item>
         <el-form-item label="姓名" prop="name" placeholder>
@@ -105,6 +104,7 @@ export default {
     return {
       imageUrl: "",
       studentsData: {
+        photo: "",
         name: "",
         education: "",
         studentsId: "",
@@ -114,9 +114,11 @@ export default {
         experience: ""
       },
       rules: {
-        photo: [{ required: true, trigger: "blur" }],
+        photo: [{ required: true, message: "请上传个人照片", trigger: "blur" }],
         name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
-        studentsId: [{ required: true, trigger: "blur" }],
+        studentsId: [
+          { required: true, message: "请输入学号", trigger: "blur" }
+        ],
         education: [
           { required: true, message: "请输入学历", trigger: "change" }
         ],
@@ -133,9 +135,6 @@ export default {
     };
   },
   methods: {
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
-    },
     onchange(file, fileList) {
       let _this = this;
       let event = event || window.event;
@@ -143,48 +142,39 @@ export default {
       var reader = new FileReader();
       reader.onload = function(e) {
         _this.imageUrl = e.target.result; //将图片路径赋值给src
+        _this.studentsData.photo = _this.imageUrl;
       };
       reader.readAsDataURL(file);
     },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
-      }
-      if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
-      }
-      return isJPG && isLt2M;
-    },
     submitData() {
-      this.$confirm("确认提交？").then(() => {
-        if (this.rowIndex >= 0) {
-          this.saveEditUser();
-          postData("http://47.103.210.8:8080/login", this.studentsData).then(
-            res => {
-              this.subtimeOut = res.request.timeout;
-              console.log(res);
+      this.$refs.adduserform.validate(valid => {
+        if (valid) {
+          this.$confirm("确认提交？").then(() => {
+            if (this.rowIndex >= 0) {
+              this.saveEditUser();
+              postData("http://47.103.210.8:8080/login", this.studentsData, {
+                "Content-Type": "application/json"
+              }).then(res => {
+                this.subtimeOut = res.request.timeout;
+              });
+            } else {
+              this.addRow();
+              postData("http://47.103.210.8:8080/login", this.studentsData, {
+                "Content-Type": "application/json"
+              }).then(res => {
+                this.subtimeOut = res.request.timeout;
+              });
             }
-          );
-        } else {
-          this.addRow();
-          postData("http://47.103.210.8:8080/login", this.studentsData).then(
-            res => {
-              this.subtimeOut = res.request.timeout;
-              console.log(res);
-            }
-          );
+            setTimeout(() => {
+              this.drawer = false;
+              this.isEdit = true;
+              if (this.$refs.adduserform !== undefined) {
+                this.$refs.adduserform.resetFields();
+              }
+              this.imageUrl = "";
+            }, this.subtimeOut + 100);
+          });
         }
-        setTimeout(() => {
-          this.drawer = false;
-          this.isEdit = true;
-          if (this.$refs.adduserform !== undefined) {
-            this.$refs.adduserform.resetFields();
-          }
-          this.imageUrl = "";
-        }, this.subtimeOut + 100);
       });
     },
     handleClose() {
@@ -211,15 +201,15 @@ export default {
 .avatar-uploader .el-upload:hover
   border-color: #409eff
 .avatar-uploader-icon
-  font-size: 28px
+  font-size: 16px
   color: #8c939d
-  width: 178px
-  height: 178px
-  line-height: 178px
+  width: 150px
+  height: 150px
+  line-height: 150px
   text-align: center
 .avatar
-  width: 178px
-  height: 178px
+  width: 150px
+  height: 150px
   display: block
 .adduser
   display: flex
@@ -236,5 +226,5 @@ export default {
   margin-left: 55%
   margin-top: 12px
 .adduser>>>.el-upload
-  border: solid 0.5px greenyellow
+  border: dashed 1px #99a9bf
 </style>

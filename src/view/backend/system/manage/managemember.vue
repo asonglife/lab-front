@@ -83,9 +83,9 @@ export default {
     },
     editUser(index, rowdata) {
       this.rowIndex = index;
-      console.log(typeof this.rowIndex);
       this.$refs.adduser.drawer = true;
       this.$refs.adduser.studentsData = {
+        photo: rowdata[index].photo,
         name: rowdata[index].name,
         education: rowdata[index].education,
         studentsId: rowdata[index].studentsId,
@@ -97,6 +97,7 @@ export default {
     },
     saveEditUser() {
       this.$set(this.tableData, this.rowIndex, {
+        photo: this.$refs.adduser.studentsData.photo,
         name: this.$refs.adduser.studentsData.name,
         education: this.$refs.adduser.studentsData.education,
         studentsId: this.$refs.adduser.studentsData.studentsId,
@@ -110,6 +111,7 @@ export default {
     },
     addRow() {
       this.tableData.push({
+        photo: this.$refs.adduser.studentsData.photo,
         name: this.$refs.adduser.studentsData.name,
         education: this.$refs.adduser.studentsData.education,
         studentsId: this.$refs.adduser.studentsData.studentsId,

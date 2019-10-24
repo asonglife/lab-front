@@ -65,6 +65,9 @@ export default new Router({
     path: '/backend',
     name: 'Backend',
     component: Backend,
+    meta: {
+      requireAuth: true
+    },
     children: [{
       path: 'managemember',
       name: 'Managemember',
