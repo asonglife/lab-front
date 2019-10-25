@@ -20,6 +20,7 @@
 import systemHeader from "view/backend/system/systemHeader.vue";
 import systemAside from "view/backend/system/systemAside.vue";
 import systemMain from "view/backend/system/systemMain.vue";
+
 export default {
   components: {
     systemHeader,
@@ -72,4 +73,5 @@ export default {
   background-color: #ffffff
   color: #333
   text-align: center
+  padding: 0
 </style>

@@ -1,51 +1,49 @@
 <template>
   <div class="managemember">
-    <div class="toolbar" style="float:left; padding:18px;">
-      <el-form :inline="true" size="small">
-        <el-form-item>
-          <el-input placeholder="姓名"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="findUser()">查询</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="success" @click="addUser()">新增</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
-    <el-table
-      :data="tableData"
-      style="width: 100%"
-      :default-sort="{order: 'descending'}"
-      :stripe="true"
-      header-align="center"
-    >
-      <el-table-column type="selection" width="70"></el-table-column>
-      <el-table-column prop="name" label="姓名" min-width="100"></el-table-column>
-      <el-table-column prop="studentsId" label="学号" min-width="180"></el-table-column>
-      <el-table-column prop="education" label="学历" min-width="100"></el-table-column>
-      <el-table-column prop="email" label="邮箱" min-width="180"></el-table-column>
-      <el-table-column prop="tel" label="电话" min-width="180"></el-table-column>
-      <el-table-column prop="address" label="地址" :show-overflow-tooltip="true" min-width="260"></el-table-column>
-      <el-table-column label="操作" min-width="180">
-        <template slot-scope="scope">
-          <el-button size="mini" @click="editUser(scope.$index,tableData)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="deleteUser(scope.$index,tableData)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <div class="pagination">
-      <div style="float:left;">
-        <el-button size="mini" type="danger">批量删除</el-button>
+    <routerbread></routerbread>
+    <el-main>
+      <div class="toolbar" style="float:right;">
+        <el-form :inline="true" size="small">
+          <el-form-item>
+            <el-input placeholder="姓名"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="findUser()">查询</el-button>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="success" @click="addUser()">新增</el-button>
+          </el-form-item>
+        </el-form>
       </div>
-      <el-pagination :page-size="100" layout="prev, pager, next, jumper" :total="1000"></el-pagination>
-    </div>
+      <el-table :data="tableData" style="width: 100%" :stripe="true" header-align="center" border>
+        <el-table-column type="selection" width="70"></el-table-column>
+        <el-table-column prop="name" label="姓名" width="100"></el-table-column>
+        <el-table-column prop="studentsId" label="学号" width="180"></el-table-column>
+        <el-table-column prop="education" label="学历" width="100"></el-table-column>
+        <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
+        <el-table-column prop="tel" label="电话" width="180"></el-table-column>
+        <el-table-column prop="address" label="地址" :show-overflow-tooltip="true" width="260"></el-table-column>
+        <el-table-column label="操作" min-width="180">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="editUser(scope.$index,tableData)">编辑</el-button>
+            <el-button size="mini" type="danger" @click="deleteUser(scope.$index,tableData)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="pagination">
+        <div style="float:left;">
+          <el-button size="mini" type="danger">批量删除</el-button>
+        </div>
+        <el-pagination :page-size="100" layout="prev, pager, next, jumper" :total="1000"></el-pagination>
+      </div>
+    </el-main>
     <adduser :addRow="addRow" :rowIndex="rowIndex" :saveEditUser="saveEditUser" ref="adduser"></adduser>
   </div>
 </template>
 
 <script>
 import Adduser from "view/backend/system/managecomponents/addUser.vue";
+import Routerbread from "view/backend/system/managecomponents/routerbread.vue";
 export default {
   data() {
     return {
@@ -54,7 +52,8 @@ export default {
     };
   },
   components: {
-    Adduser
+    Adduser,
+    Routerbread
   },
   mounted() {},
   methods: {

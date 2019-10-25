@@ -31,6 +31,10 @@ body {
     background: #e9eef3;
 }
 
+body .el-table th.gutter {
+    display: table-cell !important
+}
+
 
 /**
  * Render the `main` element consistently in IE.
