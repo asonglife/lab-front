@@ -18,7 +18,7 @@
             :on-change="onchange"
             accept="image/png, image/gif, image/jpg, image/jpeg"
           >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+            <img v-if="studentsData.photo" :src="studentsData.photo" class="avatar" />
             <i v-else class="el-icon-upload avatar-uploader-icon">上传照片</i>
           </el-upload>
         </el-form-item>
@@ -102,7 +102,6 @@ export default {
       }, 100);
     };
     return {
-      imageUrl: "",
       studentsData: {
         photo: "",
         name: "",
@@ -141,8 +140,7 @@ export default {
       var file = event.target.files[0];
       var reader = new FileReader();
       reader.onload = function(e) {
-        _this.imageUrl = e.target.result; //将图片路径赋值给src
-        _this.studentsData.photo = _this.imageUrl;
+        _this.studentsData.photo = e.target.result; //将图片路径赋值给src
       };
       reader.readAsDataURL(file);
     },

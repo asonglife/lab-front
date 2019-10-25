@@ -46,8 +46,9 @@ export default {
 .lab-item
   text-align: left
   color: #333
+  margin-bottom: 16px
+  margin-top: 16px
 .lab-content
-  margin: 8px 0px
   padding: 0px 0px 8px
   font-size: 12px
   font-family: inherit
