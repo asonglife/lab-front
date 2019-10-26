@@ -20,7 +20,6 @@
 import systemHeader from "view/backend/system/systemHeader.vue";
 import systemAside from "view/backend/system/systemAside.vue";
 import systemMain from "view/backend/system/systemMain.vue";
-
 export default {
   components: {
     systemHeader,

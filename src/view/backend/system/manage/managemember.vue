@@ -105,7 +105,6 @@ export default {
         email: this.$refs.adduser.studentsData.email,
         experience: this.$refs.adduser.studentsData.experience
       });
-      console.log(this.tableData[this.rowIndex]);
       this.rowIndex = -1;
     },
     addRow() {

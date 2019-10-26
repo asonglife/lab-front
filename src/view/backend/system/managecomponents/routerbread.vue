@@ -21,7 +21,7 @@ export default {
         this.routerItem = "成员管理";
         break;
       case "Managenews":
-        this.routerItem = "成员管理";
+        this.routerItem = "新闻上传";
         break;
       case "Uploadnews":
         this.routerItem = "成员管理";
