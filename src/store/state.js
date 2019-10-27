@@ -6,7 +6,6 @@ function initUserInfo () {
   return {}
 }
 const state = {
-  isManager: '0',
   userInfo: initUserInfo(),
   token: localStorage.getItem('token') ? localStorage.getItem('token') : ''
 }

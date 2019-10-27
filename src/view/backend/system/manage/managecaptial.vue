@@ -1,7 +1,7 @@
 
   <template>
   <div>
-    <routerbread></routerbread>
+    <router-bread></router-bread>
     <el-container>
       <el-main style="border-right:solid 1px #a6e1f1">
         <el-table :data="tableData" stripe border>
@@ -12,8 +12,13 @@
           <el-table-column prop="remark" label="备注" :show-overflow-tooltip="true"></el-table-column>
           <el-table-column label="操作" width="180">
             <template slot-scope="scope">
-              <el-button size="mini" @click="editUser(scope.$index,tableData)">编辑</el-button>
-              <el-button size="mini" type="danger" @click="deleteUser(scope.$index,tableData)">删除</el-button>
+              <auth-button size="mini" @click="editUser(scope.$index,tableData)" label="编辑"></auth-button>
+              <auth-button
+                size="mini"
+                type="danger"
+                @click="deleteUser(scope.$index,tableData)"
+                label="删除"
+              ></auth-button>
             </template>
           </el-table-column>
         </el-table>
@@ -46,8 +51,8 @@
           <el-form-item prop="remark">
             <el-input type="textarea" v-model="captial.remark" placeholder="备注"></el-input>
           </el-form-item>
-          <el-button type="primary" plain @click="submit()">提交</el-button>
-          <el-button @click="resetForm()">重置</el-button>
+          <auth-button type="primary" plain @click="submit()" label="提交"></auth-button>
+          <auth-button @click="resetForm()" label="重置"></auth-button>
         </el-form>
       </el-aside>
     </el-container>
@@ -55,8 +60,9 @@
 </template>
 
 <script>
-import Routerbread from "view/backend/system/managecomponents/routerbread.vue";
+import RouterBread from "view/backend/system/managecomponents/routerbread.vue";
 import { postData } from "api/postData.js";
+import AuthButton from "view/backend/system/managecomponents/authbutton.vue";
 export default {
   data() {
     var checkMoney = (rule, value, callback) => {
@@ -97,7 +103,8 @@ export default {
     };
   },
   components: {
-    Routerbread
+    RouterBread,
+    AuthButton
   },
   methods: {
     resetForm() {

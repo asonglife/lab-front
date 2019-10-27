@@ -8,10 +8,10 @@
             <el-input placeholder="姓名"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="findUser()">查询</el-button>
+            <el-button size="mini" type="primary" @click="findUser()">查询</el-button>
           </el-form-item>
           <el-form-item>
-            <el-button type="success" @click="addUser()">新增</el-button>
+            <auth-button label="新增" type="success" @click="addUser()"></auth-button>
           </el-form-item>
         </el-form>
       </div>
@@ -25,14 +25,18 @@
         <el-table-column prop="address" label="地址" :show-overflow-tooltip="true" width="260"></el-table-column>
         <el-table-column label="操作" min-width="180">
           <template slot-scope="scope">
-            <el-button size="mini" @click="editUser(scope.$index,tableData)">编辑</el-button>
-            <el-button size="mini" type="danger" @click="deleteUser(scope.$index,tableData)">删除</el-button>
+            <auth-button
+              @click="editUser(scope.$index,tableData)"
+              label="编辑"
+              style="margin-right: 4px"
+            ></auth-button>
+            <auth-button type="danger" @click="deleteUser(scope.$index,tableData)" label="删除"></auth-button>
           </template>
         </el-table-column>
       </el-table>
       <div class="pagination">
         <div style="float:left;">
-          <el-button size="mini" type="danger">批量删除</el-button>
+          <auth-button size="mini" type="danger" label="批量删除"></auth-button>
         </div>
         <el-pagination :page-size="100" layout="prev, pager, next, jumper" :total="1000"></el-pagination>
       </div>
@@ -44,16 +48,22 @@
 <script>
 import Adduser from "view/backend/system/managecomponents/addUser.vue";
 import Routerbread from "view/backend/system/managecomponents/routerbread.vue";
+import AuthButton from "view/backend/system/managecomponents/authbutton.vue";
 export default {
   data() {
     return {
-      tableData: [],
+      tableData: [
+        {
+          name: "ccc"
+        }
+      ],
       rowIndex: -1
     };
   },
   components: {
     Adduser,
-    Routerbread
+    Routerbread,
+    AuthButton
   },
   mounted() {},
   methods: {

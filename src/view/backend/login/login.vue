@@ -41,6 +41,7 @@ export default {
       this.$router.push({ path: "/homepage" });
     },
     login() {
+      console.log(md5(this.user.pass));
       let _this = this;
       this.$refs.loginForm.validate(valid => {
         if (valid) {
