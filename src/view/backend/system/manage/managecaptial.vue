@@ -20,7 +20,7 @@
       </el-main>
       <el-aside width="290px" style="padding:18px;">
         <h6>资产登记信息填写</h6>
-        <el-form style="margin:24px;" ref="captialform" :model="captial">
+        <el-form style="margin:24px;" ref="captialform" :model="captial" :rules="rules">
           <el-form-item prop="item">
             <el-select placeholder="登记项目" v-model="captial.item">
               <el-option label="电脑" value="电脑"></el-option>
@@ -35,7 +35,12 @@
           </el-form-item>
           <el-form-item prop="date">
             <el-col :span="11">
-              <el-date-picker v-model="captial.date" type="date" placeholder="选择登记日期"></el-date-picker>
+              <el-date-picker
+                v-model="captial.date"
+                value-format="yyyy-MM-dd"
+                type="date"
+                placeholder="选择登记日期"
+              ></el-date-picker>
             </el-col>
           </el-form-item>
           <el-form-item prop="remark">
@@ -51,8 +56,16 @@
 
 <script>
 import Routerbread from "view/backend/system/managecomponents/routerbread.vue";
+import { postData } from "api/postData.js";
 export default {
   data() {
+    var checkMoney = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("请填写登记金额"));
+      } else if (!Number.isInteger(+value)) {
+        callback(new Error("请输入数字值"));
+      }
+    };
     return {
       tableData: [
         {
@@ -63,12 +76,23 @@ export default {
           money: "3000"
         }
       ],
+      rowIndex: -1,
       captial: {
         item: "",
         money: "",
         marker: "",
         date: "",
         remark: ""
+      },
+      rules: {
+        money: [{ required: true, validator: checkMoney, trigger: "change" }],
+        item: [
+          { required: true, message: "请选择登记项目", trigger: "change" }
+        ],
+        date: [
+          { required: true, message: "请填写登记日期", trigger: "change" }
+        ],
+        marker: [{ required: true, message: "请填写登记人", trigger: "blur" }]
       }
     };
   },
@@ -77,9 +101,11 @@ export default {
   },
   methods: {
     resetForm() {
-      if (this.$refs.captialform !== undefined) {
-        this.$refs.captialform.resetFields();
-      }
+      this.$confirm("确认重置？重置后会失去您填写的所有信息").then(() => {
+        if (this.$refs.captialform !== undefined) {
+          this.$refs.captialform.resetFields();
+        }
+      });
     },
     editUser(index, rowdata) {
       this.rowIndex = index;
@@ -132,11 +158,19 @@ export default {
       this.rowIndex = -1;
     },
     submit() {
-      if (this.rowIndex >= 0) {
-        this.saveEditUser();
-      } else {
-        this.addRow();
-      }
+      this.$refs.captialform.validate(valid => {
+        if (valid) {
+          this.$confirm("确认提交？").then(() => {
+            if (this.rowIndex >= 0) {
+              this.saveEditUser();
+              this.resetForm();
+            } else {
+              this.addRow();
+              this.resetForm();
+            }
+          });
+        }
+      });
     }
   }
 };

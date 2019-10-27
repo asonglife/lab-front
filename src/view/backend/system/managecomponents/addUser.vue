@@ -47,7 +47,8 @@
         <el-form-item label="个人经历" prop="experience">
           <el-input type="textarea" v-model="studentsData.experience"></el-input>
         </el-form-item>
-        <el-button class="submitclass" type="primary" plain @click="submitData">提交</el-button>
+        <el-button class="submitclass" type="primary" plain @click="submitData()">提交</el-button>
+        <el-button @click="resetForm()">重置</el-button>
       </el-form>
     </div>
   </el-drawer>
@@ -95,11 +96,20 @@ export default {
       }
       setTimeout(() => {
         if (mailReg.test(value)) {
-          callback();
+          return callback();
         } else {
-          callback(new Error("请输入正确的邮箱格式"));
+          return callback(new Error("请输入正确的邮箱格式"));
         }
       }, 100);
+    };
+    var checkId = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("请输入学号"));
+      } else if (!Number.isInteger(+value)) {
+        callback(new Error("请输入数字值"));
+      } else {
+        return callback();
+      }
     };
     return {
       studentsData: {
@@ -116,7 +126,11 @@ export default {
         photo: [{ required: true, message: "请上传个人照片", trigger: "blur" }],
         name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
         studentsId: [
-          { required: true, message: "请输入学号", trigger: "blur" }
+          {
+            required: true,
+            validator: checkId,
+            trigger: "change"
+          }
         ],
         education: [
           { required: true, message: "请输入学历", trigger: "change" }
@@ -129,7 +143,6 @@ export default {
         email: [{ validator: checkEmail, trigger: "blur", required: true }]
       },
       drawer: false,
-
       subtimeOut: ""
     };
   },
@@ -166,9 +179,7 @@ export default {
             setTimeout(() => {
               this.drawer = false;
               this.isEdit = true;
-              if (this.$refs.adduserform !== undefined) {
-                this.$refs.adduserform.resetFields();
-              }
+              this.clearForm();
               this.imageUrl = "";
             }, this.subtimeOut + 100);
           });
@@ -179,11 +190,19 @@ export default {
       this.$confirm("确认关闭？会失去未保存的工作").then(() => {
         this.drawer = false;
         this.isEdit = true;
-        if (this.$refs.adduserform !== undefined) {
-          this.$refs.adduserform.resetFields();
-        }
+        this.clearForm();
         this.imageUrl = "";
       });
+    },
+    resetForm() {
+      this.$confirm("确认重置？重置后会失去您填写的所有信息").then(() => {
+        this.clearForm();
+      });
+    },
+    clearForm() {
+      if (this.$refs.adduserform !== undefined) {
+        this.$refs.adduserform.resetFields();
+      }
     }
   }
 };
@@ -221,7 +240,7 @@ export default {
   width: 400px
   background: whitesmoke
 .submitclass
-  margin-left: 55%
+  margin-left: 41%
   margin-top: 12px
 .adduser>>>.el-upload
   border: dashed 1px #99a9bf
