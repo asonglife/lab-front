@@ -18,7 +18,7 @@
       <el-table :data="tableData" style="width: 100%" :stripe="true" header-align="center" border>
         <el-table-column type="selection" width="70"></el-table-column>
         <el-table-column prop="name" label="姓名" width="100"></el-table-column>
-        <el-table-column prop="studentsId" label="学号" width="180"></el-table-column>
+        <el-table-column prop="studentsId" label="学号/工号" width="180"></el-table-column>
         <el-table-column prop="education" label="学历" width="100"></el-table-column>
         <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
         <el-table-column prop="tel" label="电话" width="180"></el-table-column>

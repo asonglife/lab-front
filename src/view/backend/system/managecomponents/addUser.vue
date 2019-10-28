@@ -25,8 +25,8 @@
         <el-form-item label="姓名" prop="name" placeholder>
           <el-input v-model="studentsData.name"></el-input>
         </el-form-item>
-        <el-form-item label="学号" prop="studentsId" placeholder>
-          <el-input v-model="studentsData.studentsId"></el-input>
+        <el-form-item label="学号/工号" prop="id" placeholder>
+          <el-input v-model="studentsData.id"></el-input>
         </el-form-item>
         <el-form-item label="学历" prop="education">
           <el-select v-model="studentsData.education" placeholder="请选择学历">
@@ -116,7 +116,7 @@ export default {
         photo: "",
         name: "",
         education: "",
-        studentsId: "",
+        id: "",
         address: "",
         tel: "",
         email: "",
@@ -125,7 +125,7 @@ export default {
       rules: {
         photo: [{ required: true, message: "请上传个人照片", trigger: "blur" }],
         name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
-        studentsId: [
+        id: [
           {
             required: true,
             validator: checkId,
@@ -163,16 +163,24 @@ export default {
           this.$confirm("确认提交？").then(() => {
             if (this.rowIndex >= 0) {
               this.saveEditUser();
-              postData("http://47.103.210.8:8080/login", this.studentsData, {
-                "Content-Type": "application/json"
-              }).then(res => {
+              postData(
+                "http://47.103.210.8:8080/member_change",
+                this.studentsData,
+                {
+                  "Content-Type": "application/json"
+                }
+              ).then(res => {
                 this.subtimeOut = res.request.timeout;
               });
             } else {
               this.addRow();
-              postData("http://47.103.210.8:8080/login", this.studentsData, {
-                "Content-Type": "application/json"
-              }).then(res => {
+              postData(
+                "http://47.103.210.8:8080/member_change",
+                this.studentsData,
+                {
+                  "Content-Type": "application/json"
+                }
+              ).then(res => {
                 this.subtimeOut = res.request.timeout;
               });
             }

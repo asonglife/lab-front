@@ -44,5 +44,4 @@ export default {
 <style lang="stylus" scoped>
 .authbutton
   display: inline
-  margin: 4px
 </style>
