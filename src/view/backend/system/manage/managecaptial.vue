@@ -51,7 +51,7 @@
           <el-form-item prop="remark">
             <el-input type="textarea" v-model="captial.remark" placeholder="备注"></el-input>
           </el-form-item>
-          <auth-button type="primary" plain @click="submit()" label="提交"></auth-button>
+          <auth-button type="primary" @click="submit()" label="提交"></auth-button>
           <auth-button @click="resetForm()" label="重置"></auth-button>
         </el-form>
       </el-aside>
@@ -70,6 +70,8 @@ export default {
         callback(new Error("请填写登记金额"));
       } else if (!Number.isInteger(+value)) {
         callback(new Error("请输入数字值"));
+      } else {
+        return callback(); //如果不返回回调那么validate()里的回调会一直不执行
       }
     };
     return {
@@ -98,7 +100,7 @@ export default {
         date: [
           { required: true, message: "请填写登记日期", trigger: "change" }
         ],
-        marker: [{ required: true, message: "请填写登记人", trigger: "blur" }]
+        marker: [{ required: true, message: "请填写登记人", trigger: "change" }]
       }
     };
   },
@@ -109,14 +111,11 @@ export default {
   methods: {
     resetForm() {
       this.$confirm("确认重置？重置后会失去您填写的所有信息").then(() => {
-        if (this.$refs.captialform !== undefined) {
-          this.$refs.captialform.resetFields();
-        }
+        this.$refs.captialform.resetFields();
       });
     },
     editUser(index, rowdata) {
       this.rowIndex = index;
-
       this.captial = {
         item: rowdata[index].item,
         money: rowdata[index].money,
@@ -153,6 +152,7 @@ export default {
         date: this.captial.date,
         money: this.captial.money
       });
+      this.$refs.captialform.resetFields();
     },
     saveEditUser() {
       this.$set(this.tableData, this.rowIndex, {
@@ -163,17 +163,18 @@ export default {
         money: this.captial.money
       });
       this.rowIndex = -1;
+      this.$refs.captialform.resetFields();
     },
     submit() {
+      console.log(this.rowIndex);
       this.$refs.captialform.validate(valid => {
+        console.log(valid);
         if (valid) {
           this.$confirm("确认提交？").then(() => {
             if (this.rowIndex >= 0) {
               this.saveEditUser();
-              this.resetForm();
             } else {
               this.addRow();
-              this.resetForm();
             }
           });
         }

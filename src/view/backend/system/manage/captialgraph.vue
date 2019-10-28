@@ -1,25 +1,11 @@
 <template>
   <div class="container">
-    <div id="main1" class="box"></div>
-    <div id="main2" class="box"></div>
-    <div id="main3" class="box"></div>
-    <div id="main4" class="box"></div>
+    <div id="main" class="box"></div>
   </div>
 </template>
 <script>
 import echarts from "echarts";
-// echarts 按需引入
-let echarts2 = require("echarts/lib/echarts");
-// 引入折线图等组件
-require("echarts/lib/chart/line");
-require("echarts/lib/chart/bar");
-require("echarts/lib/chart/radar");
-// 引入提示框和title组件，图例
-require("echarts/lib/component/tooltip");
-require("echarts/lib/component/title");
-require("echarts/lib/component/legend");
 export default {
-  name: "",
   components: {},
   mounted() {
     this.initChart();
@@ -29,33 +15,23 @@ export default {
   },
   methods: {
     initChart() {
-      let myChart1 = echarts.init(document.getElementById("main1"));
-      let myChart2 = echarts2.init(document.getElementById("main2"));
-      let myChart3 = echarts.init(document.getElementById("main3"));
-      let myChart4 = echarts2.init(document.getElementById("main4"));
-      // 绘制图表
-      myChart1.setOption(this.setOption("全局全部引入"));
-      myChart2.setOption(this.setOption("全局按需引入"));
-      myChart3.setOption(this.setOption("局部全部引入"));
-      myChart4.setOption(this.setOption("局部按需引入"));
-    },
-    setOption(title) {
-      let option = {
-        title: { text: title },
-        tooltip: {},
-        xAxis: {
-          data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-        },
-        yAxis: {},
+      let myChart = echarts.init(document.getElementById("main"));
+      myChart.setOption({
         series: [
           {
-            name: "销量",
-            type: "bar",
-            data: [5, 20, 36, 10, 10, 20]
+            name: "访问来源",
+            type: "pie",
+            radius: "55%",
+            data: [
+              { value: 235, name: "视频广告" },
+              { value: 274, name: "联盟广告" },
+              { value: 310, name: "邮件营销" },
+              { value: 335, name: "直接访问" },
+              { value: 400, name: "搜索引擎" }
+            ]
           }
         ]
-      };
-      return option;
+      });
     }
   }
 };
@@ -69,8 +45,8 @@ export default {
   justify-content: space-around;
 }
 .box {
-  width: 300px;
-  height: 300px;
+  width: 600px;
+  height: 600px;
   border: 2px solid #000;
 }
 </style>

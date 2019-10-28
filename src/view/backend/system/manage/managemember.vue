@@ -18,7 +18,7 @@
       <el-table :data="tableData" style="width: 100%" :stripe="true" header-align="center" border>
         <el-table-column type="selection" width="70"></el-table-column>
         <el-table-column prop="name" label="姓名" width="100"></el-table-column>
-        <el-table-column prop="studentsId" label="学号/工号" width="180"></el-table-column>
+        <el-table-column prop="id" label="学号/工号" width="180"></el-table-column>
         <el-table-column prop="education" label="学历" width="100"></el-table-column>
         <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
         <el-table-column prop="tel" label="电话" width="180"></el-table-column>
@@ -97,7 +97,7 @@ export default {
         photo: rowdata[index].photo,
         name: rowdata[index].name,
         education: rowdata[index].education,
-        studentsId: rowdata[index].studentsId,
+        id: rowdata[index].id,
         address: rowdata[index].address,
         tel: rowdata[index].tel,
         email: rowdata[index].email,
@@ -109,7 +109,7 @@ export default {
         photo: this.$refs.adduser.studentsData.photo,
         name: this.$refs.adduser.studentsData.name,
         education: this.$refs.adduser.studentsData.education,
-        studentsId: this.$refs.adduser.studentsData.studentsId,
+        id: this.$refs.adduser.studentsData.id,
         address: this.$refs.adduser.studentsData.address,
         tel: this.$refs.adduser.studentsData.tel,
         email: this.$refs.adduser.studentsData.email,
@@ -122,7 +122,7 @@ export default {
         photo: this.$refs.adduser.studentsData.photo,
         name: this.$refs.adduser.studentsData.name,
         education: this.$refs.adduser.studentsData.education,
-        studentsId: this.$refs.adduser.studentsData.studentsId,
+        id: this.$refs.adduser.studentsData.id,
         address: this.$refs.adduser.studentsData.address,
         tel: this.$refs.adduser.studentsData.tel,
         email: this.$refs.adduser.studentsData.email,
