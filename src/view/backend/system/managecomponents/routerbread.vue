@@ -33,7 +33,7 @@ export default {
         this.routerItem = "资产统计";
         break;
       case "Personalcenter":
-        this.routerItem = "成员管理";
+        this.routerItem = "个人中心";
         break;
     }
   }
