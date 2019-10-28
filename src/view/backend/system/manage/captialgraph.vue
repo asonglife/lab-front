@@ -1,9 +1,15 @@
 <template>
-  <div class="container">
-    <div id="main" class="box"></div>
+  <div>
+    <router-bread></router-bread>
+    <el-main>
+      <div class="box-container">
+        <div id="main" class="box"></div>
+      </div>
+    </el-main>
   </div>
 </template>
 <script>
+import RouterBread from "view/backend/system/managecomponents/routerbread.vue";
 import echarts from "echarts";
 export default {
   components: {},
@@ -11,42 +17,68 @@ export default {
     this.initChart();
   },
   data() {
-    return {};
+    return {
+      option: {
+        title: {
+          text: "资产统计",
+          subtext: "虚构数据",
+          left: "center"
+        },
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+          // orient: 'vertical',
+          // top: 'middle',
+          bottom: 10,
+          left: "center",
+          data: ["西凉", "益州", "兖州", "荆州", "幽州"]
+        },
+        series: [
+          {
+            type: "pie",
+            radius: "65%",
+            center: ["50%", "50%"],
+            selectedMode: "single",
+            data: [
+              {
+                value: 1548,
+                name: "幽州"
+              },
+              { value: 535, name: "荆州" },
+              { value: 510, name: "兖州" },
+              { value: 634, name: "益州" },
+              { value: 735, name: "西凉" }
+            ],
+            itemStyle: {
+              emphasis: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: "rgba(0, 0, 0, 0.5)"
+              }
+            }
+          }
+        ]
+      }
+    };
+  },
+  components: {
+    RouterBread
   },
   methods: {
     initChart() {
       let myChart = echarts.init(document.getElementById("main"));
-      myChart.setOption({
-        series: [
-          {
-            name: "访问来源",
-            type: "pie",
-            radius: "55%",
-            data: [
-              { value: 235, name: "视频广告" },
-              { value: 274, name: "联盟广告" },
-              { value: 310, name: "邮件营销" },
-              { value: 335, name: "直接访问" },
-              { value: 400, name: "搜索引擎" }
-            ]
-          }
-        ]
-      });
+      myChart.setOption(this.option);
     }
   }
 };
 </script>
-<style scoped>
-.container {
-  position: relative;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: space-around;
-}
-.box {
-  width: 600px;
-  height: 600px;
-  border: 2px solid #000;
-}
+<style lang="stylus" scoped>
+.box
+  width: 400px
+  height: 400px
+.box-container
+  padding-left: 34%
+  padding-bottom: 50px
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="managemember">
-    <routerbread></routerbread>
+    <router-bread></router-bread>
     <el-main>
       <div class="toolbar" style="float:right;">
         <el-form :inline="true" size="small">
@@ -47,7 +47,7 @@
 
 <script>
 import Adduser from "view/backend/system/managecomponents/addUser.vue";
-import Routerbread from "view/backend/system/managecomponents/routerbread.vue";
+import RouterBread from "view/backend/system/managecomponents/routerbread.vue";
 import AuthButton from "view/backend/system/managecomponents/authbutton.vue";
 export default {
   data() {
@@ -62,7 +62,7 @@ export default {
   },
   components: {
     Adduser,
-    Routerbread,
+    RouterBread,
     AuthButton
   },
   mounted() {},

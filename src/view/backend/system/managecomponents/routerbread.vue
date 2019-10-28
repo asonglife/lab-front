@@ -27,10 +27,10 @@ export default {
         this.routerItem = "成员管理";
         break;
       case "Managecaptial":
-        this.routerItem = "资产统计";
+        this.routerItem = "资产登记";
         break;
       case "Captialgraph":
-        this.routerItem = "成员管理";
+        this.routerItem = "资产统计";
         break;
       case "Personalcenter":
         this.routerItem = "成员管理";
