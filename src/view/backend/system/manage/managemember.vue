@@ -38,7 +38,14 @@
         <div style="float:left;">
           <auth-button size="mini" type="danger" label="批量删除"></auth-button>
         </div>
-        <el-pagination :page-size="100" layout="prev, pager, next, jumper" :total="1000"></el-pagination>
+        <el-pagination
+          :page-size="pageSize"
+          layout="prev, pager, next, jumper"
+          :current-page.sync="pageNum"
+          :total="totalSize"
+          @current-change="handleCurrentChange"
+          hide-on-single-page="true"
+        ></el-pagination>
       </div>
     </el-main>
     <adduser :addRow="addRow" :rowIndex="rowIndex" :saveEditUser="saveEditUser" ref="adduser"></adduser>
@@ -49,15 +56,15 @@
 import Adduser from "view/backend/system/managecomponents/addUser.vue";
 import RouterBread from "view/backend/system/managecomponents/routerbread.vue";
 import AuthButton from "view/backend/system/managecomponents/authbutton.vue";
+import { getData } from "api/getData.js";
 export default {
   data() {
     return {
-      tableData: [
-        {
-          name: "ccc"
-        }
-      ],
-      rowIndex: -1
+      tableData: [],
+      rowIndex: -1,
+      pageSize: 8,
+      totalSize: 0,
+      pageNum: 1
     };
   },
   components: {
@@ -65,7 +72,9 @@ export default {
     RouterBread,
     AuthButton
   },
-  mounted() {},
+  mounted() {
+    this.handleCurrentChange();
+  },
   methods: {
     deleteUser(index, rowdata) {
       this.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
@@ -127,6 +136,39 @@ export default {
         tel: this.$refs.adduser.studentsData.tel,
         email: this.$refs.adduser.studentsData.email,
         experience: this.$refs.adduser.studentsData.experience
+      });
+    },
+    handleCurrentChange(val) {
+      this.pageNum = val;
+      this.tableData = [];
+      this.getTableData();
+    },
+    getTableData() {
+      let _this = this;
+      if (this.pageNum === undefined) {
+        _this.pageNum = 1;
+      }
+      getData(
+        "http://47.103.210.8:8080/get_members?page_size=" +
+          _this.pageSize +
+          "&page_num=" +
+          _this.pageNum
+      ).then(res => {
+        console.log(res);
+        let members = res.data.members;
+        _this.totalSize = res.data.members_total_size;
+        for (let i = 0; i < members.length; i++) {
+          _this.tableData.push({
+            photo: members[i].photo,
+            name: members[i].name,
+            education: members[i].education,
+            id: members[i].id,
+            address: members[i].address,
+            tel: members[i].tel,
+            email: members[i].email,
+            experience: members[i].experience
+          });
+        }
       });
     }
   }
