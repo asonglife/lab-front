@@ -170,6 +170,7 @@ export default {
                   "Content-Type": "application/json"
                 }
               ).then(res => {
+                console.log(res);
                 this.subtimeOut = res.request.timeout;
               });
             } else {
@@ -181,6 +182,7 @@ export default {
                   "Content-Type": "application/json"
                 }
               ).then(res => {
+                console.log(res);
                 this.subtimeOut = res.request.timeout;
               });
             }

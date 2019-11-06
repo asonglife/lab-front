@@ -7,6 +7,7 @@ function initUserInfo () {
 }
 const state = {
   userInfo: initUserInfo(),
-  token: localStorage.getItem('token') ? localStorage.getItem('token') : ''
+  token: localStorage.getItem('token') ? localStorage.getItem('token') : '',
+  expire: localStorage.getItem('expire') ? localStorage.getItem('expire') : ''
 }
 export default state

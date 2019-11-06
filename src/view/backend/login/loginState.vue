@@ -30,10 +30,8 @@ export default {
       this.$router.push({ name: "Login" });
     },
     loginOut() {
-      this.$store.dispatch("_removeToken").then(() => {
-        this.$store.dispatch("_removeUserInfo").then(() => {
-          this.$router.push("/login");
-        });
+      this.$store.dispatch("_removeExpire").then(() => {
+        this.$router.push("/login");
       });
     }
   },

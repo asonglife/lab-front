@@ -15,7 +15,14 @@
           </el-form-item>
         </el-form>
       </div>
-      <el-table :data="tableData" style="width: 100%" :stripe="true" header-align="center" border>
+      <el-table
+        :data="tableData"
+        style="width: 100%"
+        :stripe="true"
+        header-align="center"
+        border
+        v-loading="loading"
+      >
         <el-table-column type="selection" width="70"></el-table-column>
         <el-table-column prop="name" label="姓名" width="100"></el-table-column>
         <el-table-column prop="id" label="学号/工号" width="180"></el-table-column>
@@ -44,7 +51,6 @@
           :current-page.sync="pageNum"
           :total="totalSize"
           @current-change="handleCurrentChange"
-          hide-on-single-page="true"
         ></el-pagination>
       </div>
     </el-main>
@@ -62,9 +68,10 @@ export default {
     return {
       tableData: [],
       rowIndex: -1,
-      pageSize: 8,
+      pageSize: 7,
       totalSize: 0,
-      pageNum: 1
+      pageNum: 1,
+      loading: true
     };
   },
   components: {
@@ -127,7 +134,7 @@ export default {
       this.rowIndex = -1;
     },
     addRow() {
-      this.tableData.push({
+      this.tableData.splice(0, 0, {
         photo: this.$refs.adduser.studentsData.photo,
         name: this.$refs.adduser.studentsData.name,
         education: this.$refs.adduser.studentsData.education,
@@ -140,6 +147,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.pageNum = val;
+      this.loading = true;
       this.tableData = [];
       this.getTableData();
     },
@@ -154,8 +162,8 @@ export default {
           "&page_num=" +
           _this.pageNum
       ).then(res => {
-        console.log(res);
         let members = res.data.members;
+        console.log(res)
         _this.totalSize = res.data.members_total_size;
         for (let i = 0; i < members.length; i++) {
           _this.tableData.push({
@@ -169,6 +177,7 @@ export default {
             experience: members[i].experience
           });
         }
+        this.loading = false;
       });
     }
   }
@@ -177,6 +186,7 @@ export default {
 <style lang="stylus" scoped>
 .pagination
   margin-top: 20px
+  margin-bottom: 40px
 .form-drawer >>>.el-drawer__close-btn
   z-index: 200
 </style>

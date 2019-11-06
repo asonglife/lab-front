@@ -22,7 +22,9 @@ Router.prototype.push = function push (location) {
 }
 
 export default new Router({
+  mode: 'history',
   routes: [{
+
     path: '/',
     redirect: '/homepage'
   },

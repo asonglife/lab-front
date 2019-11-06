@@ -35,7 +35,17 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
-
+router.afterEach((to, from) => {
+  if (new Date().getTime() - store.getters.getExpire >= 9000 &&
+            store.getters.getExpire !== '') {
+    store.dispatch('_removeExpire').then(() => {
+      router.push('/login')
+    })
+  } else {
+    store.dispatch('_setExpire', new Date().getTime())
+    console.log(112)
+  }
+})
 // eslint-disable-next-line no-new
 new Vue({
   el: '#app',

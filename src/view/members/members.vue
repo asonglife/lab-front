@@ -53,6 +53,7 @@ export default {
           console.log(err);
         });
     },
+
     openDetails(id) {
       //查看详情
       this.$router.push({ path: "membersDetail/" + id });
@@ -72,6 +73,7 @@ export default {
   color: #333
 .member-img
   width: 100%
+  height: 150px
 .members-container
   text-align: center
 .go-exper:hover

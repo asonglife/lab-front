@@ -7,6 +7,12 @@ const getters = {
   },
   getUserInfo (state) {
     return state.userInfo
+  },
+  getExpire (state) {
+    if (!state.expire) {
+      state.expire = localStorage.getItem('token')
+    }
+    return state.expire
   }
 
 }

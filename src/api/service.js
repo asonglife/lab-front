@@ -19,10 +19,8 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   function (response) {
     if (response.headers.token === '11' || response.headers.token === '12' || response.headers.token === '13') {
-      store.dispatch('_removeToken').then(() => {
-        store.dispatch('_removeUserInfo').then(() => {
-          router.push('/login')
-        })
+      store.dispatch('_removeExpire').then(() => {
+        router.push('/login')
       })
     }
 

@@ -53,16 +53,19 @@ export default {
               console.log(res);
               let token = res.headers.token;
               let userInfo = res.data;
-              this.$store.dispatch("_setToken", token).then(
-                this.$store.dispatch("_setUserInfo", userInfo).then(() => {
-                  this.$notify({
-                    type: "success",
-                    message: "欢迎你，" + userInfo.name,
-                    duration: 3000
+              this.$store.dispatch("_setToken", token).then(() => {
+                let currentTime = new Date().getTime();
+                this.$store.dispatch("_setExpire", currentTime).then(() => {
+                  this.$store.dispatch("_setUserInfo", userInfo).then(() => {
+                    this.$notify({
+                      type: "success",
+                      message: "欢迎你，" + userInfo.name,
+                      duration: 3000
+                    });
+                    this.$router.push({ name: "Managemember" });
                   });
-                  this.$router.push({ name: "Managemember" });
-                })
-              );
+                });
+              });
             } else {
               this.$message({
                 type: "error",
