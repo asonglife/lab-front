@@ -13,7 +13,7 @@
         <el-form-item prop="pass" class="input-container">
           <el-input placeholder="密码" v-model="user.pass" type="password"></el-input>
         </el-form-item>
-        <el-button type="primary" plain @click="login">登录</el-button>
+        <el-button type="primary" plain @click="login" :disabled="responseStatus">登录</el-button>
       </el-form>
     </el-card>
   </div>
@@ -25,6 +25,7 @@ import md5 from "js-md5";
 export default {
   data() {
     return {
+      responseStatus: false,
       img: require("assets/img/title.jpg"),
       user: {
         name: "",
@@ -41,39 +42,44 @@ export default {
       this.$router.push({ path: "/homepage" });
     },
     login() {
-      console.log(md5(this.user.pass));
+      this.responseStatus = true;
       let _this = this;
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           postData("http://47.103.210.8:8080/login", {
             username: _this.user.name,
             password: md5(_this.user.pass)
-          }).then(res => {
-            if (res.status === 200 && res.data.status === true) {
-              console.log(res);
-              let token = res.headers.token;
-              let userInfo = res.data;
-              this.$store.dispatch("_setToken", token).then(() => {
-                let currentTime = new Date().getTime();
-                this.$store.dispatch("_setExpire", currentTime).then(() => {
-                  this.$store.dispatch("_setUserInfo", userInfo).then(() => {
-                    this.$notify({
-                      type: "success",
-                      message: "欢迎你，" + userInfo.name,
-                      duration: 3000
+          })
+            .then(res => {
+              if (res.status === 200 && res.data.status === true) {
+                _this.responseStatus = false;
+                let token = res.headers.token;
+                let userInfo = res.data;
+                this.$store.dispatch("_setToken", token).then(() => {
+                  let currentTime = new Date().getTime();
+                  this.$store.dispatch("_setExpire", currentTime).then(() => {
+                    this.$store.dispatch("_setUserInfo", userInfo).then(() => {
+                      this.$notify({
+                        type: "success",
+                        message: "欢迎你，" + userInfo.name,
+                        duration: 3000
+                      });
+                      this.$router.push({ name: "Managemember" });
                     });
-                    this.$router.push({ name: "Managemember" });
                   });
                 });
-              });
-            } else {
-              this.$message({
-                type: "error",
-                message: "密码或用户名错误",
-                duration: 3000
-              });
-            }
-          });
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "密码或用户名错误",
+                  duration: 3000
+                });
+                this.responseStatus = false;
+              }
+            })
+            .catch(err => {
+              this.responseStatus = false;
+            });
         }
       });
     }

@@ -146,11 +146,11 @@ export default {
     },
     addRow() {
       this.tableData.push({
-        item: this.captial.item,
-        remark: this.captial.remark,
-        marker: this.captial.marker,
-        date: this.captial.date,
-        money: this.captial.money
+        item: this.captial.item,//登记项目
+        remark: this.captial.remark,//备注
+        marker: this.captial.marker,//登记人
+        date: this.captial.date,//登记日期
+        money: this.captial.money//登记金额
       });
       this.$refs.captialform.resetFields();
     },

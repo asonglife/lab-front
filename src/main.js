@@ -36,14 +36,15 @@ router.beforeEach((to, from, next) => {
   }
 })
 router.afterEach((to, from) => {
-  if (new Date().getTime() - store.getters.getExpire >= 9000 &&
-            store.getters.getExpire !== '') {
-    store.dispatch('_removeExpire').then(() => {
-      router.push('/login')
-    })
-  } else {
-    store.dispatch('_setExpire', new Date().getTime())
-    console.log(112)
+  if (to.matched.some(m => m.meta.requireAuth)) {
+    if (new Date().getTime() - store.getters.getExpire >= 9000 &&
+                store.getters.getExpire !== '') {
+      store.dispatch('_removeExpire').then(() => {
+        router.push('/login')
+      })
+    } else {
+      store.dispatch('_setExpire', new Date().getTime())
+    }
   }
 })
 // eslint-disable-next-line no-new

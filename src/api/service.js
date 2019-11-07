@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from '@/store/index.js'
 import router from '@/router/index.js'
+import Vue from 'vue'
 const service = axios.create({
   baseURL: ''
 })
@@ -27,6 +28,11 @@ service.interceptors.response.use(
     return Promise.resolve(response)
   },
   function (error) {
+    Vue.prototype.$message({
+      type: 'error',
+      message: error,
+      showClose: true
+    })
     return Promise.reject(error)
   }
 )
