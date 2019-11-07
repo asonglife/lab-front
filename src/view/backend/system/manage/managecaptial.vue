@@ -27,6 +27,9 @@
       <el-aside width="290px" style="padding:18px;">
         <h6>资产登记信息填写</h6>
         <el-form style="margin:24px;" ref="captialform" :model="captial" :rules="rules">
+          <el-form-item prop="id">
+            <el-input v-model.number="captial.id" v-if="false"></el-input>
+          </el-form-item>
           <el-form-item prop="item">
             <el-select placeholder="登记项目" v-model="captial.item">
               <el-option label="电脑" value="电脑"></el-option>
@@ -34,7 +37,7 @@
             </el-select>
           </el-form-item>
           <el-form-item prop="money">
-            <el-input v-model="captial.money" placeholder="登记金额" suffix-icon="el-icon-coin"></el-input>
+            <el-input v-model.number="captial.money" placeholder="登记金额" suffix-icon="el-icon-coin"></el-input>
           </el-form-item>
           <el-form-item prop="marker">
             <el-input v-model="captial.marker" placeholder="登记人" suffix-icon="el-icon-user"></el-input>
@@ -61,6 +64,7 @@
 </template>
 
 <script>
+import { getData } from "api/getData.js";
 import RouterBread from "view/backend/system/managecomponents/routerbread.vue";
 import { postData } from "api/postData.js";
 import AuthButton from "view/backend/system/managecomponents/authbutton.vue";
@@ -79,6 +83,7 @@ export default {
       tableData: [],
       rowIndex: -1,
       captial: {
+        id: 0,
         item: "",
         money: "",
         marker: "",
@@ -101,6 +106,9 @@ export default {
     RouterBread,
     AuthButton
   },
+  mounted() {
+    this.getTableData();
+  },
   methods: {
     resetForm() {
       this.$confirm("确认重置？重置后会失去您填写的所有信息").then(() => {
@@ -110,6 +118,7 @@ export default {
     editUser(index, rowdata) {
       this.rowIndex = index;
       this.captial = {
+        id: rowdata[index].id,
         item: rowdata[index].item,
         money: rowdata[index].money,
         marker: rowdata[index].marker,
@@ -138,17 +147,12 @@ export default {
         });
     },
     addRow() {
-      this.tableData.push({
-        item: this.captial.item, //登记项目
-        remark: this.captial.remark, //备注
-        marker: this.captial.marker, //登记人
-        date: this.captial.date, //登记日期
-        money: this.captial.money //登记金额
-      });
-      this.$refs.captialform.resetFields();
+      this.tableData = [];
+      this.getTableData();
     },
     saveEditUser() {
       this.$set(this.tableData, this.rowIndex, {
+        id: this.captial.id,
         item: this.captial.item,
         remark: this.captial.remark,
         marker: this.captial.marker,
@@ -159,18 +163,37 @@ export default {
       this.$refs.captialform.resetFields();
     },
     submit() {
-      console.log(this.rowIndex);
       this.$refs.captialform.validate(valid => {
-        console.log(valid);
         if (valid) {
           this.$confirm("确认提交？").then(() => {
-            if (this.rowIndex >= 0) {
-              this.saveEditUser();
-            } else {
-              this.addRow();
-            }
+            postData("http://47.103.210.8:8080/assets_change", this.captial, {
+              "Content-Type": "application/json"
+            }).then(res => {
+              if (this.rowIndex >= 0) {
+                this.saveEditUser();
+              } else {
+                this.addRow();
+              }
+            });
           });
         }
+      });
+    },
+    getTableData() {
+      let _this = this;
+      getData("http://47.103.210.8:8080/get_assets").then(res => {
+        let assets = res.data.assets;
+        for (let i = 0; i < assets.length; i++) {
+          _this.tableData.push({
+            id: assets[i].id,
+            item: assets[i].item, //登记项目
+            remark: assets[i].remark, //备注
+            marker: assets[i].marker, //登记人
+            date: assets[i].date, //登记日期
+            money: assets[i].money //登记金额
+          });
+        }
+        this.$refs.captialform.resetFields();
       });
     }
   }
