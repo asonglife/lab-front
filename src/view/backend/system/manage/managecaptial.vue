@@ -5,6 +5,7 @@
     <el-container>
       <el-main style="border-right:solid 1px #a6e1f1">
         <el-table :data="tableData" stripe border>
+          <el-table-column prop="id" label="编号" width="70"></el-table-column>
           <el-table-column prop="item" label="登记项目" width="100"></el-table-column>
           <el-table-column prop="money" label="登记金额（元）" width="120"></el-table-column>
           <el-table-column prop="date" label="登记时间" width="180"></el-table-column>
@@ -75,15 +76,7 @@ export default {
       }
     };
     return {
-      tableData: [
-        {
-          date: "2016-05-02",
-          marker: "王小虎",
-          remark: "上海市普陀区金沙江路 1518 弄",
-          item: "电脑",
-          money: "3000"
-        }
-      ],
+      tableData: [],
       rowIndex: -1,
       captial: {
         item: "",
@@ -146,11 +139,11 @@ export default {
     },
     addRow() {
       this.tableData.push({
-        item: this.captial.item,//登记项目
-        remark: this.captial.remark,//备注
-        marker: this.captial.marker,//登记人
-        date: this.captial.date,//登记日期
-        money: this.captial.money//登记金额
+        item: this.captial.item, //登记项目
+        remark: this.captial.remark, //备注
+        marker: this.captial.marker, //登记人
+        date: this.captial.date, //登记日期
+        money: this.captial.money //登记金额
       });
       this.$refs.captialform.resetFields();
     },

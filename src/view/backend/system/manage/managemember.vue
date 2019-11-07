@@ -18,7 +18,6 @@
       <el-table
         :data="tableData"
         style="width: 100%"
-        :stripe="true"
         header-align="center"
         border
         v-loading="loading"
@@ -134,16 +133,9 @@ export default {
       this.rowIndex = -1;
     },
     addRow() {
-      this.tableData.splice(0, 0, {
-        photo: this.$refs.adduser.studentsData.photo,
-        name: this.$refs.adduser.studentsData.name,
-        education: this.$refs.adduser.studentsData.education,
-        id: this.$refs.adduser.studentsData.id,
-        address: this.$refs.adduser.studentsData.address,
-        tel: this.$refs.adduser.studentsData.tel,
-        email: this.$refs.adduser.studentsData.email,
-        experience: this.$refs.adduser.studentsData.experience
-      });
+      this.loading = true;
+      this.tableData = [];
+      this.getTableData();
     },
     handleCurrentChange(val) {
       this.pageNum = val;
@@ -163,7 +155,7 @@ export default {
           _this.pageNum
       ).then(res => {
         let members = res.data.members;
-        console.log(res)
+        console.log(res);
         _this.totalSize = res.data.members_total_size;
         for (let i = 0; i < members.length; i++) {
           _this.tableData.push({

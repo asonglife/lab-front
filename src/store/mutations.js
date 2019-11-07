@@ -1,6 +1,6 @@
 const mutations = {
   _setToken (state, payload) {
-    localStorage.setItem('token', JSON.stringify(payload))
+    localStorage.setItem('token', payload)
     state.token = payload
   },
   _setUserInfo (state, payload) {

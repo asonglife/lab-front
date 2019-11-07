@@ -37,7 +37,7 @@ router.beforeEach((to, from, next) => {
 })
 router.afterEach((to, from) => {
   if (to.matched.some(m => m.meta.requireAuth)) {
-    if (new Date().getTime() - store.getters.getExpire >= 9000 &&
+    if (new Date().getTime() - store.getters.getExpire >= 9000000000 &&
                 store.getters.getExpire !== '') {
       store.dispatch('_removeExpire').then(() => {
         router.push('/login')

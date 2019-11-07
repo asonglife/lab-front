@@ -1,6 +1,6 @@
 <template>
   <el-drawer
-    :visible="drawer"
+    :visible.sync="drawer"
     size="400px"
     :before-close="handleClose"
     class="form-drawer"
@@ -47,7 +47,13 @@
         <el-form-item label="个人经历" prop="experience">
           <el-input type="textarea" v-model="studentsData.experience"></el-input>
         </el-form-item>
-        <el-button class="submitclass" type="primary" plain @click="submitData()">提交</el-button>
+        <el-button
+          class="submitclass"
+          type="primary"
+          plain
+          @click="submitData()"
+          :disabled="this.loading"
+        >提交</el-button>
         <el-button @click="resetForm()">重置</el-button>
       </el-form>
     </div>
@@ -143,8 +149,11 @@ export default {
         email: [{ validator: checkEmail, trigger: "blur", required: true }]
       },
       drawer: false,
-      subtimeOut: ""
+      loading: false
     };
+  },
+  mounted() {
+    this.clearForm();
   },
   methods: {
     onchange(file, fileList) {
@@ -161,47 +170,48 @@ export default {
       this.$refs.adduserform.validate(valid => {
         if (valid) {
           this.$confirm("确认提交？").then(() => {
-            if (this.rowIndex >= 0) {
-              this.saveEditUser();
-              postData(
-                "http://47.103.210.8:8080/member_change",
-                this.studentsData,
-                {
-                  "Content-Type": "application/json"
-                }
-              ).then(res => {
+            this.loading = true;
+            postData(
+              "http://47.103.210.8:8080/member_change",
+              this.studentsData,
+              {
+                "Content-Type": "application/json"
+              }
+            )
+              .then(res => {
                 console.log(res);
-                this.subtimeOut = res.request.timeout;
+                this.loading = false;
+                this.afterRespon(res.data.status);
+              })
+              .catch(err => {
+                this.loading = false;
               });
-            } else {
-              this.addRow();
-              postData(
-                "http://47.103.210.8:8080/member_change",
-                this.studentsData,
-                {
-                  "Content-Type": "application/json"
-                }
-              ).then(res => {
-                console.log(res);
-                this.subtimeOut = res.request.timeout;
-              });
-            }
-            setTimeout(() => {
-              this.drawer = false;
-              this.isEdit = true;
-              this.clearForm();
-              this.imageUrl = "";
-            }, this.subtimeOut + 100);
           });
         }
       });
     },
+    afterRespon(value) {
+      this.drawer = false;
+      if (this.rowIndex >= 0 && value == "update") {
+        this.saveEditUser();
+        this.$message({
+          message: "编辑成功",
+          type: "success"
+        });
+        this.clearForm();
+      } else if (this.rowIndex < 0 && value == "insert") {
+        this.addRow();
+        this.$message({
+          message: "提交成功",
+          type: "success"
+        });
+        this.clearForm();
+      }
+    },
     handleClose() {
       this.$confirm("确认关闭？会失去未保存的工作").then(() => {
         this.drawer = false;
-        this.isEdit = true;
         this.clearForm();
-        this.imageUrl = "";
       });
     },
     resetForm() {
@@ -212,6 +222,7 @@ export default {
     clearForm() {
       if (this.$refs.adduserform !== undefined) {
         this.$refs.adduserform.resetFields();
+        this.imageUrl = "";
       }
     }
   }
