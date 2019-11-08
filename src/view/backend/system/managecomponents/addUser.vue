@@ -52,7 +52,7 @@
           type="primary"
           plain
           @click="submitData()"
-          :disabled="this.loading"
+          :loading="this.loading"
         >提交</el-button>
         <el-button @click="resetForm()">重置</el-button>
       </el-form>
@@ -210,8 +210,8 @@ export default {
     },
     handleClose() {
       this.$confirm("确认关闭？会失去未保存的工作").then(() => {
-        this.drawer = false;
         this.clearForm();
+        this.drawer = false;
       });
     },
     resetForm() {
@@ -220,10 +220,12 @@ export default {
       });
     },
     clearForm() {
-      if (this.$refs.adduserform !== undefined) {
-        this.$refs.adduserform.resetFields();
-        this.imageUrl = "";
-      }
+      this.$nextTick(() => {
+        if (this.$refs.adduserform !== undefined) {
+          this.$refs.adduserform.resetFields();
+          this.imageUrl = "";
+        }
+      });
     }
   }
 };

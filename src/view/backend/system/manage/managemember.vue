@@ -108,16 +108,18 @@ export default {
     editUser(index, rowdata) {
       this.rowIndex = index;
       this.$refs.adduser.drawer = true;
-      this.$refs.adduser.studentsData = {
-        photo: rowdata[index].photo,
-        name: rowdata[index].name,
-        education: rowdata[index].education,
-        id: rowdata[index].id,
-        address: rowdata[index].address,
-        tel: rowdata[index].tel,
-        email: rowdata[index].email,
-        experience: rowdata[index].experience
-      };
+      this.$nextTick(() => {
+        this.$refs.adduser.studentsData = {
+          photo: rowdata[index].photo,
+          name: rowdata[index].name,
+          education: rowdata[index].education,
+          id: rowdata[index].id,
+          address: rowdata[index].address,
+          tel: rowdata[index].tel,
+          email: rowdata[index].email,
+          experience: rowdata[index].experience
+        };
+      });
     },
     saveEditUser() {
       this.$set(this.tableData, this.rowIndex, {
