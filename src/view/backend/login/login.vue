@@ -13,7 +13,7 @@
         <el-form-item prop="pass" class="input-container">
           <el-input placeholder="密码" v-model="user.pass" type="password"></el-input>
         </el-form-item>
-        <el-button type="primary" plain @click="login" :disabled="responseStatus">登录</el-button>
+        <el-button type="primary" plain @click="login" :loading="responseStatus">登录</el-button>
       </el-form>
     </el-card>
   </div>

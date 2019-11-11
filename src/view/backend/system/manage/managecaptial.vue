@@ -4,7 +4,7 @@
     <router-bread></router-bread>
     <el-container>
       <el-main style="border-right:solid 1px #a6e1f1">
-        <el-table :data="tableData" stripe border>
+        <el-table :data="tableData" stripe border v-loading="loading">
           <el-table-column prop="id" label="编号" width="70"></el-table-column>
           <el-table-column prop="item" label="登记项目" width="100"></el-table-column>
           <el-table-column prop="money" label="登记金额（元）" width="120"></el-table-column>
@@ -55,9 +55,26 @@
           <el-form-item prop="remark">
             <el-input type="textarea" v-model="captial.remark" placeholder="备注"></el-input>
           </el-form-item>
-          <auth-button type="primary" @click="submit()" label="提交"></auth-button>
+          <auth-button type="primary" @click="submit()" label="提交" :loading="loading"></auth-button>
           <auth-button @click="resetForm()" label="重置"></auth-button>
         </el-form>
+        <el-backtop
+          target=".page-component__scroll .el-scrollbar__wrap"
+          :bottom="100"
+          :visibility-height="10"
+        >
+          <div
+            style="{
+        height: 100%;
+        width: 100%;
+        background-color: #f2f5f6;
+        box-shadow: 0 0 6px rgba(0,0,0, .12);
+        text-align: center;
+        line-height: 40px;
+        color: #1989fa;
+      }"
+          >UP</div>
+        </el-backtop>
       </el-aside>
     </el-container>
   </div>
@@ -82,6 +99,7 @@ export default {
     return {
       tableData: [],
       rowIndex: -1,
+      loading: false,
       captial: {
         id: 0,
         item: "",
@@ -181,6 +199,7 @@ export default {
     },
     getTableData() {
       let _this = this;
+      this.loading = true;
       getData("http://47.103.210.8:8080/get_assets").then(res => {
         let assets = res.data.assets;
         for (let i = 0; i < assets.length; i++) {
@@ -193,6 +212,7 @@ export default {
             money: assets[i].money //登记金额
           });
         }
+        this.loading = false;
         this.$refs.captialform.resetFields();
       });
     }

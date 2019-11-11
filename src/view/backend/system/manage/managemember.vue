@@ -3,9 +3,9 @@
     <router-bread></router-bread>
     <el-main>
       <div class="toolbar" style="float:right;">
-        <el-form :inline="true" size="small">
-          <el-form-item>
-            <el-input placeholder="姓名"></el-input>
+        <el-form :inline="true" size="small" ref="findForm" :model="foundData">
+          <el-form-item prop="id">
+            <el-input placeholder="学号/工号" v-model="foundData.id"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button size="mini" type="primary" @click="findUser()">查询</el-button>
@@ -21,6 +21,7 @@
         header-align="center"
         border
         v-loading="loading"
+        @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="70"></el-table-column>
         <el-table-column prop="name" label="姓名" width="100"></el-table-column>
@@ -42,7 +43,13 @@
       </el-table>
       <div class="pagination">
         <div style="float:left;">
-          <auth-button size="mini" type="danger" label="批量删除"></auth-button>
+          <auth-button
+            size="mini"
+            type="danger"
+            label="批量删除"
+            v-if="this.mulDeleteVisi"
+            @click="mulDelete()"
+          ></auth-button>
         </div>
         <el-pagination
           :page-size="pageSize"
@@ -62,6 +69,7 @@ import Adduser from "view/backend/system/managecomponents/addUser.vue";
 import RouterBread from "view/backend/system/managecomponents/routerbread.vue";
 import AuthButton from "view/backend/system/managecomponents/authbutton.vue";
 import { getData } from "api/getData.js";
+import { postData } from "api/postData.js";
 export default {
   data() {
     return {
@@ -70,7 +78,13 @@ export default {
       pageSize: 7,
       totalSize: 0,
       pageNum: 1,
-      loading: true
+      loading: true,
+      foundData: {
+        id: ""
+      },
+      mulDeleteVisi: false,
+      mulSelection: [],
+      muldeleId: []
     };
   },
   components: {
@@ -89,11 +103,31 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.tableData.splice(index, 1);
-          this.$message({
-            type: "success",
-            message: "删除成功!"
-          });
+          postData(
+            "http://47.103.210.8:8080/member_change",
+            {
+              id: rowdata[index].id,
+              type: "delete"
+            },
+            {
+              "Content-Type": "application/json"
+            }
+          )
+            .then(res => {
+              if (res.data.status == "delete") {
+                this.addRow();
+                this.$message({
+                  type: "success",
+                  message: "删除成功!"
+                });
+              }
+            })
+            .catch(err => {
+              this.$message({
+                type: "error",
+                message: err
+              });
+            });
         })
         .catch(err => {
           this.$message({
@@ -102,8 +136,67 @@ export default {
           });
         });
     },
+    handleSelectionChange(val) {
+      console.log(val);
+      this.mulDeleteVisi = true;
+      this.mulSelection = val;
+      if (this.mulSelection.length == 0) {
+        this.mulDeleteVisi = false;
+      }
+    },
+    mulDelete() {
+      let _this = this;
+      this.$confirm("此操作将永久删除大量数据, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        _this.mulSelection.forEach(el => {
+          _this.muldeleId.push(el.id);
+        });
+        postData(
+          "http://47.103.210.8:8080/member_change",
+          {
+            id: _this.muldeleId,
+            type: "delete"
+          },
+          {
+            "Content-Type": "application/json"
+          }
+        );
+      });
+    },
+    findUser() {
+      this.loading = true;
+      getData(
+        "http://47.103.210.8:8080/get_members?id=" + this.foundData.id
+      ).then(res => {
+        console.log(res);
+        this.loading = false;
+        if (res.status === 200) {
+          this.$refs.findForm.resetFields();
+          let members = res.data.members;
+          if (members.length > 0) {
+            this.tableData = [];
+            this.tableData.push({
+              photo: members[0].photo,
+              name: members[0].name,
+              education: members[0].education,
+              id: members[0].id,
+              address: members[0].address,
+              tel: members[0].tel,
+              email: members[0].email,
+              experience: members[0].experience
+            });
+          } else {
+            this.tableData = [];
+          }
+        }
+      });
+    },
     addUser() {
       this.$refs.adduser.drawer = true;
+      this.$refs.adduser.studentsData.type = "insert";
     },
     editUser(index, rowdata) {
       this.rowIndex = index;
@@ -117,7 +210,8 @@ export default {
           address: rowdata[index].address,
           tel: rowdata[index].tel,
           email: rowdata[index].email,
-          experience: rowdata[index].experience
+          experience: rowdata[index].experience,
+          type: "update"
         };
       });
     },

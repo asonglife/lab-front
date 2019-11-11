@@ -47,6 +47,9 @@
         <el-form-item label="个人经历" prop="experience">
           <el-input type="textarea" v-model="studentsData.experience"></el-input>
         </el-form-item>
+        <el-form-item label="type" prop="type" v-show="false">
+          <el-input v-model="studentsData.type"></el-input>
+        </el-form-item>
         <el-button
           class="submitclass"
           type="primary"
@@ -126,7 +129,8 @@ export default {
         address: "",
         tel: "",
         email: "",
-        experience: ""
+        experience: "",
+        type: ""
       },
       rules: {
         photo: [{ required: true, message: "请上传个人照片", trigger: "blur" }],
@@ -185,6 +189,10 @@ export default {
               })
               .catch(err => {
                 this.loading = false;
+                this.$message({
+                  message: "提交成功",
+                  type: "error"
+                });
               });
           });
         }
