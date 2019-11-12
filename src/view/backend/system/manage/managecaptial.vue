@@ -1,10 +1,9 @@
-
   <template>
-  <div id="wraper" ref="myScrollbar">
+  <div class="wraper" ref="myScrollbar">
     <router-bread></router-bread>
     <el-container>
       <el-main style="border-right:solid 1px #a6e1f1">
-        <el-table :data="tableData" stripe border v-loading="loading">
+        <el-table :data="tableData" stripe border v-loading="loading" max-height="466">
           <el-table-column prop="id" label="编号" width="70"></el-table-column>
           <el-table-column prop="item" label="登记项目" width="100"></el-table-column>
           <el-table-column prop="money" label="登记金额（元）" width="120"></el-table-column>
@@ -236,9 +235,7 @@ export default {
   }
 };
 </script>
-
-
-
-
-
-<style lang="stylus" scoped></style>
+<style lang="stylus" scoped>
+.wraper >>>.el-table
+  margin-bottom: 62px
+</style>

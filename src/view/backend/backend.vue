@@ -73,4 +73,5 @@ export default {
   color: #333
   text-align: center
   padding: 0
+  height: 620px
 </style>

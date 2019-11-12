@@ -26,7 +26,7 @@
           <el-input v-model="studentsData.name"></el-input>
         </el-form-item>
         <el-form-item label="学号/工号" prop="id" placeholder>
-          <el-input v-model="studentsData.id"></el-input>
+          <el-input v-model.number="studentsData.id"></el-input>
         </el-form-item>
         <el-form-item label="学历" prop="education">
           <el-select v-model="studentsData.education" placeholder="请选择学历">
@@ -189,10 +189,6 @@ export default {
               })
               .catch(err => {
                 this.loading = false;
-                this.$message({
-                  message: "提交成功",
-                  type: "error"
-                });
               });
           });
         }
@@ -214,6 +210,13 @@ export default {
           type: "success"
         });
         this.clearForm();
+      } else {
+        console.log(this.rowIndex);
+        this.clearForm();
+        this.$message({
+          message: "提交失败",
+          type: "error"
+        });
       }
     },
     handleClose() {

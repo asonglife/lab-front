@@ -5,7 +5,7 @@
       <div class="toolbar" style="float:right;">
         <el-form :inline="true" size="small" ref="findForm" :model="foundData">
           <el-form-item prop="id">
-            <el-input placeholder="学号/工号" v-model="foundData.id"></el-input>
+            <el-input prefix-icon="el-icon-search" placeholder="学号/工号" v-model="foundData.id"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button size="mini" type="primary" @click="findUser()">查询</el-button>
@@ -75,7 +75,7 @@ export default {
     return {
       tableData: [],
       rowIndex: -1,
-      pageSize: 7,
+      pageSize: 6,
       totalSize: 0,
       pageNum: 1,
       loading: true,
@@ -163,7 +163,22 @@ export default {
           {
             "Content-Type": "application/json"
           }
-        );
+        )
+          .then(res => {
+            if (res.data.status == "delete") {
+              this.addRow();
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              });
+            }
+          })
+          .catch(err => {
+            this.$message({
+              type: "error",
+              message: err
+            });
+          });
       });
     },
     findUser() {
@@ -200,6 +215,7 @@ export default {
     },
     editUser(index, rowdata) {
       this.rowIndex = index;
+      console.log(index);
       this.$refs.adduser.drawer = true;
       this.$nextTick(() => {
         this.$refs.adduser.studentsData = {

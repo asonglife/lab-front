@@ -21,10 +21,10 @@ export default {
         this.routerItem = "成员管理";
         break;
       case "Managenews":
-        this.routerItem = "新闻上传";
+        this.routerItem = "动态管理";
         break;
       case "Uploadnews":
-        this.routerItem = "成员管理";
+        this.routerItem = "新闻撰写";
         break;
       case "Managecaptial":
         this.routerItem = "资产登记";

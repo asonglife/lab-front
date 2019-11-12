@@ -40,7 +40,7 @@
       </el-menu-item>
       <el-menu-item index="4-2" style="padding-left:4em">
         <i class="el-icon-upload"></i>
-        <span slot="title">文章撰写</span>
+        <span slot="title">新闻撰写</span>
       </el-menu-item>
     </el-submenu>
     <el-menu-item index="5">
