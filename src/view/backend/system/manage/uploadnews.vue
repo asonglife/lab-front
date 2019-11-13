@@ -35,6 +35,7 @@
 <script>
 import RouterBread from "view/backend/system/managecomponents/routerbread.vue";
 import wangeditor from "wangeditor";
+import { postData } from "api/postData.js";
 export default {
   mounted() {
     this.editor = new wangeditor("#editor");
@@ -63,6 +64,7 @@ export default {
         title: "",
         content: "",
         isHot: "1",
+        type: "",
         isDraft: false
       }
     };
@@ -70,7 +72,7 @@ export default {
   methods: {
     uploadNew() {
       if (this.article.title === "") {
-        _this.$message({
+        this.$message({
           message: "新闻标题不能为空",
           type: "error"
         });
@@ -82,7 +84,18 @@ export default {
             type: "error"
           });
         } else {
-          this.article.content = this.editor.txt.html();
+          this.article = {
+            title: this.article.title,
+            content: this.editor.txt.html(),
+            isHot: parseInt(this.article.isHot),
+            type: "insert",
+            isDraft: false
+          };
+          postData("http://47.103.210.8:8080/change_articles", this.article, {
+            "Content-Type": "application/json"
+          }).then(res => {
+            console.log(res);
+          });
           console.log(this.article);
           alert("上传成功");
         }

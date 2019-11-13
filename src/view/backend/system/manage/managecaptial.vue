@@ -4,10 +4,10 @@
     <el-container>
       <el-main style="border-right:solid 1px #a6e1f1">
         <el-table :data="tableData" stripe border v-loading="loading" max-height="466">
-          <el-table-column prop="id" label="编号" width="70"></el-table-column>
+          <el-table-column prop="id" label="编号" width="70" v-if="false"></el-table-column>
+          <el-table-column prop="date" label="登记时间" width="180"></el-table-column>
           <el-table-column prop="item" label="登记项目" width="100"></el-table-column>
           <el-table-column prop="money" label="登记金额（元）" width="120"></el-table-column>
-          <el-table-column prop="date" label="登记时间" width="180"></el-table-column>
           <el-table-column prop="marker" label="登记人" width="120"></el-table-column>
           <el-table-column prop="remark" label="备注" :show-overflow-tooltip="true"></el-table-column>
           <el-table-column label="操作" width="180">
@@ -195,17 +195,22 @@ export default {
             postData("http://47.103.210.8:8080/assets_change", this.captial, {
               "Content-Type": "application/json"
             }).then(res => {
-              if (this.rowIndex >= 0) {
+              if (this.rowIndex >= 0 && res.data.status == "update") {
                 this.saveEditUser();
                 this.$message({
                   message: "编辑成功",
                   type: "success"
                 });
-              } else {
+              } else if (this.rowIndex < 0 && res.data.status == "insert") {
                 this.addRow();
                 this.$message({
                   message: "提交成功",
                   type: "success"
+                });
+              } else {
+                this.$message({
+                  message: "提交失败",
+                  type: "error"
                 });
               }
             });
