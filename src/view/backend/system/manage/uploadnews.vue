@@ -25,8 +25,8 @@
         </el-radio-group>
       </div>
       <div class="button-container">
-        <el-button size="small" type="primary" plain @click="uploadNew()">上传新闻</el-button>
-        <el-button type="success" size="small" plain @click="saveDraft()">保存草稿</el-button>
+        <el-button size="small" type="primary" plain @click="uploadNew(false)">上传新闻</el-button>
+        <el-button type="success" size="small" plain @click="uploadNew(true)">保存草稿</el-button>
       </div>
     </div>
   </div>
@@ -56,7 +56,21 @@ export default {
       "undo", // 撤销
       "redo" // 重复
     ];
+    this.editor.customConfig.showLinkImg = false;
+    this.editor.customConfig.uploadImgShowBase64 = true; // 使用 base64 保存图片
     this.editor.create();
+    this.$on("reEditNews", val => {
+      console.log(val);
+      this.$nextTick(() => {
+        this.article = {
+          title: val.title,
+          content: this.editor.txt.html(val.content),
+          isHot: val.content,
+          type: "update",
+          isDraft: false
+        };
+      });
+    });
   },
   data() {
     return {
@@ -70,7 +84,7 @@ export default {
     };
   },
   methods: {
-    uploadNew() {
+    uploadNew(val) {
       if (this.article.title === "") {
         this.$message({
           message: "新闻标题不能为空",
@@ -80,7 +94,7 @@ export default {
         this.article.content = this.editor.txt.text();
         if (this.article.content === "") {
           this.$message({
-            message: "新闻内容不能为空",
+            message: "新闻文字内容不能为空",
             type: "error"
           });
         } else {
@@ -89,17 +103,38 @@ export default {
             content: this.editor.txt.html(),
             isHot: parseInt(this.article.isHot),
             type: "insert",
-            isDraft: false
+            isDraft: val
           };
-          postData("http://47.103.210.8:8080/change_articles", this.article, {
-            "Content-Type": "application/json"
-          }).then(res => {
-            console.log(res);
-          });
-          console.log(this.article);
-          alert("上传成功");
+          this.uptoBack();
         }
       }
+    },
+    uptoBack() {
+      postData("http://47.103.210.8:8080/change_articles", this.article, {
+        "Content-Type": "application/json"
+      }).then(res => {
+        console.log(res);
+        if (res.data.status == "insert" || res.data.status == "update") {
+          this.$message({
+            message: "上传成功",
+            type: "success"
+          });
+          this.$nextTick(() => {
+            this.article = {
+              title: "",
+              content: this.editor.txt.html("<p></p>"),
+              isHot: "1",
+              type: "",
+              isDraft: false
+            };
+          });
+        } else {
+          this.$message({
+            message: res.data.status,
+            type: "error"
+          });
+        }
+      });
     }
   },
 

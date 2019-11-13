@@ -3,8 +3,7 @@
     <router-bread></router-bread>
     <el-container>
       <el-main style="border-right:solid 1px #a6e1f1">
-        <el-table :data="tableData" stripe border v-loading="loading" max-height="466">
-          <el-table-column prop="id" label="编号" width="70" v-if="false"></el-table-column>
+        <el-table :data="tableData" border v-loading="loading" max-height="466">
           <el-table-column prop="date" label="登记时间" width="180"></el-table-column>
           <el-table-column prop="item" label="登记项目" width="100"></el-table-column>
           <el-table-column prop="money" label="登记金额（元）" width="120"></el-table-column>

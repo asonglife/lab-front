@@ -4,35 +4,34 @@
     <div class="table-container">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="已上传" name="first">
-          <el-table :data="upData" max-height="466" v-loading="loading" border>
+          <el-table :data="upData" max-height="466" v-loading="loading" stripe size="mini">
             <el-table-column prop="id" label="编号" width="100" v-if="false"></el-table-column>
             <el-table-column prop="title" label="标题" :show-overflow-tooltip="true" width="500"></el-table-column>
             <el-table-column prop="isHot" label="类型" width="300"></el-table-column>
             <el-table-column label="操作" min-width="180">
               <template slot-scope="scope">
                 <auth-button
-                  @click="editUser(scope.$index,tableData)"
+                  @click="editNews(scope.$index,upData)"
                   label="编辑"
                   style="margin-right: 4px"
                 ></auth-button>
-                <auth-button type="danger" @click="deleteNews(scope.$index,tableData)" label="删除"></auth-button>
+                <auth-button type="danger" @click="deleteNews(scope.$index,upData)" label="删除"></auth-button>
               </template>
             </el-table-column>
           </el-table>
         </el-tab-pane>
         <el-tab-pane label="草稿箱" name="second">
-          <el-table :data="draftData" border v-loading="loading" max-height="466">
-            <el-table-column prop="id" label="编号" width="100" v-if="false"></el-table-column>
+          <el-table :data="draftData" v-loading="loading" max-height="466" stripe size="mini">
             <el-table-column prop="title" label="标题" :show-overflow-tooltip="true" width="500"></el-table-column>
             <el-table-column prop="isHot" label="类型" width="300"></el-table-column>
             <el-table-column label="操作" min-width="180">
               <template slot-scope="scope">
                 <auth-button
-                  @click="editUser(scope.$index,tableData)"
+                  @click="editNews(scope.$index,draftData)"
                   label="编辑"
                   style="margin-right: 4px"
                 ></auth-button>
-                <auth-button type="danger" @click="deleteNews(scope.$index,tableData)" label="删除"></auth-button>
+                <auth-button type="danger" @click="deleteNews(scope.$index,draftData)" label="删除"></auth-button>
               </template>
             </el-table-column>
           </el-table>
@@ -46,6 +45,7 @@
 import RouterBread from "view/backend/system/managecomponents/routerbread.vue";
 import AuthButton from "view/backend/system/managecomponents/authbutton.vue";
 import { getData } from "api/getData.js";
+import { postData } from "api/postData.js";
 export default {
   components: {
     RouterBread,
@@ -75,9 +75,67 @@ export default {
         this.getNewsData(this.draftData);
       }
     },
-    handleSelectionChange() {},
-    deleteNews() {},
+    editNews(index, rowdata) {
+      let articles = {
+        id: rowdata[index].id,
+        isHot: rowdata[index].isHot,
+        content: rowdata[index].content,
+        title: rowdata[index].title
+      };
+      this.$emit("reEditNews", articles);
+      this.$nextTick(() => {
+        this.$router.push({ name: "Uploadnews" });
+      });
+    },
+    deleteNews(index, rowdata) {
+      let flag = rowdata[index].isDraft;
+      this.$confirm("此操作将永久删除该新闻, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          postData(
+            "http://47.103.210.8:8080/change_articles",
+            {
+              id: rowdata[index].id,
+              type: "delete"
+            },
+            {
+              "Content-Type": "application/json"
+            }
+          )
+            .then(res => {
+              if (res.data.status == "delete") {
+                if (flag == 0) {
+                  this.upData = [];
+                  this.getNewsData(this.upData);
+                } else {
+                  this.draftData = [];
+                  this.getNewsData(this.draftData);
+                }
+                this.$message({
+                  type: "success",
+                  message: "删除成功!"
+                });
+              }
+            })
+            .catch(err => {
+              this.$message({
+                type: "error",
+                message: err
+              });
+            });
+        })
+        .catch(err => {
+          this.$message({
+            type: "error",
+            message: err
+          });
+        });
+    },
     getNewsData(val) {
+      this.loading = true;
       getData(
         "http://47.103.210.8:8080/get_articles?isDraft=" + this.isDraft
       ).then(res => {
@@ -87,20 +145,23 @@ export default {
           val.push({
             id: articles[i].id,
             title: articles[i].title,
-            isHot: this.typeSwitch(articles[i].isHot)
+            isHot: this.typeSwitch(articles[i].isHot),
+            isDraft: articles[i].isDraft,
+            content: articles[i].content
           });
         }
+        this.loading = false;
       });
     },
     typeSwitch(val) {
       switch (val) {
-        case 0:
+        case 1:
           return "新闻快讯";
           break;
-        case 1:
+        case 2:
           return "图片新闻";
           break;
-        case 2:
+        case 3:
           return "热点新闻";
           break;
       }
