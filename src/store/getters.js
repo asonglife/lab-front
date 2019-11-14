@@ -13,6 +13,9 @@ const getters = {
       state.expire = localStorage.getItem('token')
     }
     return state.expire
+  },
+  getArticles (state) {
+    return state.articles
   }
 
 }

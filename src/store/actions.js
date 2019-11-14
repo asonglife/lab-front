@@ -10,6 +10,12 @@ const actions = {
   },
   _removeExpire (context) {
     context.commit('_removeExpire')
+  },
+  _setArticles (context, payload) {
+    context.commit('_setArticles', payload)
+  },
+  _removeArticles (context) {
+    context.commit('_removeArticles')
   }
 }
 export default actions

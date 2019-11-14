@@ -59,27 +59,30 @@ export default {
     this.editor.customConfig.showLinkImg = false;
     this.editor.customConfig.uploadImgShowBase64 = true; // 使用 base64 保存图片
     this.editor.create();
-    this.$on("reEditNews", val => {
-      console.log(val);
-      this.$nextTick(() => {
-        this.article = {
-          title: val.title,
-          content: this.editor.txt.html(val.content),
-          isHot: val.content,
-          type: "update",
-          isDraft: false
-        };
-      });
+    let val = this.$store.getters.getArticles;
+    this.$nextTick(() => {
+      this.article = {
+        id: val.id,
+        title: val.title,
+        content: this.editor.txt.html(val.content),
+        isHot: val.isHot,
+        type: "update",
+        isDraft: false
+      };
+      console.log(this.article);
     });
   },
   data() {
     return {
       article: {
+        id: "",
         title: "",
         content: "",
         isHot: "1",
-        type: "",
-        isDraft: false
+        type: "insert",
+        isDraft: false,
+        author: "",
+        date: ""
       }
     };
   },
@@ -98,12 +101,16 @@ export default {
             type: "error"
           });
         } else {
+          let upTime = new Date();
           this.article = {
+            id: parseInt(this.article.id),
             title: this.article.title,
             content: this.editor.txt.html(),
             isHot: parseInt(this.article.isHot),
-            type: "insert",
-            isDraft: val
+            type: this.article.type,
+            isDraft: val,
+            author: this.$store.getters.getUserInfo.name,
+            date: upTime.Format("yyyy-MM-dd HH:mm:ss")
           };
           this.uptoBack();
         }

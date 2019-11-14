@@ -46,7 +46,6 @@ import RouterBread from "view/backend/system/managecomponents/routerbread.vue";
 import AuthButton from "view/backend/system/managecomponents/authbutton.vue";
 import { getData } from "api/getData.js";
 import { postData } from "api/postData.js";
-
 export default {
   inject: ["reload"],
   components: {
@@ -78,14 +77,19 @@ export default {
       }
     },
     editNews(index, rowdata) {
-      let articles = {
-        id: rowdata[index].id,
-        isHot: rowdata[index].isHot,
-        content: rowdata[index].content,
-        title: rowdata[index].title
-      };
-      this.$router.push({ name: "Uploadnews" });
-      this.reload();
+      let articles = {};
+      getData(rowdata[index].content).then(res => {
+        console.log(res);
+        articles = {
+          id: rowdata[index].id,
+          isHot: this.typeSwitch(rowdata[index].isHot),
+          content: res.data,
+          title: rowdata[index].title
+        };
+        this.$store.dispatch("_setArticles", articles);
+        this.$router.push({ name: "Uploadnews" });
+        this.reload();
+      });
     },
     deleteNews(index, rowdata) {
       let flag = rowdata[index].isDraft;
@@ -163,6 +167,15 @@ export default {
           break;
         case 3:
           return "热点新闻";
+          break;
+        case "新闻快讯":
+          return "1";
+          break;
+        case "图片新闻":
+          return "2";
+          break;
+        case "热点新闻":
+          return "3";
           break;
       }
     }

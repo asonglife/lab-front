@@ -16,6 +16,12 @@ const mutations = {
     state.token = ''
     state.userInfo = {}
     localStorage.clear()
+  },
+  _setArticles (state, payload) {
+    state.articles = payload
+  },
+  _removeArticles (state) {
+    state.articles = {}
   }
 }
 export default mutations
