@@ -4,7 +4,7 @@
       <el-header height="81px">
         <system-header></system-header>
       </el-header>
-      <el-container>
+      <el-container v-if="isRouterAlive">
         <el-aside width="200px">
           <system-aside @system-router="systemRouter"></system-aside>
         </el-aside>
@@ -26,8 +26,15 @@ export default {
     systemAside,
     systemMain
   },
+  provide() {
+    return {
+      reload: this.reload
+    };
+  },
   data() {
-    return {};
+    return {
+      isRouterAlive: true
+    };
   },
   methods: {
     systemRouter(i) {
@@ -55,6 +62,12 @@ export default {
           this.$router.replace({ name: "Managemember" });
           break;
       }
+    },
+    reload() {
+      this.isRouterAlive = false;
+      this.$nextTick(() => {
+        this.isRouterAlive = true;
+      });
     }
   }
 };

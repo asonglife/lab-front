@@ -5,6 +5,7 @@ import News from 'view/news/news.vue'
 import Members from 'view/members/members.vue'
 import Science from 'view/science/science.vue'
 import Backend from 'view/backend/backend.vue'
+
 import Homepage from 'view/home/homepage.vue'
 import membersDetail from 'view/members/membersDetail.vue'
 import newsDetail from 'view/news/newsDetail.vue'
@@ -113,6 +114,7 @@ export default new Router({
       meta: {
         requireAuth: true
       }
+
     }
     ]
   }, {
@@ -120,5 +122,6 @@ export default new Router({
     name: 'Login',
     component: Login
   }
+
   ]
 })

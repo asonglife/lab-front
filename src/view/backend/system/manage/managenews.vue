@@ -46,7 +46,9 @@ import RouterBread from "view/backend/system/managecomponents/routerbread.vue";
 import AuthButton from "view/backend/system/managecomponents/authbutton.vue";
 import { getData } from "api/getData.js";
 import { postData } from "api/postData.js";
+
 export default {
+  inject: ["reload"],
   components: {
     RouterBread,
     AuthButton
@@ -82,10 +84,8 @@ export default {
         content: rowdata[index].content,
         title: rowdata[index].title
       };
-      this.$emit("reEditNews", articles);
-      this.$nextTick(() => {
-        this.$router.push({ name: "Uploadnews" });
-      });
+      this.$router.push({ name: "Uploadnews" });
+      this.reload();
     },
     deleteNews(index, rowdata) {
       let flag = rowdata[index].isDraft;
