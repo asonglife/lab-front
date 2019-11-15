@@ -22,6 +22,9 @@ const mutations = {
   },
   _removeArticles (state) {
     state.articles = {}
+  },
+  _editFlag (state, payload) {
+    state.editflag = payload
   }
 }
 export default mutations

@@ -16,6 +16,9 @@ const actions = {
   },
   _removeArticles (context) {
     context.commit('_removeArticles')
+  },
+  _editFlag (context, payload) {
+    context.commit('_editFlag', payload)
   }
 }
 export default actions

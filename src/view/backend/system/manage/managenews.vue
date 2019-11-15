@@ -27,7 +27,6 @@
                   icon="el-icon-edit"
                   circle
                   style="margin-right: 10px"
-                  :disabled="editloading"
                 ></auth-button>
                 <auth-button
                   type="danger"
@@ -69,7 +68,6 @@
                   @click="subEditNews(scope.$index,draftData)"
                   icon="el-icon-edit"
                   circle
-                  :disabled="editloading"
                   style="margin-right: 10px"
                 ></auth-button>
                 <auth-button
@@ -106,7 +104,7 @@ export default {
       draftData: [],
       isDraft: 0,
       loading: false,
-      editloading: false
+      editflag: false
     };
   },
   mounted() {
@@ -125,21 +123,29 @@ export default {
       }
     },
     isEdit() {
-      let _articles = this.$store.getters.getArticles;
-      return isNullObj(_articles);
+      let getArticles = this.delHtmlTag(
+        this.$store.getters.getArticles.content
+      );
+      if (getArticles !== "") {
+        return false;
+      } else {
+        return true;
+      }
     },
     subEditNews(index, rowdata) {
-      if (!this.isEdit()) {
-        this.$confirm("仍有未完成编辑的工作, 是否开启新的编辑", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(() => {
+      this.$store.dispatch("_editFlag", true).then(() => {
+        if (!this.isEdit()) {
+          this.$confirm("仍有未完成编辑的工作, 是否开启新的编辑", "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          }).then(() => {
+            this.editNews(index, rowdata);
+          });
+        } else {
           this.editNews(index, rowdata);
-        });
-      } else {
-        this.editNews(index, rowdata);
-      }
+        }
+      });
     },
     editNews(index, rowdata) {
       let articles = {};
@@ -247,6 +253,9 @@ export default {
           return "3";
           break;
       }
+    },
+    delHtmlTag(str) {
+      return str.replace(/<[^>]+>/g, ""); //去掉所有的html标记
     }
   }
 };

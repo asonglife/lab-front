@@ -8,8 +8,12 @@
         prefix-icon="el-icon-edit"
         maxlength="100"
         show-word-limit
+        clearable
         class="title-style"
       ></el-input>
+      <div
+        style="text-align:left;margin:6px 0; color: #ccc;font-size:14px"
+      >在编辑时，若未提示自动保存，请勿刷新页面，以免内容未保存！</div>
       <div id="editor"></div>
       <div style="margin-top: 20px">
         <el-radio-group v-model="article.isHot" size="small">
@@ -40,8 +44,8 @@ import { formatDate } from "assets/js/formatDate.js";
 import { isNullObj } from "assets/js/isNullObj.js";
 export default {
   mounted() {
-    this.saveTip();
     this.createWangEditor();
+    this.saveTip();
   },
   data() {
     return {
@@ -77,12 +81,53 @@ export default {
         "undo", // 撤销
         "redo" // 重复
       ];
+      let _this = this;
+      this.editor.customConfig.onchangeTimeout = 3000;
+      this.editor.customConfig.onchange = function(html) {
+        // html 即变化之后的内容'
+        if (_this.delHtmlTag(html) !== "") {
+          _this.autoSave();
+          _this.$message({
+            type: "success",
+            message:
+              "自动保存成功，时间:" +
+              formatDate(new Date(), "yyyy-MM-dd hh:mm:ss"),
+            duration: 2000
+          });
+        }
+      };
+
       this.editor.customConfig.showLinkImg = false;
       this.editor.customConfig.uploadImgShowBase64 = true; // 使用 base64 保存图片
       this.editor.create();
     },
+    autoSave() {
+      let _this = this;
+      if (this.delHtmlTag(this.editor.txt.html()) !== "") {
+        _this.$nextTick(() => {
+          _this.article = {
+            id: parseInt(_this.article.id),
+            title: _this.article.title,
+            content: _this.editor.txt.html(),
+            isHot: _this.article.isHot
+          };
+          _this.$store.dispatch("_setArticles", _this.article);
+        });
+      } else {
+        _this.$nextTick(() => {
+          _this.article = {
+            id: parseInt(_this.article.id),
+            title: _this.article.title,
+            content: _this.editor.txt.html("<p></p>"),
+            isHot: _this.article.isHot
+          };
+        });
+        _this.$store.dispatch("_setArticles", _this.article);
+      }
+    },
     saveTip() {
       if (!isNullObj(this.$store.getters.getArticles)) {
+        this.getContentFromStore();
         window.onbeforeunload = function(e) {
           e = e || window.event;
           // 兼容IE8和Firefox 4之前的版本
@@ -92,7 +137,6 @@ export default {
           // Chrome, Safari, Firefox 4+, Opera 12+ , IE 9+
           return "关闭提示";
         };
-        this.getContentFromStore();
       }
     },
     getContentFromStore() {
@@ -114,26 +158,24 @@ export default {
           message: "新闻标题不能为空",
           type: "error"
         });
+      } else if (this.delHtmlTag(this.editor.txt.html()) == "") {
+        this.$message({
+          message: "新闻内容不能为空",
+          type: "error"
+        });
       } else {
-        this.article.content = this.editor.txt.text();
-        if (this.article.content === "") {
-          this.$message({
-            message: "新闻文字内容不能为空",
-            type: "error"
-          });
-        } else {
-          this.article = {
-            id: parseInt(this.article.id),
-            title: this.article.title,
-            content: this.editor.txt.html(),
-            isHot: parseInt(this.article.isHot),
-            type: this.article.type,
-            isDraft: val,
-            author: this.$store.getters.getUserInfo.name,
-            date: formatDate(new Date(), "yyyy-MM-dd hh:mm:ss")
-          };
-          this.uptoBack();
-        }
+        this.article = {
+          id: parseInt(this.article.id),
+          title: this.article.title,
+          content: this.editor.txt.html(),
+          isHot: parseInt(this.article.isHot),
+          type: this.article.type,
+          isDraft: val,
+          author: this.$store.getters.getUserInfo.name,
+          date: formatDate(new Date(), "yyyy-MM-dd hh:mm:ss")
+        };
+        console.log(this.delHtmlTag(this.editor.txt.html()));
+        this.uptoBack();
       }
     },
     uptoBack() {
@@ -154,7 +196,9 @@ export default {
               type: "insert",
               isDraft: false
             };
-            this.$store.dispatch("_removeArticles");
+            this.$store.dispatch("_removeArticles").then(() => {
+              this.$store.dispatch("_editFlag", false);
+            });
             console.log(this.article);
           });
         } else {
@@ -162,13 +206,20 @@ export default {
             message: "上传失败",
             type: "error"
           });
-          console.log(this.article);
+          this.$store.dispatch("_setArticles", this.article);
         }
       });
+    },
+    delHtmlTag(str) {
+      return str.replace(/<[^>]+>/g, ""); //去掉所有的html标记
     }
   },
-  destroyed() {
-    window.onbeforeunload = null;
+  beforeRouteLeave(to, from, next) {
+    if (to.path != "/uploadnews") {
+      this.autoSave();
+
+      next();
+    }
   },
   components: {
     RouterBread
@@ -183,7 +234,7 @@ export default {
   font-size: 16px
   height: auto
 .title-style
-  margin-bottom: 20px
+  margin-bottom: 0
 .button-container
   margin-left: 75%
   margin-top: 10px

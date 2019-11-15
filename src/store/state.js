@@ -10,6 +10,7 @@ const state = {
   userInfo: initUserInfo(),
   token: localStorage.getItem('token') ? localStorage.getItem('token') : '',
   expire: localStorage.getItem('expire') ? localStorage.getItem('expire') : '',
-  articles: {}
+  articles: {},
+  editflag: false
 }
 export default state

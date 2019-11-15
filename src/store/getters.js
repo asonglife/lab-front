@@ -16,6 +16,9 @@ const getters = {
   },
   getArticles (state) {
     return state.articles
+  },
+  isEdit (state) {
+    return state.editflag
   }
 
 }
