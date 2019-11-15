@@ -11,9 +11,7 @@
         clearable
         class="title-style"
       ></el-input>
-      <div
-        style="text-align:left;margin:6px 0; color: #ccc;font-size:14px"
-      >在编辑时，若未提示自动保存，请勿刷新页面，以免内容未保存！</div>
+
       <div id="editor"></div>
       <div style="margin-top: 20px">
         <el-radio-group v-model="article.isHot" size="small">
@@ -46,7 +44,9 @@ export default {
   mounted() {
     this.createWangEditor();
     this.saveTip();
+    this.getContentFromStore();
   },
+  inject: ["reload"],
   data() {
     return {
       article: {
@@ -58,7 +58,8 @@ export default {
         isDraft: false,
         author: "",
         date: ""
-      }
+      },
+      flag: true
     };
   },
   methods: {
@@ -87,13 +88,15 @@ export default {
         // html 即变化之后的内容'
         if (_this.delHtmlTag(html) !== "") {
           _this.autoSave();
-          _this.$message({
-            type: "success",
-            message:
-              "自动保存成功，时间:" +
-              formatDate(new Date(), "yyyy-MM-dd hh:mm:ss"),
-            duration: 2000
-          });
+          if (_this.flag) {
+            _this.$message({
+              type: "success",
+              message:
+                "自动保存成功，时间:" +
+                formatDate(new Date(), "yyyy-MM-dd hh:mm:ss"),
+              duration: 2000
+            });
+          }
         }
       };
 
@@ -103,31 +106,19 @@ export default {
     },
     autoSave() {
       let _this = this;
-      if (this.delHtmlTag(this.editor.txt.html()) !== "") {
-        _this.$nextTick(() => {
-          _this.article = {
-            id: parseInt(_this.article.id),
-            title: _this.article.title,
-            content: _this.editor.txt.html(),
-            isHot: _this.article.isHot
-          };
-          _this.$store.dispatch("_setArticles", _this.article);
-        });
-      } else {
-        _this.$nextTick(() => {
-          _this.article = {
-            id: parseInt(_this.article.id),
-            title: _this.article.title,
-            content: _this.editor.txt.html("<p></p>"),
-            isHot: _this.article.isHot
-          };
-        });
+      _this.$nextTick(() => {
+        _this.article = {
+          id: parseInt(_this.article.id),
+          title: _this.article.title,
+          content: _this.editor.txt.html(),
+          isHot: _this.article.isHot
+        };
+        this.reload();
         _this.$store.dispatch("_setArticles", _this.article);
-      }
+      });
     },
     saveTip() {
       if (!isNullObj(this.$store.getters.getArticles)) {
-        this.getContentFromStore();
         window.onbeforeunload = function(e) {
           e = e || window.event;
           // 兼容IE8和Firefox 4之前的版本
@@ -140,17 +131,19 @@ export default {
       }
     },
     getContentFromStore() {
-      let val = this.$store.getters.getArticles;
-      this.$nextTick(() => {
-        this.article = {
-          id: val.id,
-          title: val.title,
-          content: this.editor.txt.html(val.content),
-          isHot: val.isHot,
-          type: "update",
-          isDraft: false
-        };
-      });
+      if (!isNullObj(this.$store.getters.getArticles)) {
+        let val = this.$store.getters.getArticles;
+        this.$nextTick(() => {
+          this.article = {
+            id: val.id,
+            title: val.title,
+            content: this.editor.txt.html(val.content),
+            isHot: val.isHot,
+            type: "update",
+            isDraft: false
+          };
+        });
+      }
     },
     uploadNew(val) {
       if (this.article.title === "") {
@@ -160,7 +153,7 @@ export default {
         });
       } else if (this.delHtmlTag(this.editor.txt.html()) == "") {
         this.$message({
-          message: "新闻内容不能为空",
+          message: "新闻文字内容不能为空",
           type: "error"
         });
       } else {
@@ -174,7 +167,6 @@ export default {
           author: this.$store.getters.getUserInfo.name,
           date: formatDate(new Date(), "yyyy-MM-dd hh:mm:ss")
         };
-        console.log(this.delHtmlTag(this.editor.txt.html()));
         this.uptoBack();
       }
     },
@@ -184,6 +176,7 @@ export default {
       }).then(res => {
         console.log(res);
         if (res.data.status == "insert" || res.data.status == "update") {
+          this.flag = false;
           this.$message({
             message: "上传成功",
             type: "success"
@@ -199,7 +192,6 @@ export default {
             this.$store.dispatch("_removeArticles").then(() => {
               this.$store.dispatch("_editFlag", false);
             });
-            console.log(this.article);
           });
         } else {
           this.$message({
