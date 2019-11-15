@@ -36,46 +36,17 @@
 import RouterBread from "view/backend/system/managecomponents/routerbread.vue";
 import wangeditor from "wangeditor";
 import { postData } from "api/postData.js";
+import { formatDate } from "assets/js/formatDate.js";
+import { isNullObj } from "assets/js/isNullObj.js";
 export default {
   mounted() {
-    this.editor = new wangeditor("#editor");
-    this.editor.customConfig.menus = [
-      "bold", // 粗体
-      "fontSize", // 字号
-      "fontName", // 字体
-      "underline", // 下划线
-      "foreColor", // 文字颜色
-      "backColor", // 背景颜色
-      "link", // 插入链接
-      "list", // 列表
-      "justify", // 对齐方式
-      "quote", // 引用
-      "emoticon", // 表情
-      "image", // 插入图片
-      "table", // 表格
-      "undo", // 撤销
-      "redo" // 重复
-    ];
-    this.editor.customConfig.showLinkImg = false;
-    this.editor.customConfig.uploadImgShowBase64 = true; // 使用 base64 保存图片
-    this.editor.create();
-    let val = this.$store.getters.getArticles;
-    this.$nextTick(() => {
-      this.article = {
-        id: val.id,
-        title: val.title,
-        content: this.editor.txt.html(val.content),
-        isHot: val.isHot,
-        type: "update",
-        isDraft: false
-      };
-      console.log(this.article);
-    });
+    this.saveTip();
+    this.createWangEditor();
   },
   data() {
     return {
       article: {
-        id: "",
+        id: "0",
         title: "",
         content: "",
         isHot: "1",
@@ -87,6 +58,56 @@ export default {
     };
   },
   methods: {
+    createWangEditor() {
+      this.editor = new wangeditor("#editor");
+      this.editor.customConfig.menus = [
+        "bold", // 粗体
+        "fontSize", // 字号
+        "fontName", // 字体
+        "underline", // 下划线
+        "foreColor", // 文字颜色
+        "backColor", // 背景颜色
+        "link", // 插入链接
+        "list", // 列表
+        "justify", // 对齐方式
+        "quote", // 引用
+        "emoticon", // 表情
+        "image", // 插入图片
+        "table", // 表格
+        "undo", // 撤销
+        "redo" // 重复
+      ];
+      this.editor.customConfig.showLinkImg = false;
+      this.editor.customConfig.uploadImgShowBase64 = true; // 使用 base64 保存图片
+      this.editor.create();
+    },
+    saveTip() {
+      if (!isNullObj(this.$store.getters.getArticles)) {
+        window.onbeforeunload = function(e) {
+          e = e || window.event;
+          // 兼容IE8和Firefox 4之前的版本
+          if (e) {
+            e.returnValue = "关闭提示";
+          }
+          // Chrome, Safari, Firefox 4+, Opera 12+ , IE 9+
+          return "关闭提示";
+        };
+        this.getContentFromStore();
+      }
+    },
+    getContentFromStore() {
+      let val = this.$store.getters.getArticles;
+      this.$nextTick(() => {
+        this.article = {
+          id: val.id,
+          title: val.title,
+          content: this.editor.txt.html(val.content),
+          isHot: val.isHot,
+          type: "update",
+          isDraft: false
+        };
+      });
+    },
     uploadNew(val) {
       if (this.article.title === "") {
         this.$message({
@@ -101,7 +122,6 @@ export default {
             type: "error"
           });
         } else {
-          let upTime = new Date();
           this.article = {
             id: parseInt(this.article.id),
             title: this.article.title,
@@ -110,7 +130,7 @@ export default {
             type: this.article.type,
             isDraft: val,
             author: this.$store.getters.getUserInfo.name,
-            date: upTime.Format("yyyy-MM-dd HH:mm:ss")
+            date: formatDate(new Date(), "yyyy-MM-dd hh:mm:ss")
           };
           this.uptoBack();
         }
@@ -131,20 +151,25 @@ export default {
               title: "",
               content: this.editor.txt.html("<p></p>"),
               isHot: "1",
-              type: "",
+              type: "insert",
               isDraft: false
             };
+            this.$store.dispatch("_removeArticles");
+            console.log(this.article);
           });
         } else {
           this.$message({
-            message: res.data.status,
+            message: "上传失败",
             type: "error"
           });
+          console.log(this.article);
         }
       });
     }
   },
-
+  destroyed() {
+    window.onbeforeunload = null;
+  },
   components: {
     RouterBread
   }
@@ -153,6 +178,10 @@ export default {
 <style lang="stylus" scoped>
 #editor-container
   padding: 30px
+#editor
+  text-align: left
+  font-size: 16px
+  height: auto
 .title-style
   margin-bottom: 20px
 .button-container

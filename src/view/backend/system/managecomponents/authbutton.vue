@@ -1,6 +1,13 @@
 <template>
   <div class="authbutton">
-    <el-button :size="size" :type="type" :disabled="isSort" @click="handleClick()">{{label}}</el-button>
+    <el-button
+      :size="size"
+      :type="type"
+      :disabled="isSort"
+      :icon="icon"
+      @click="handleClick()"
+      :circle="circle"
+    >{{label}}</el-button>
   </div>
 </template>
 
@@ -14,7 +21,7 @@ export default {
   props: {
     label: {
       type: String,
-      default: "Button"
+      default: ""
     },
     size: {
       // 按钮尺寸
@@ -25,6 +32,14 @@ export default {
       // 按钮类型
       type: String,
       default: null
+    },
+    icon: {
+      type: String,
+      default: null
+    },
+    circle: {
+      type: Boolean,
+      default: false
     }
   },
   mounted() {

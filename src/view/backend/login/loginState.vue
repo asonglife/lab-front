@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="login" v-show="!this.loginState()">
+    <div class="login" v-show="this.loginState()">
       <span>当前身份：游客 |</span>
       <span class="login-text" @click="goLogin()">登录</span>
     </div>
-    <div class="login" v-show="this.loginState()">
+    <div class="login" v-show="!this.loginState()">
       <span>当前身份：{{username}} |</span>
       <span class="login-text" @click="loginOut()">注销</span>
     </div>
@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { isNullObj } from "assets/js/isNullObj.js";
 export default {
   data() {
     return {
@@ -21,10 +22,7 @@ export default {
   methods: {
     loginState() {
       let userInfo = this.$store.getters.getUserInfo;
-      for (let key in userInfo) {
-        return true;
-      }
-      return false;
+      return isNullObj(userInfo);
     },
     goLogin() {
       this.$router.push({ name: "Login" });

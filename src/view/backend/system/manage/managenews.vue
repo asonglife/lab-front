@@ -4,34 +4,80 @@
     <div class="table-container">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="已上传" name="first">
-          <el-table :data="upData" max-height="466" v-loading="loading" stripe size="mini">
-            <el-table-column prop="id" label="编号" width="100" v-if="false"></el-table-column>
-            <el-table-column prop="title" label="标题" :show-overflow-tooltip="true" width="500"></el-table-column>
-            <el-table-column prop="isHot" label="类型" width="300"></el-table-column>
+          <el-table :data="upData" max-height="466" v-loading="loading" stripe size="mini" border>
+            <el-table-column prop="date" label="上传时间" width="250" header-align="center">
+              <template slot-scope="scope">
+                <i class="el-icon-time"></i>
+                <span style="margin-left: 10px">{{ scope.row.date }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="title"
+              label="标题"
+              :show-overflow-tooltip="true"
+              width="400"
+              header-align="center"
+            ></el-table-column>
+            <el-table-column prop="isHot" label="类型" width="170"></el-table-column>
+            <el-table-column prop="author" label="上传者" width="200"></el-table-column>
             <el-table-column label="操作" min-width="180">
               <template slot-scope="scope">
                 <auth-button
-                  @click="editNews(scope.$index,upData)"
-                  label="编辑"
-                  style="margin-right: 4px"
+                  @click="subEditNews(scope.$index,upData)"
+                  icon="el-icon-edit"
+                  circle
+                  style="margin-right: 10px"
+                  :disabled="editloading"
                 ></auth-button>
-                <auth-button type="danger" @click="deleteNews(scope.$index,upData)" label="删除"></auth-button>
+                <auth-button
+                  type="danger"
+                  @click="deleteNews(scope.$index,upData)"
+                  icon="el-icon-delete"
+                  circle
+                ></auth-button>
               </template>
             </el-table-column>
           </el-table>
         </el-tab-pane>
         <el-tab-pane label="草稿箱" name="second">
-          <el-table :data="draftData" v-loading="loading" max-height="466" stripe size="mini">
-            <el-table-column prop="title" label="标题" :show-overflow-tooltip="true" width="500"></el-table-column>
-            <el-table-column prop="isHot" label="类型" width="300"></el-table-column>
+          <el-table
+            :data="draftData"
+            v-loading="loading"
+            max-height="466"
+            stripe
+            size="mini"
+            border
+          >
+            <el-table-column prop="date" label="上传时间" width="250" header-align="center">
+              <template slot-scope="scope">
+                <i class="el-icon-time"></i>
+                <span style="margin-left: 10px">{{ scope.row.date }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="title"
+              label="标题"
+              :show-overflow-tooltip="true"
+              width="400"
+              header-align="center"
+            ></el-table-column>
+            <el-table-column prop="isHot" label="类型" width="170"></el-table-column>
+            <el-table-column prop="author" label="上传者" width="200"></el-table-column>
             <el-table-column label="操作" min-width="180">
               <template slot-scope="scope">
                 <auth-button
-                  @click="editNews(scope.$index,draftData)"
-                  label="编辑"
-                  style="margin-right: 4px"
+                  @click="subEditNews(scope.$index,draftData)"
+                  icon="el-icon-edit"
+                  circle
+                  :disabled="editloading"
+                  style="margin-right: 10px"
                 ></auth-button>
-                <auth-button type="danger" @click="deleteNews(scope.$index,draftData)" label="删除"></auth-button>
+                <auth-button
+                  type="danger"
+                  @click="deleteNews(scope.$index,draftData)"
+                  icon="el-icon-delete"
+                  circle
+                ></auth-button>
               </template>
             </el-table-column>
           </el-table>
@@ -46,6 +92,7 @@ import RouterBread from "view/backend/system/managecomponents/routerbread.vue";
 import AuthButton from "view/backend/system/managecomponents/authbutton.vue";
 import { getData } from "api/getData.js";
 import { postData } from "api/postData.js";
+import { isNullObj } from "assets/js/isNullObj.js";
 export default {
   inject: ["reload"],
   components: {
@@ -58,7 +105,8 @@ export default {
       upData: [],
       draftData: [],
       isDraft: 0,
-      loading: false
+      loading: false,
+      editloading: false
     };
   },
   mounted() {
@@ -76,8 +124,26 @@ export default {
         this.getNewsData(this.draftData);
       }
     },
+    isEdit() {
+      let _articles = this.$store.getters.getArticles;
+      return isNullObj(_articles);
+    },
+    subEditNews(index, rowdata) {
+      if (!this.isEdit()) {
+        this.$confirm("仍有未完成编辑的工作, 是否开启新的编辑", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
+          this.editNews(index, rowdata);
+        });
+      } else {
+        this.editNews(index, rowdata);
+      }
+    },
     editNews(index, rowdata) {
       let articles = {};
+      this.editloading = true;
       getData(rowdata[index].content).then(res => {
         console.log(res);
         articles = {
@@ -86,6 +152,7 @@ export default {
           content: res.data,
           title: rowdata[index].title
         };
+        this.editloading = false;
         this.$store.dispatch("_setArticles", articles);
         this.$router.push({ name: "Uploadnews" });
         this.reload();
@@ -151,7 +218,9 @@ export default {
             title: articles[i].title,
             isHot: this.typeSwitch(articles[i].isHot),
             isDraft: articles[i].isDraft,
-            content: articles[i].content
+            content: articles[i].content,
+            date: articles[i].date,
+            author: articles[i].author
           });
         }
         this.loading = false;

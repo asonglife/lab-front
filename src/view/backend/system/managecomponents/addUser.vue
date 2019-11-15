@@ -35,6 +35,12 @@
             <el-option label="博士" value="博士"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="身份" prop="isTeacher">
+          <el-radio-group v-model="studentsData.isTeacher">
+            <el-radio label="0">老师</el-radio>
+            <el-radio label="1">学生</el-radio>
+          </el-radio-group>
+        </el-form-item>
         <el-form-item label="地址" prop="address" auto-complete="on">
           <el-input v-model="studentsData.address"></el-input>
         </el-form-item>
@@ -130,7 +136,8 @@ export default {
         tel: "",
         email: "",
         experience: "",
-        type: ""
+        type: "",
+        isTeacher: ""
       },
       rules: {
         photo: [{ required: true, message: "请上传个人照片", trigger: "blur" }],
@@ -150,7 +157,8 @@ export default {
           { required: true, message: "请输入个人经历", trigger: "blur" }
         ],
         tel: [{ required: true, validator: checktel, trigger: "blur" }],
-        email: [{ validator: checkEmail, trigger: "blur", required: true }]
+        email: [{ validator: checkEmail, trigger: "blur", required: true }],
+        isTeacher: [{ required: true, message: "请选择身份", trigger: "blur" }]
       },
       drawer: false,
       loading: false
@@ -173,8 +181,21 @@ export default {
     submitData() {
       this.$refs.adduserform.validate(valid => {
         if (valid) {
+          this.studentsData = {
+            photo: this.studentsData.photo,
+            name: this.studentsData.name,
+            education: this.studentsData.education,
+            id: this.studentsData.id,
+            address: this.studentsData.address,
+            tel: this.studentsData.tel,
+            email: this.studentsData.email,
+            experience: this.studentsData.experience,
+            type: this.studentsData.type,
+            isTeacher: parseInt(this.studentsData.isTeacher)
+          };
           this.$confirm("确认提交？").then(() => {
             this.loading = true;
+
             postData(
               "http://47.103.210.8:8080/member_change",
               this.studentsData,

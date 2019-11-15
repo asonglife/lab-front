@@ -26,10 +26,11 @@
         <el-table-column type="selection" width="70"></el-table-column>
         <el-table-column prop="name" label="姓名" width="100"></el-table-column>
         <el-table-column prop="id" label="学号/工号" width="180"></el-table-column>
+        <el-table-column prop="isTeacher" label="身份" width="100"></el-table-column>
         <el-table-column prop="education" label="学历" width="100"></el-table-column>
         <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
         <el-table-column prop="tel" label="电话" width="180"></el-table-column>
-        <el-table-column prop="address" label="地址" :show-overflow-tooltip="true" width="260"></el-table-column>
+        <el-table-column prop="address" label="地址" :show-overflow-tooltip="true" width="200"></el-table-column>
         <el-table-column label="操作" min-width="180">
           <template slot-scope="scope">
             <auth-button
@@ -198,6 +199,7 @@ export default {
               name: members[0].name,
               education: members[0].education,
               id: members[0].id,
+              isTeacher: this.typeSwitch(members[0].isTeacher),
               address: members[0].address,
               tel: members[0].tel,
               email: members[0].email,
@@ -226,6 +228,7 @@ export default {
           address: rowdata[index].address,
           tel: rowdata[index].tel,
           email: rowdata[index].email,
+          isTeacher: this.typeSwitch(rowdata[index].isTeacher),
           experience: rowdata[index].experience,
           type: "update"
         };
@@ -240,6 +243,7 @@ export default {
         address: this.$refs.adduser.studentsData.address,
         tel: this.$refs.adduser.studentsData.tel,
         email: this.$refs.adduser.studentsData.email,
+        isTeacher: this.typeSwitch(this.$refs.adduser.studentsData.isTeacher),
         experience: this.$refs.adduser.studentsData.experience
       });
       this.rowIndex = -1;
@@ -278,11 +282,28 @@ export default {
             address: members[i].address,
             tel: members[i].tel,
             email: members[i].email,
+            isTeacher: this.typeSwitch(members[i].isTeacher),
             experience: members[i].experience
           });
         }
         this.loading = false;
       });
+    },
+    typeSwitch(val) {
+      switch (val) {
+        case 0:
+          return "老师";
+          break;
+        case 1:
+          return "学生";
+          break;
+        case "老师":
+          return "0";
+          break;
+        case "学生":
+          return "1";
+          break;
+      }
     }
   }
 };
