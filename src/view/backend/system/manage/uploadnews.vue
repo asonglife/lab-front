@@ -21,6 +21,9 @@
           <el-tooltip class="item" effect="dark" content="热点新闻" placement="top">
             <el-radio label="2" border>热点推荐</el-radio>
           </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="展示在新闻动态轮播图的新闻" placement="top">
+            <el-radio label="3" border>轮播新闻</el-radio>
+          </el-tooltip>
         </el-radio-group>
       </div>
       <div class="button-container">

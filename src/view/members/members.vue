@@ -5,7 +5,7 @@
         <div class="demo-fit">
           <el-row>
             <el-col v-for="(item,index) in teachersData" :key="index" class="block">
-              <el-card :body-style="{ padding: '0px' }">
+              <el-card :body-style="{ padding: '0px' }" shadow="hover">
                 <img :src="item.photo" class="member-img" lazy :onerror="defaultImg" />
                 <div style="padding: 14px;" class="go-exper" @click="openDetails(item.id)">
                   <span>{{item.name}}</span>
@@ -20,7 +20,7 @@
         <div class="demo-fit">
           <el-row>
             <el-col v-for="(item,index) in studentsData" :key="index" class="block">
-              <el-card :body-style="{ padding: '0px' }">
+              <el-card :body-style="{ padding: '0px' }" shadow="hover">
                 <img :src="item.photo" class="member-img" :onerror="defaultImg" lazy />
                 <div style="padding: 14px;" class="go-exper" @click="openDetails(item.id)">
                   <span>{{item.name}}</span>
