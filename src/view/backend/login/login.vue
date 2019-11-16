@@ -42,10 +42,10 @@ export default {
       this.$router.push({ path: "/homepage" });
     },
     login() {
-      this.responseStatus = true;
       let _this = this;
       this.$refs.loginForm.validate(valid => {
         if (valid) {
+          this.responseStatus = true;
           postData("http://47.103.210.8:8080/login", {
             username: _this.user.name,
             password: md5(_this.user.pass)

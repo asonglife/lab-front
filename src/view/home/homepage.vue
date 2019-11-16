@@ -1,7 +1,7 @@
 <template>
-  <div id="#home">
+  <div id="#home" v-loading="loading">
     <h3 class="lab-item">实验室简介</h3>
-    <swiper :labImg="labImage"></swiper>
+    <swiper :labImg="this.labImage"></swiper>
     <p class="lab-content">{{labIntroduction}}</p>
     <h3 class="lab-item">主要方向</h3>
     <ul style="padding:0">
@@ -21,7 +21,8 @@ export default {
     return {
       labIntroduction: [],
       labDirection: [],
-      labImage: []
+      labImage: [],
+      loading: false
     };
   },
   components: {
@@ -32,10 +33,13 @@ export default {
   },
   methods: {
     getLabMessage() {
+      this.loading = true;
       getData("http://47.103.210.8:8080/json_lab").then(res => {
+        console.log(res);
         this.labIntroduction = res.data.labIntroduction;
         this.labDirection = res.data.labDirection;
         this.labImage = res.data.labImage;
+        this.loading = false;
       });
     }
   }

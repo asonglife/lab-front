@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <div v-for="item in membersData" :key="item.id">
-      <div v-if="item.id==routeId" class="detail-container">
-        <el-image class="detail-img" :src="item.photo"></el-image>
-        <h3>{{item.name+" "+item.education}}</h3>
-        <article>个人经历：{{item.experience}}</article>
+  <div v-loading="loading">
+    <div>
+      <div class="detail-container">
+        <el-image class="detail-img" :src="membersData[0].photo"></el-image>
+        <h3>{{membersData[0].name+" "+membersData[0].education}}</h3>
+        <article>个人经历：{{membersData[0].experience}}</article>
       </div>
     </div>
   </div>
@@ -19,23 +19,18 @@ export default {
   data() {
     return {
       membersData: [],
-      routeId: ""
+      loading: false
     };
   },
   methods: {
     getMembersData() {
+      this.loading = true;
       getData(
-        "http://47.103.210.8:8080/json_lab?id=" + this.$route.params.id
+        "http://47.103.210.8:8080/get_members?id=" + this.$route.params.id
       ).then(res => {
-        this.routeId = this.$route.params.id;
-        let teachersData = res.data.membersData.teachersData;
-        let studentsData = res.data.membersData.studentsData;
-        for (let i = 0; i < teachersData.length; i++) {
-          this.membersData.push(teachersData[i]);
-        }
-        for (let i = 0; i < studentsData.length; i++) {
-          this.membersData.push(studentsData[i]);
-        }
+        console.log(res);
+        this.loading = false;
+        this.membersData.push(res.data.members[0]);
       });
     }
   }

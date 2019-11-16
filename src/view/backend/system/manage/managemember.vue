@@ -291,17 +291,17 @@ export default {
     },
     typeSwitch(val) {
       switch (val) {
-        case 0:
+        case 1:
           return "老师";
           break;
-        case 1:
+        case 0:
           return "学生";
           break;
         case "老师":
-          return "0";
+          return "1";
           break;
         case "学生":
-          return "1";
+          return "0";
           break;
       }
     }

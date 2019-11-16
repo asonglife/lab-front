@@ -1,13 +1,7 @@
 <template>
-  <div>
-    <div v-for="item in news" :key="item.id">
-      <div v-if="item.id==newsId" class="news-container">
-        <h3>{{item.newTitle}}</h3>
-        <i class="news-author">{{item.newAuthor+' '+item.newDate}}</i>
-        <article>{{item.newContent}}</article>
-        <el-image class="detail-img" :src="item.newImage" v-if="item.newImage.length>0"></el-image>
-      </div>
-    </div>
+  <div ref="news" class="news-container" v-loading="loading">
+    <h3 v-html="news[0].title" class="title"></h3>
+    <article v-html="content"></article>
   </div>
 </template>
 
@@ -17,7 +11,8 @@ export default {
   data() {
     return {
       news: [],
-      newsId: ""
+      content: "",
+      loading: false
     };
   },
   mounted() {
@@ -25,11 +20,18 @@ export default {
   },
   methods: {
     getNews() {
+      this.loading = true;
       getData(
-        "http://47.103.210.8:8080/json_news?id=" + this.$route.params.id
+        "http://47.103.210.8:8080/get_articles?id=" + this.$route.params.id
       ).then(res => {
-        this.news = res.data.news;
-        this.newsId = this.$route.params.id;
+        this.news = res.data.articles;
+        let articles = res.data.articles;
+        let content = articles[0].content;
+
+        getData(content).then(res => {
+          this.content = res.data;
+          this.loading = false;
+        });
       });
     }
   }
@@ -38,17 +40,15 @@ export default {
 
 <style lang="stylus" scoped>
 .news-container
-  text-align: center
   font-size: 12px
   font-family: inherit
   word-spacing: 9px
   line-height: 2em
   padding: 1em
   text-indent: 1em
-.detail-img
-  width: 500px
-  height: 300px
-  margin-top: 36px
+.title
+  margin-bottom: 20px
+  text-align: center
 .news-author
   display: block
   text-align: right

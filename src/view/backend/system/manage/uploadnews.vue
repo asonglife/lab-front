@@ -15,14 +15,11 @@
       <div id="editor"></div>
       <div style="margin-top: 20px">
         <el-radio-group v-model="article.isHot" size="small">
-          <el-tooltip class="item" effect="dark" content="不含图片的纯文字新闻" placement="left-end">
-            <el-radio label="1" border>新闻快讯</el-radio>
+          <el-tooltip class="item" effect="dark" content="普通新闻" placement="left-end">
+            <el-radio label="1" border>普通新闻</el-radio>
           </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="含图片的新闻" placement="top">
-            <el-radio label="2" border>图片新闻</el-radio>
-          </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="热点新闻" placement="right-end">
-            <el-radio label="3" border>热点推荐</el-radio>
+          <el-tooltip class="item" effect="dark" content="热点新闻" placement="top">
+            <el-radio label="2" border>热点推荐</el-radio>
           </el-tooltip>
         </el-radio-group>
       </div>
@@ -41,16 +38,16 @@ import { postData } from "api/postData.js";
 import { formatDate } from "assets/js/formatDate.js";
 import { isNullObj } from "assets/js/isNullObj.js";
 export default {
+  inject: ["reload"],
   mounted() {
     this.createWangEditor();
     this.saveTip();
     this.getContentFromStore();
   },
-  inject: ["reload"],
   data() {
     return {
       article: {
-        id: "0",
+        id: "",
         title: "",
         content: "",
         isHot: "1",
@@ -86,7 +83,7 @@ export default {
       this.editor.customConfig.onchangeTimeout = 3000;
       this.editor.customConfig.onchange = function(html) {
         // html 即变化之后的内容'
-        if (_this.delHtmlTag(html) !== "") {
+        if (html.replace(/<[^>]+>/g, "") !== "") {
           _this.autoSave();
           if (_this.flag) {
             _this.$message({
@@ -111,14 +108,17 @@ export default {
           id: parseInt(_this.article.id),
           title: _this.article.title,
           content: _this.editor.txt.html(),
-          isHot: _this.article.isHot
+          isHot: _this.article.isHot,
+          type: _this.article.type
         };
-        this.reload();
         _this.$store.dispatch("_setArticles", _this.article);
       });
     },
     saveTip() {
-      if (!isNullObj(this.$store.getters.getArticles)) {
+      if (
+        !isNullObj(this.$store.getters.getArticles) &&
+        this.$store.getters.getArticles.content.replace(/<[^>]+>/g, "") !== ""
+      ) {
         window.onbeforeunload = function(e) {
           e = e || window.event;
           // 兼容IE8和Firefox 4之前的版本
@@ -133,16 +133,29 @@ export default {
     getContentFromStore() {
       if (!isNullObj(this.$store.getters.getArticles)) {
         let val = this.$store.getters.getArticles;
-        this.$nextTick(() => {
-          this.article = {
-            id: val.id,
-            title: val.title,
-            content: this.editor.txt.html(val.content),
-            isHot: val.isHot,
-            type: "update",
-            isDraft: false
-          };
-        });
+        if (val.id) {
+          this.$nextTick(() => {
+            this.article = {
+              id: val.id,
+              title: val.title,
+              content: this.editor.txt.html(val.content),
+              isHot: val.isHot,
+              type: "update",
+              isDraft: false
+            };
+          });
+        } else {
+          this.$nextTick(() => {
+            this.article = {
+              id: val.id,
+              title: val.title,
+              content: this.editor.txt.html(val.content),
+              isHot: val.isHot,
+              type: "insert",
+              isDraft: false
+            };
+          });
+        }
       }
     },
     uploadNew(val) {
@@ -183,6 +196,7 @@ export default {
           });
           this.$nextTick(() => {
             this.article = {
+              id: "",
               title: "",
               content: this.editor.txt.html("<p></p>"),
               isHot: "1",
@@ -191,6 +205,7 @@ export default {
             };
             this.$store.dispatch("_removeArticles").then(() => {
               this.$store.dispatch("_editFlag", false);
+              this.reload();
             });
           });
         } else {
@@ -209,7 +224,6 @@ export default {
   beforeRouteLeave(to, from, next) {
     if (to.path != "/uploadnews") {
       this.autoSave();
-
       next();
     }
   },

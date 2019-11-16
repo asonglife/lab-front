@@ -4,7 +4,7 @@
     <div class="table-container">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="已上传" name="first">
-          <el-table :data="upData" max-height="466" v-loading="loading" stripe size="mini" border>
+          <el-table :data="upData" v-loading="loading" stripe size="mini" border>
             <el-table-column prop="date" label="上传时间" width="250" header-align="center">
               <template slot-scope="scope">
                 <i class="el-icon-time"></i>
@@ -39,14 +39,7 @@
           </el-table>
         </el-tab-pane>
         <el-tab-pane label="草稿箱" name="second">
-          <el-table
-            :data="draftData"
-            v-loading="loading"
-            max-height="466"
-            stripe
-            size="mini"
-            border
-          >
+          <el-table :data="draftData" v-loading="loading" stripe size="mini" border>
             <el-table-column prop="date" label="上传时间" width="250" header-align="center">
               <template slot-scope="scope">
                 <i class="el-icon-time"></i>
@@ -123,10 +116,8 @@ export default {
       }
     },
     isEdit() {
-      let getArticles = this.delHtmlTag(
-        this.$store.getters.getArticles.content
-      );
-      if (getArticles !== "") {
+      let getArticles = this.$store.getters.getArticles.id;
+      if (getArticles) {
         return false;
       } else {
         return true;
@@ -235,27 +226,18 @@ export default {
     typeSwitch(val) {
       switch (val) {
         case 1:
-          return "新闻快讯";
+          return "普通新闻";
           break;
         case 2:
-          return "图片新闻";
-          break;
-        case 3:
           return "热点新闻";
           break;
-        case "新闻快讯":
+        case "普通新闻":
           return "1";
           break;
-        case "图片新闻":
+        case "热点新闻":
           return "2";
           break;
-        case "热点新闻":
-          return "3";
-          break;
       }
-    },
-    delHtmlTag(str) {
-      return str.replace(/<[^>]+>/g, ""); //去掉所有的html标记
     }
   }
 };
@@ -263,5 +245,5 @@ export default {
 
 <style lang="stylus" scoped>
 .table-container
-  margin: 8px 42px 0 42px
+  margin: 8px 42px 56px 42px
 </style>>

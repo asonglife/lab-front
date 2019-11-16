@@ -83,6 +83,7 @@ export default {
   margin-left: 12%
   margin-right: 12%
   padding: 31px
+  min-height: 470px
 .el-footer
   background-color: #e9eef3
 </style>

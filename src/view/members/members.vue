@@ -1,33 +1,37 @@
 <template>
-  <div class="members-container">
-    <h3 class="lab-item">教师团队</h3>
-    <div class="demo-fit">
-      <el-row>
-        <el-col v-for="(item,index) in teachersData" :key="index" class="block">
-          <el-card :body-style="{ padding: '0px' }">
-            <img :src="item.photo" class="member-img" />
-            <div style="padding: 14px;" class="go-exper" @click="openDetails(item.id)">
-              <span>{{item.name}}</span>
-              <span class="time">{{item.education}}</span>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
-    </div>
-    <h3 class="lab-item">学生团队</h3>
-    <div class="demo-fit">
-      <el-row>
-        <el-col v-for="(item,index) in studentsData" :key="index" class="block">
-          <el-card :body-style="{ padding: '0px' }">
-            <img :src="item.photo" class="member-img" />
-            <div style="padding: 14px;" class="go-exper" @click="openDetails(item.id)">
-              <span>{{item.name}}</span>
-              <span class="time">{{item.education}}</span>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
-    </div>
+  <div class="members-container" v-loading="loading">
+    <el-tabs :tab-position="tabPosition">
+      <el-tab-pane label="教师团队">
+        <div class="demo-fit">
+          <el-row>
+            <el-col v-for="(item,index) in teachersData" :key="index" class="block">
+              <el-card :body-style="{ padding: '0px' }">
+                <img :src="item.photo" class="member-img" lazy :onerror="defaultImg" />
+                <div style="padding: 14px;" class="go-exper" @click="openDetails(item.id)">
+                  <span>{{item.name}}</span>
+                  <span class="time">{{item.education}}</span>
+                </div>
+              </el-card>
+            </el-col>
+          </el-row>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="学生团队">
+        <div class="demo-fit">
+          <el-row>
+            <el-col v-for="(item,index) in studentsData" :key="index" class="block">
+              <el-card :body-style="{ padding: '0px' }">
+                <img :src="item.photo" class="member-img" :onerror="defaultImg" lazy />
+                <div style="padding: 14px;" class="go-exper" @click="openDetails(item.id)">
+                  <span>{{item.name}}</span>
+                  <span class="time">{{item.education}}</span>
+                </div>
+              </el-card>
+            </el-col>
+          </el-row>
+        </div>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 <script>
@@ -36,7 +40,10 @@ export default {
   data() {
     return {
       teachersData: [],
-      studentsData: []
+      studentsData: [],
+      tabPosition: "left",
+      loading: false,
+      defaultImg: 'this.src="' + require("assets/img/fail.gif") + '"'
     };
   },
   mounted() {
@@ -44,10 +51,19 @@ export default {
   },
   methods: {
     getMembersData() {
-      getData("http://47.103.210.8:8080/json_lab")
+      this.loading = true;
+      getData("http://47.103.210.8:8080/get_members")
         .then(res => {
-          this.teachersData = res.data.membersData.teachersData;
-          this.studentsData = res.data.membersData.studentsData;
+          console.log(res);
+          let members = res.data.members;
+          for (let i = 0; i < members.length; i++) {
+            if (members[i].isTeacher == 1) {
+              this.teachersData.push(members[i]);
+            } else {
+              this.studentsData.push(members[i]);
+            }
+          }
+          this.loading = false;
         })
         .catch(err => {
           console.log(err);
@@ -65,12 +81,9 @@ export default {
 .members-container >>> .demo-fit
   overflow: hidden
 .members-container >>> .block
-  margin: 3%
+  margin: 0 4.3% 40px 4.3%
   width: 152px
   float: left
-.lab-item
-  text-align: left
-  color: #333
 .member-img
   width: 100%
   height: 150px

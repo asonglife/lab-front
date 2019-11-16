@@ -17,7 +17,7 @@ export default {
   props: {
     labImg: {
       type: Array,
-      default: []
+      default: () => []
     }
   },
   watch: {

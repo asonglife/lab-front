@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <ul style="padding:0">
       <li class="lab-news" v-for="(item,index) in news" :key="index" @click="openDetails(item.id)">
         <i class="el-icon-s-opportunity" style="color:gold"></i>
-        {{item.newTitle}}
-        <i class="news-date">{{item.newDate}}</i>
+        {{item.title}}
+        <i class="news-date">{{item.date}}</i>
       </li>
     </ul>
   </div>
@@ -15,7 +15,8 @@ import { getData } from "api/getData.js";
 export default {
   data() {
     return {
-      news: []
+      news: [],
+      loading: false
     };
   },
   mounted() {
@@ -23,8 +24,10 @@ export default {
   },
   methods: {
     getNews() {
-      getData("http://47.103.210.8:8080/json_news").then(res => {
-        this.news = res.data.news;
+      this.loading = true;
+      getData("http://47.103.210.8:8080/get_articles?isDraft=0").then(res => {
+        this.news = res.data.articles;
+        this.loading = false;
       });
     },
     openDetails(id) {
