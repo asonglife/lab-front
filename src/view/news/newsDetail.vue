@@ -1,6 +1,6 @@
 <template>
   <div ref="news" class="news-container" v-loading="loading">
-    <h3 v-html="news[0].title" class="title"></h3>
+    <h3 v-html="news.title" class="news-title"></h3>
     <article v-html="content"></article>
   </div>
 </template>
@@ -10,7 +10,7 @@ import { getData } from "api/getData.js";
 export default {
   data() {
     return {
-      news: [],
+      news: {},
       content: "",
       loading: false
     };
@@ -24,7 +24,7 @@ export default {
       getData(
         "http://47.103.210.8:8080/get_articles?id=" + this.$route.params.id
       ).then(res => {
-        this.news = res.data.articles;
+        this.news = res.data.articles[0];
         let articles = res.data.articles;
         let content = articles[0].content;
 
@@ -46,11 +46,7 @@ export default {
   line-height: 2em
   padding: 1em
   text-indent: 1em
-.title
+.news-title
   margin-bottom: 20px
   text-align: center
-.news-author
-  display: block
-  text-align: right
-  margin: 10px
 </style>

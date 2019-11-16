@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container>
-      <el-header height="222px">
+      <el-header height="190px">
         <m-header @change-router="changeRouter"></m-header>
       </el-header>
       <el-main>
@@ -82,7 +82,7 @@ export default {
   color: #333
   margin-left: 12%
   margin-right: 12%
-  padding: 31px
+  padding: 18px
   min-height: 470px
 .el-footer
   background-color: #e9eef3

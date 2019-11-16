@@ -75,6 +75,7 @@ export default {
         "quote", // 引用
         "emoticon", // 表情
         "image", // 插入图片
+        "video", // 插入视频
         "table", // 表格
         "undo", // 撤销
         "redo" // 重复

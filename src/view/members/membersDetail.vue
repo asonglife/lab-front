@@ -1,11 +1,9 @@
 <template>
   <div v-loading="loading">
-    <div>
-      <div class="detail-container">
-        <el-image class="detail-img" :src="membersData[0].photo"></el-image>
-        <h3>{{membersData[0].name+" "+membersData[0].education}}</h3>
-        <article>个人经历：{{membersData[0].experience}}</article>
-      </div>
+    <div class="detail-container">
+      <el-image class="detail-img" :src="membersData[0].photo"></el-image>
+      <h3>{{membersData[0].name+" "+membersData[0].education}}</h3>
+      <article>个人经历：{{membersData[0].experience}}</article>
     </div>
   </div>
 </template>
@@ -28,7 +26,6 @@ export default {
       getData(
         "http://47.103.210.8:8080/get_members?id=" + this.$route.params.id
       ).then(res => {
-        console.log(res);
         this.loading = false;
         this.membersData.push(res.data.members[0]);
       });
@@ -50,4 +47,5 @@ export default {
   line-height: 2em
   padding: 1em
   text-indent: 1em
+  margin-top: 24px
 </style>

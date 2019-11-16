@@ -35,7 +35,6 @@ export default {
     getLabMessage() {
       this.loading = true;
       getData("http://47.103.210.8:8080/json_lab").then(res => {
-        console.log(res);
         this.labIntroduction = res.data.labIntroduction;
         this.labDirection = res.data.labDirection;
         this.labImage = res.data.labImage;
@@ -51,7 +50,7 @@ export default {
   text-align: left
   color: #333
   margin-bottom: 16px
-  margin-top: 16px
+  margin-top: 30px
 .lab-content
   padding: 0px 0px 8px
   font-size: 12px

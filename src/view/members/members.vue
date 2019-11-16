@@ -89,6 +89,8 @@ export default {
   height: 150px
 .members-container
   text-align: center
+  margin-top: 42px
+  margin-bottom: 50px
 .go-exper:hover
   color: #a6e1f1
   cursor: pointer
