@@ -5,7 +5,7 @@ import News from 'view/news/news.vue'
 import Members from 'view/members/members.vue'
 import Science from 'view/science/science.vue'
 import Backend from 'view/backend/backend.vue'
-
+import scienceDetail from 'view/science/scienceDetail.vue'
 import Homepage from 'view/home/homepage.vue'
 import membersDetail from 'view/members/membersDetail.vue'
 import newsDetail from 'view/news/newsDetail.vue'
@@ -60,6 +60,10 @@ export default new Router({
       path: 'newsdetail/:id',
       name: 'newsDetail',
       component: newsDetail
+    }, {
+      path: 'scienceDetail/:id',
+      name: 'scienceDetail',
+      component: scienceDetail
     }
 
     ]

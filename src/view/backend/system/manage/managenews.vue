@@ -233,6 +233,8 @@ export default {
           break;
         case 3:
           return "轮播新闻";
+        case 0:
+          return "科研情况";
         case "普通新闻":
           return "1";
           break;
@@ -241,6 +243,9 @@ export default {
           break;
         case "轮播新闻":
           return "3";
+          break;
+        case "科研情况":
+          return "0";
           break;
       }
     }

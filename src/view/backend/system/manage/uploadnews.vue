@@ -24,10 +24,13 @@
           <el-tooltip class="item" effect="dark" content="展示在新闻动态轮播图的新闻" placement="top">
             <el-radio label="3" border>轮播新闻</el-radio>
           </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="科研情况" placement="top">
+            <el-radio label="0" border>科研情况</el-radio>
+          </el-tooltip>
         </el-radio-group>
       </div>
       <div class="button-container">
-        <el-button size="small" type="primary" plain @click="uploadNew(false)">上传新闻</el-button>
+        <el-button size="small" type="primary" plain @click="uploadNew(false)" :loading="loading">上传新闻</el-button>
         <el-button type="success" size="small" plain @click="uploadNew(true)">保存草稿</el-button>
       </div>
     </div>
@@ -59,7 +62,8 @@ export default {
         author: "",
         date: ""
       },
-      flag: true
+      flag: true,
+      loading:false
     };
   },
   methods: {
@@ -188,10 +192,10 @@ export default {
       }
     },
     uptoBack() {
+      this.loading=true
       postData("http://47.103.210.8:8080/change_articles", this.article, {
         "Content-Type": "application/json"
       }).then(res => {
-        console.log(res);
         if (res.data.status == "insert" || res.data.status == "update") {
           this.flag = false;
           this.$message({
@@ -211,6 +215,7 @@ export default {
               this.$store.dispatch("_editFlag", false);
               this.reload();
             });
+            this.loading=false
           });
         } else {
           this.$message({
