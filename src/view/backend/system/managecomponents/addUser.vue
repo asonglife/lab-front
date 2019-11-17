@@ -204,7 +204,6 @@ export default {
               }
             )
               .then(res => {
-                console.log(res);
                 this.loading = false;
                 this.afterRespon(res.data.status);
               })

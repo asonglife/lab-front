@@ -51,6 +51,7 @@ export default {
             password: md5(_this.user.pass)
           })
             .then(res => {
+              console.log(md5(_this.user.pass));
               if (res.status === 200 && res.data.status === true) {
                 _this.responseStatus = false;
                 let token = res.headers.token;
