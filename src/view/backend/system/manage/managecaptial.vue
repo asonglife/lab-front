@@ -3,8 +3,14 @@
     <router-bread></router-bread>
     <el-container>
       <el-main style="border-right:solid 1px #a6e1f1">
-        <el-table :data="tableData" border v-loading="loading" max-height="466">
-          <el-table-column prop="date" label="登记时间" width="180"></el-table-column>
+        <el-table
+          :data="tableData"
+          border
+          v-loading="loading"
+          max-height="466"
+          :default-sort="{prop: 'date', order: 'descending'}"
+        >
+          <el-table-column prop="date" label="登记时间" width="180" sortable></el-table-column>
           <el-table-column prop="item" label="登记项目" width="100"></el-table-column>
           <el-table-column prop="money" label="登记金额（元）" width="120"></el-table-column>
           <el-table-column prop="marker" label="登记人" width="120"></el-table-column>
@@ -32,6 +38,7 @@
             <el-select placeholder="登记项目" v-model="captial.item">
               <el-option label="电脑" value="电脑"></el-option>
               <el-option label="实验器材" value="实验器材"></el-option>
+              <el-option label="其他" value="其他"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item prop="money">
@@ -56,8 +63,8 @@
           <el-form-item label="type" prop="type" v-show="false">
             <el-input v-model="captial.type"></el-input>
           </el-form-item>
-          <auth-button type="primary" @click="submit()" label="提交" :loading="loading"></auth-button>
-          <auth-button @click="resetForm()" label="重置"></auth-button>
+          <el-button type="primary" @click="submit()" :loading="loading" size="mini">提交</el-button>
+          <el-button @click="resetForm()" size="mini">重置</el-button>
         </el-form>
       </el-aside>
     </el-container>

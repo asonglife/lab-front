@@ -37,8 +37,8 @@
         </el-form-item>
         <el-form-item label="身份" prop="isTeacher">
           <el-radio-group v-model="studentsData.isTeacher">
-            <el-radio label="0">老师</el-radio>
-            <el-radio label="1">学生</el-radio>
+            <el-radio label="1">老师</el-radio>
+            <el-radio label="0">学生</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="地址" prop="address" auto-complete="on">

@@ -11,9 +11,11 @@
 <script>
 import RouterBread from "view/backend/system/managecomponents/routerbread.vue";
 import echarts from "echarts";
+import { getData } from "api/getData.js";
 export default {
   components: {},
   mounted() {
+    this.getValue();
     this.initChart();
   },
   data() {
@@ -33,7 +35,7 @@ export default {
           // top: 'middle',
           bottom: 10,
           left: "center",
-          data: ["电脑", "服务器", "硬件器材"]
+          data: []
         },
         series: [
           {
@@ -41,11 +43,7 @@ export default {
             radius: "65%",
             center: ["50%", "50%"],
             selectedMode: "single",
-            data: [
-              { value: 1548, name: "电脑" },
-              { value: 535, name: "硬件器材" },
-              { value: 510, name: "服务器" }
-            ],
+            data: [],
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,
@@ -55,7 +53,9 @@ export default {
             }
           }
         ]
-      }
+      },
+      item: [],
+      itemValue: []
     };
   },
   components: {
@@ -63,8 +63,28 @@ export default {
   },
   methods: {
     initChart() {
+      this.option.series[0].data = this.itemValue;
+      this.option.legend.data = this.item;
       let myChart = echarts.init(document.getElementById("main"));
       myChart.setOption(this.option);
+    },
+    getValue() {
+      getData("http://47.103.210.8:8080/get_assets_inf").then(res => {
+        console.log(res);
+        let moneys = res.data.moneys;
+        for (let keys in moneys) {
+          this.item.push(keys);
+          this.itemValue.push({
+            value: moneys[keys],
+            name: keys
+          });
+        }
+      });
+    }
+  },
+  watch: {
+    itemValue() {
+      this.initChart();
     }
   }
 };

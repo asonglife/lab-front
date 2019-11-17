@@ -231,11 +231,16 @@ export default {
         case 2:
           return "热点新闻";
           break;
+        case 3:
+          return "轮播新闻";
         case "普通新闻":
           return "1";
           break;
         case "热点新闻":
           return "2";
+          break;
+        case "轮播新闻":
+          return "3";
           break;
       }
     }

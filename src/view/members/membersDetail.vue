@@ -1,9 +1,9 @@
 <template>
   <div v-loading="loading">
     <div class="detail-container">
-      <el-image class="detail-img" :src="membersData[0].photo"></el-image>
-      <h3>{{membersData[0].name+" "+membersData[0].education}}</h3>
-      <article>个人经历：{{membersData[0].experience}}</article>
+      <el-image class="detail-img" :src="membersData.photo"></el-image>
+      <h3>{{membersData.name+" "+membersData.education}}</h3>
+      <article>个人经历：{{membersData.experience}}</article>
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@ export default {
         "http://47.103.210.8:8080/get_members?id=" + this.$route.params.id
       ).then(res => {
         this.loading = false;
-        this.membersData.push(res.data.members[0]);
+        this.membersData = res.data.members[0];
       });
     }
   }

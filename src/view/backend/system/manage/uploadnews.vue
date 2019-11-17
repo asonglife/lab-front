@@ -6,7 +6,7 @@
         v-model="article.title"
         placeholder="输入新闻标题"
         prefix-icon="el-icon-edit"
-        maxlength="100"
+        maxlength="25"
         show-word-limit
         clearable
         class="title-style"

@@ -1,5 +1,5 @@
 <template>
-  <div id="#home" v-loading="loading">
+  <div id="home" v-loading="loading">
     <h3 class="lab-item">实验室简介</h3>
     <swiper :labImg="this.labImage"></swiper>
     <p class="lab-content">{{labIntroduction}}</p>
@@ -65,4 +65,6 @@ export default {
   font-family: inherit
   word-spacing: 9px
   line-height: 2em
+#home
+  margin-bottom: 49px
 </style>

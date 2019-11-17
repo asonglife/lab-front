@@ -1,14 +1,14 @@
 <template>
-  <div class="members-container" v-loading="loading">
-    <el-tabs :tab-position="tabPosition">
+  <div class="members-container" v-loading="loading" ref="container">
+    <el-tabs :tab-position="tabPosition" ref="tab">
       <el-tab-pane label="教师团队">
         <div class="demo-fit">
           <el-row>
             <el-col v-for="(item,index) in teachersData" :key="index" class="block">
               <el-card :body-style="{ padding: '0px' }" shadow="hover">
                 <img :src="item.photo" class="member-img" lazy :onerror="defaultImg" />
-                <div style="padding: 14px;" class="go-exper" @click="openDetails(item.id)">
-                  <span>{{item.name}}</span>
+                <div style="padding: 10px;" class="go-exper" @click="openDetails(item.id)">
+                  <span title="点击查看更多资料" style="font-size:15px">{{item.name}}</span>
                   <span class="time">{{item.education}}</span>
                 </div>
               </el-card>
@@ -22,8 +22,8 @@
             <el-col v-for="(item,index) in studentsData" :key="index" class="block">
               <el-card :body-style="{ padding: '0px' }" shadow="hover">
                 <img :src="item.photo" class="member-img" :onerror="defaultImg" lazy />
-                <div style="padding: 14px;" class="go-exper" @click="openDetails(item.id)">
-                  <span>{{item.name}}</span>
+                <div style="padding: 10px;" class="go-exper" @click="openDetails(item.id)">
+                  <span title="点击查看更多资料" style="font-size:15px">{{item.name}}</span>
                   <span class="time">{{item.education}}</span>
                 </div>
               </el-card>
@@ -43,7 +43,7 @@ export default {
       studentsData: [],
       tabPosition: "left",
       loading: false,
-      defaultImg: 'this.src="' + require("assets/img/fail.gif") + '"'
+      defaultImg: 'this.src="' + require("assets/img/fail.jpg") + '"'
     };
   },
   mounted() {
@@ -52,22 +52,17 @@ export default {
   methods: {
     getMembersData() {
       this.loading = true;
-      getData("http://47.103.210.8:8080/get_members")
-        .then(res => {
-          console.log(res);
-          let members = res.data.members;
-          for (let i = 0; i < members.length; i++) {
-            if (members[i].isTeacher == 1) {
-              this.teachersData.push(members[i]);
-            } else {
-              this.studentsData.push(members[i]);
-            }
+      getData("http://47.103.210.8:8080/get_members").then(res => {
+        let members = res.data.members;
+        for (let i = 0; i < members.length; i++) {
+          if (members[i].isTeacher == 1) {
+            this.teachersData.push(members[i]);
+          } else {
+            this.studentsData.push(members[i]);
           }
-          this.loading = false;
-        })
-        .catch(err => {
-          console.log(err);
-        });
+        }
+        this.loading = false;
+      });
     },
 
     openDetails(id) {
