@@ -18,19 +18,25 @@
           <el-tooltip class="item" effect="dark" content="普通新闻" placement="left-end">
             <el-radio label="1" border>普通新闻</el-radio>
           </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="热点新闻" placement="top">
+          <el-tooltip class="item" effect="dark" content="热点新闻" placement="bottom">
             <el-radio label="2" border>热点推荐</el-radio>
           </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="展示在新闻动态轮播图的新闻" placement="top">
+          <el-tooltip class="item" effect="dark" content="展示在新闻动态轮播图的新闻" placement="bottom">
             <el-radio label="3" border>轮播新闻</el-radio>
           </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="科研情况" placement="top">
+          <el-tooltip class="item" effect="dark" content="科研情况" placement="bottom">
             <el-radio label="0" border>科研情况</el-radio>
           </el-tooltip>
         </el-radio-group>
       </div>
       <div class="button-container">
-        <el-button size="small" type="primary" plain @click="uploadNew(false)" :loading="loading">上传新闻</el-button>
+        <el-button
+          size="small"
+          type="primary"
+          plain
+          @click="uploadNew(false)"
+          :loading="loading"
+        >上传新闻</el-button>
         <el-button type="success" size="small" plain @click="uploadNew(true)">保存草稿</el-button>
       </div>
     </div>
@@ -63,7 +69,7 @@ export default {
         date: ""
       },
       flag: true,
-      loading:false
+      loading: false
     };
   },
   methods: {
@@ -192,7 +198,7 @@ export default {
       }
     },
     uptoBack() {
-      this.loading=true
+      this.loading = true;
       postData("http://47.103.210.8:8080/change_articles", this.article, {
         "Content-Type": "application/json"
       }).then(res => {
@@ -213,9 +219,10 @@ export default {
             };
             this.$store.dispatch("_removeArticles").then(() => {
               this.$store.dispatch("_editFlag", false);
+              this.$router.push({ name: "Managenews" });
               this.reload();
             });
-            this.loading=false
+            this.loading = false;
           });
         } else {
           this.$message({

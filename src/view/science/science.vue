@@ -33,7 +33,7 @@ export default {
           if (articles[i].isHot == 0) {
             this.science.push(articles[i]);
           }
-          console.log(this.science);
+
           this.loading = false;
         }
       });

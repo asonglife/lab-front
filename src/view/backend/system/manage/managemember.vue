@@ -187,7 +187,6 @@ export default {
       getData(
         "http://47.103.210.8:8080/get_members?id=" + this.foundData.id
       ).then(res => {
-        console.log(res);
         this.loading = false;
         if (res.status === 200) {
           this.$refs.findForm.resetFields();

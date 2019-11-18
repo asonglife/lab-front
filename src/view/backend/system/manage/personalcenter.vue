@@ -222,6 +222,7 @@ export default {
 
           this.$confirm("确认提交？").then(() => {
             this.loading = true;
+            this.show = true;
             postData(
               "http://47.103.210.8:8080/member_change",
               this.studentsData,
@@ -239,6 +240,7 @@ export default {
                   });
                 } else {
                   this.loading = false;
+                  this.show = false;
                   this.$message({
                     message: "提交失败",
                     type: "error"
