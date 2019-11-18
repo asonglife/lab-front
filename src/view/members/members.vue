@@ -36,6 +36,7 @@
 </template>
 <script>
 import { getData } from "api/getData.js";
+import url from "api/apiUrl.js";
 export default {
   data() {
     return {
@@ -52,7 +53,7 @@ export default {
   methods: {
     getMembersData() {
       this.loading = true;
-      getData("http://47.103.210.8:8080/get_members").then(res => {
+      getData(url.getMembersdata).then(res => {
         let members = res.data.members;
         for (let i = 0; i < members.length; i++) {
           if (members[i].isTeacher == 1) {

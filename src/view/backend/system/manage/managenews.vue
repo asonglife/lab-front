@@ -84,6 +84,7 @@ import AuthButton from "view/backend/system/managecomponents/authbutton.vue";
 import { getData } from "api/getData.js";
 import { postData } from "api/postData.js";
 import { isNullObj } from "assets/js/isNullObj.js";
+import url from "api/apiUrl.js";
 export default {
   inject: ["reload"],
   components: {
@@ -142,7 +143,6 @@ export default {
       let articles = {};
       this.editloading = true;
       getData(rowdata[index].content).then(res => {
-        console.log(res);
         articles = {
           id: rowdata[index].id,
           isHot: this.typeSwitch(rowdata[index].isHot),
@@ -164,7 +164,7 @@ export default {
       })
         .then(() => {
           postData(
-            "http://47.103.210.8:8080/change_articles",
+            url.changeNewsdata,
             {
               id: rowdata[index].id,
               type: "delete"
@@ -186,6 +186,11 @@ export default {
                   type: "success",
                   message: "删除成功!"
                 });
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "删除失败!"
+                });
               }
             })
             .catch(err => {
@@ -204,10 +209,7 @@ export default {
     },
     getNewsData(val) {
       this.loading = true;
-      getData(
-        "http://47.103.210.8:8080/get_articles?isDraft=" + this.isDraft
-      ).then(res => {
-        console.log(res);
+      getData(url.getNewsdata + "?isDraft=" + this.isDraft).then(res => {
         let articles = res.data.articles;
         for (let i = 0; i < articles.length; i++) {
           val.push({

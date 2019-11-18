@@ -8,7 +8,13 @@
     :destroy-on-close="true"
   >
     <div class="adduser">
-      <el-form ref="adduserform" :model="studentsData" label-width="100px" :rules="rules">
+      <el-form
+        ref="adduserform"
+        :model="studentsData"
+        style="margin-top: 18px"
+        label-width="100px"
+        :rules="rules"
+      >
         <el-form-item label="照片" prop="photo">
           <el-upload
             class="avatar-uploader"
@@ -71,6 +77,7 @@
 
 <script>
 import { postData } from "api/postData.js";
+import url from "api/apiUrl.js";
 export default {
   props: {
     addRow: {
@@ -196,13 +203,9 @@ export default {
           this.$confirm("确认提交？").then(() => {
             this.loading = true;
 
-            postData(
-              "http://47.103.210.8:8080/member_change",
-              this.studentsData,
-              {
-                "Content-Type": "application/json"
-              }
-            )
+            postData(url.changeMembersdata, this.studentsData, {
+              "Content-Type": "application/json"
+            })
               .then(res => {
                 this.loading = false;
                 this.afterRespon(res.data.status);
@@ -231,10 +234,9 @@ export default {
         });
         this.clearForm();
       } else {
-        console.log(this.rowIndex);
         this.clearForm();
         this.$message({
-          message: "提交失败",
+          message: "提交失败！",
           type: "error"
         });
       }
@@ -284,7 +286,6 @@ export default {
   display: block
 .adduser
   display: flex
-  align-items: center
   justify-content: center
   position: absolute
   top: 0
@@ -293,9 +294,11 @@ export default {
   bottom: 0
   width: 400px
   background: whitesmoke
+  overflow: auto
 .submitclass
   margin-left: 41%
   margin-top: 12px
+  margin-bottom: 20px
 .adduser>>>.el-upload
   border: dashed 1px #99a9bf
 </style>

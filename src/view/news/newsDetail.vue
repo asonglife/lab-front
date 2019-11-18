@@ -7,6 +7,7 @@
 
 <script>
 import { getData } from "api/getData.js";
+import url from "api/apiUrl.js";
 export default {
   data() {
     return {
@@ -21,9 +22,7 @@ export default {
   methods: {
     getNews() {
       this.loading = true;
-      getData(
-        "http://47.103.210.8:8080/get_articles?id=" + this.$route.params.id
-      ).then(res => {
+      getData(url.getNewsdata + "?id=" + this.$route.params.id).then(res => {
         this.news = res.data.articles[0];
         let articles = res.data.articles;
         let content = articles[0].content;

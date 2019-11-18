@@ -2,10 +2,15 @@
   <div class="managemember">
     <router-bread></router-bread>
     <el-main>
+      <i class="el-icon-s-data back-member" @click="this.backMember" v-if="backmember">返回</i>
       <div class="toolbar" style="float:right;">
         <el-form :inline="true" size="small" ref="findForm" :model="foundData">
           <el-form-item prop="id">
-            <el-input prefix-icon="el-icon-search" placeholder="学号/工号" v-model="foundData.id"></el-input>
+            <el-input
+              prefix-icon="el-icon-search"
+              placeholder="学号/工号"
+              v-model.number="foundData.id"
+            ></el-input>
           </el-form-item>
           <el-form-item>
             <el-button size="mini" type="primary" @click="findUser()">查询</el-button>
@@ -71,6 +76,7 @@ import RouterBread from "view/backend/system/managecomponents/routerbread.vue";
 import AuthButton from "view/backend/system/managecomponents/authbutton.vue";
 import { getData } from "api/getData.js";
 import { postData } from "api/postData.js";
+import url from "api/apiUrl.js";
 export default {
   data() {
     return {
@@ -85,7 +91,8 @@ export default {
       },
       mulDeleteVisi: false,
       mulSelection: [],
-      muldeleId: []
+      muldeleId: [],
+      backmember: false
     };
   },
   components: {
@@ -105,7 +112,7 @@ export default {
       })
         .then(() => {
           postData(
-            "http://47.103.210.8:8080/member_change",
+            url.changeMembersdata,
             {
               id: rowdata[index].id,
               type: "delete"
@@ -156,7 +163,7 @@ export default {
           _this.muldeleId.push(el.id);
         });
         postData(
-          "http://47.103.210.8:8080/member_change",
+          url.changeMembersdata,
           {
             id: _this.muldeleId,
             type: "delete"
@@ -183,36 +190,48 @@ export default {
       });
     },
     findUser() {
-      this.loading = true;
-      getData(
-        "http://47.103.210.8:8080/get_members?id=" + this.foundData.id
-      ).then(res => {
-        this.loading = false;
-        if (res.status === 200) {
-          this.$refs.findForm.resetFields();
-          let members = res.data.members;
-          if (members.length > 0) {
-            this.tableData = [];
-            this.tableData.push({
-              photo: members[0].photo,
-              name: members[0].name,
-              education: members[0].education,
-              id: members[0].id,
-              isTeacher: this.typeSwitch(members[0].isTeacher),
-              address: members[0].address,
-              tel: members[0].tel,
-              email: members[0].email,
-              experience: members[0].experience
-            });
-          } else {
-            this.tableData = [];
+      if (this.foundData.id !== "") {
+        this.loading = true;
+        getData(url.getMembersdata + "?id=" + this.foundData.id).then(res => {
+          this.loading = false;
+          this.backmember = true;
+          if (res.status === 200) {
+            let members = res.data.members;
+            if (members.length > 0) {
+              this.tableData = [];
+              this.tableData.push({
+                photo: members[0].photo,
+                name: members[0].name,
+                education: members[0].education,
+                id: members[0].id,
+                isTeacher: this.typeSwitch(members[0].isTeacher),
+                address: members[0].address,
+                tel: members[0].tel,
+                email: members[0].email,
+                experience: members[0].experience
+              });
+              this.$nextTick(() => {
+                this.$refs.findForm.resetFields();
+              });
+            } else {
+              this.tableData = [];
+            }
           }
-        }
-      });
+        });
+      } else {
+        this.$message({
+          message: "请输入您要查询的id",
+          type: "error"
+        });
+      }
     },
     addUser() {
       this.$refs.adduser.drawer = true;
       this.$refs.adduser.studentsData.type = "insert";
+    },
+    backMember() {
+      this.addRow();
+      this.backmember = false;
     },
     editUser(index, rowdata) {
       this.rowIndex = index;
@@ -264,13 +283,14 @@ export default {
         _this.pageNum = 1;
       }
       getData(
-        "http://47.103.210.8:8080/get_members?page_size=" +
+        url.getMembersdata +
+          "?page_size=" +
           _this.pageSize +
           "&page_num=" +
           _this.pageNum
       ).then(res => {
         let members = res.data.members;
-        console.log(res);
+
         _this.totalSize = res.data.members_total_size;
         for (let i = 0; i < members.length; i++) {
           _this.tableData.push({
@@ -313,4 +333,11 @@ export default {
   margin-bottom: 40px
 .form-drawer >>>.el-drawer__close-btn
   z-index: 200
+.back-member
+  float: left
+  font-size: 14px
+  padding: 12px 12px 12px 24px
+  color: #a6e1f1
+.back-member:hover
+  color: #409EFF
 </style>

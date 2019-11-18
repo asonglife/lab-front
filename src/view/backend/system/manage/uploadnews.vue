@@ -49,6 +49,7 @@ import wangeditor from "wangeditor";
 import { postData } from "api/postData.js";
 import { formatDate } from "assets/js/formatDate.js";
 import { isNullObj } from "assets/js/isNullObj.js";
+import url from "api/apiUrl.js";
 export default {
   inject: ["reload"],
   mounted() {
@@ -199,7 +200,7 @@ export default {
     },
     uptoBack() {
       this.loading = true;
-      postData("http://47.103.210.8:8080/change_articles", this.article, {
+      postData(url.changeNewsdata, this.article, {
         "Content-Type": "application/json"
       }).then(res => {
         if (res.data.status == "insert" || res.data.status == "update") {

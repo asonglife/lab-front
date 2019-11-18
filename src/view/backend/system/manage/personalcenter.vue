@@ -82,6 +82,7 @@
 import RouterBread from "view/backend/system/managecomponents/routerbread.vue";
 import { postData } from "api/postData.js";
 import { getData } from "api/getData.js";
+import url from "api/apiUrl.js";
 import md5 from "js-md5";
 export default {
   components: {
@@ -223,13 +224,9 @@ export default {
           this.$confirm("确认提交？").then(() => {
             this.loading = true;
             this.show = true;
-            postData(
-              "http://47.103.210.8:8080/member_change",
-              this.studentsData,
-              {
-                "Content-Type": "application/json"
-              }
-            )
+            postData(url.changeMembersdata, this.studentsData, {
+              "Content-Type": "application/json"
+            })
               .then(res => {
                 if (res.data.status == "update") {
                   this.loading = false;
@@ -261,8 +258,7 @@ export default {
     getPersonalData() {
       this.show = true;
       getData(
-        "http://47.103.210.8:8080/get_members?id=" +
-          this.$store.getters.getUserInfo.id
+        url.getMembersdata + "?id=" + this.$store.getters.getUserInfo.id
       ).then(res => {
         let data = res.data.members[0];
         this.studentsData = {

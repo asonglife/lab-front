@@ -10,6 +10,7 @@
 
 <script>
 import { getData } from "api/getData.js";
+import url from "api/apiUrl.js";
 export default {
   mounted() {
     this.getMembersData();
@@ -23,9 +24,7 @@ export default {
   methods: {
     getMembersData() {
       this.loading = true;
-      getData(
-        "http://47.103.210.8:8080/get_members?id=" + this.$route.params.id
-      ).then(res => {
+      getData(url.getMembersdata + "?id=" + this.$route.params.id).then(res => {
         this.loading = false;
         this.membersData = res.data.members[0];
       });

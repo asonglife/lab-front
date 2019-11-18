@@ -33,8 +33,7 @@ export default {
 .el-carousel__item:nth-child(2n + 1)
   background-color: #ffffff
 .el-carousel__item img
-  width: 75%
-  height: 300px
+  width: 100%
 .lab-swiper
   text-align: center
 </style>

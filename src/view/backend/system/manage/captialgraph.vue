@@ -12,6 +12,7 @@
 import RouterBread from "view/backend/system/managecomponents/routerbread.vue";
 import echarts from "echarts";
 import { getData } from "api/getData.js";
+import url from "api/apiUrl.js";
 export default {
   components: {},
   mounted() {
@@ -69,8 +70,7 @@ export default {
       myChart.setOption(this.option);
     },
     getValue() {
-      getData("http://47.103.210.8:8080/get_assets_inf").then(res => {
-        console.log(res);
+      getData(url.getCaptialInf).then(res => {
         let moneys = res.data.moneys;
         for (let keys in moneys) {
           this.item.push(keys);

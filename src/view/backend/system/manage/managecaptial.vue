@@ -3,14 +3,8 @@
     <router-bread></router-bread>
     <el-container>
       <el-main style="border-right:solid 1px #a6e1f1">
-        <el-table
-          :data="tableData"
-          border
-          v-loading="loading"
-          max-height="466"
-          :default-sort="{prop: 'date', order: 'descending'}"
-        >
-          <el-table-column prop="date" label="登记时间" width="180" sortable></el-table-column>
+        <el-table :data="tableData" border v-loading="loading" max-height="466">
+          <el-table-column prop="date" label="登记时间" width="180"></el-table-column>
           <el-table-column prop="item" label="登记项目" width="100"></el-table-column>
           <el-table-column prop="money" label="登记金额（元）" width="120"></el-table-column>
           <el-table-column prop="marker" label="登记人" width="120"></el-table-column>
@@ -76,6 +70,7 @@ import { getData } from "api/getData.js";
 import RouterBread from "view/backend/system/managecomponents/routerbread.vue";
 import { postData } from "api/postData.js";
 import AuthButton from "view/backend/system/managecomponents/authbutton.vue";
+import url from "api/apiUrl.js";
 export default {
   data() {
     var checkMoney = (rule, value, callback) => {
@@ -146,7 +141,7 @@ export default {
       })
         .then(() => {
           postData(
-            "http://47.103.210.8:8080/assets_change",
+            url.changeCaptialdata,
             {
               id: rowdata[index].id,
               type: "delete"
@@ -161,6 +156,11 @@ export default {
                 this.$message({
                   type: "success",
                   message: "删除成功!"
+                });
+              } else {
+                this.$message({
+                  type: "success",
+                  message: "删除失败!"
                 });
               }
             })
@@ -198,7 +198,7 @@ export default {
       this.$refs.captialform.validate(valid => {
         if (valid) {
           this.$confirm("确认提交？").then(() => {
-            postData("http://47.103.210.8:8080/assets_change", this.captial, {
+            postData(url.changeCaptialdata, this.captial, {
               "Content-Type": "application/json"
             }).then(res => {
               if (this.rowIndex >= 0 && res.data.status == "update") {
@@ -227,7 +227,7 @@ export default {
     getTableData() {
       let _this = this;
       this.loading = true;
-      getData("http://47.103.210.8:8080/get_assets").then(res => {
+      getData(url.getCaptialdata).then(res => {
         let assets = res.data.assets;
         for (let i = 0; i < assets.length; i++) {
           _this.tableData.push({

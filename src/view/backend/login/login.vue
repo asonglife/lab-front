@@ -2,7 +2,7 @@
   <div id="login-container">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <img :src="img" alt="home" id="login-img" @click="gotoHome()" />
+        <i class="el-icon-s-home back-home" @click="gotoHome()" title="返回主页"></i>
         <p>登录后台管理</p>
       </div>
       <i id="login-logo" class="el-icon-user-solid"></i>
@@ -96,8 +96,8 @@ export default {
 .clearfix:after
   clear: both
 .box-card
-  width: 480px
-  height: 480px
+  width: 439px
+  height: 418px
 #login-container
   display: flex
   align-items: center
@@ -115,16 +115,18 @@ export default {
   display: block
   font-size: 35px
   margin: 5px auto
-#login-img
-  width: 64px
-  height: 64px
-  float: left
-#login-img:hover
-  cursor: pointer
 .clearfix p
   font-size: 20px
   color: #5184ca
-  padding-right: 14%
+  padding-right: 13%
 #login-container >>> .el-button--primary.is-plain
   width: 180px
+.back-home
+  float: left
+  font-size: 25px
+  padding-top: 18px
+  padding-left: 16px
+.back-home:hover
+  cursor: pointer
+  color: #a6e1f1
 </style>

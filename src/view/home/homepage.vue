@@ -15,6 +15,7 @@
 
 <script>
 import { getData } from "api/getData.js";
+import url from "api/apiUrl.js";
 import Swiper from "view/home/swiper.vue";
 export default {
   data() {
@@ -34,7 +35,7 @@ export default {
   methods: {
     getLabMessage() {
       this.loading = true;
-      getData("http://47.103.210.8:8080/json_lab").then(res => {
+      getData(url.getLabsdata).then(res => {
         this.labIntroduction = res.data.labIntroduction;
         this.labDirection = res.data.labDirection;
         this.labImage = res.data.labImage;

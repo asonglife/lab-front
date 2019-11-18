@@ -17,6 +17,7 @@
 
 <script>
 import { getData } from "api/getData.js";
+import url from "api/apiUrl.js";
 export default {
   data() {
     return {
@@ -27,7 +28,7 @@ export default {
   methods: {
     getScience() {
       this.loading = true;
-      getData("http://47.103.210.8:8080/get_articles?isDraft=0").then(res => {
+      getData(url.getNewsdata + "?isDraft=0").then(res => {
         let articles = res.data.articles;
         for (let i = 0; i < articles.length; i++) {
           if (articles[i].isHot == 0) {
